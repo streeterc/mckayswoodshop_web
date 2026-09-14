@@ -1,0 +1,26 @@
+{% extends "admin/_base.html" %}
+{% block title %}Products — Admin{% endblock %}
+{% block content %}
+  <h1>Products &amp; Stock</h1>
+  <p><small>Product catalog is small and changes infrequently — add new products directly via the database or a seed script (see scripts/init_db.py) rather than a full CRUD UI, per project scope.</small></p>
+  {% for product in products %}
+    <div class="card">
+      <h3>{{ product.name }} <small>({{ product.slug }})</small></h3>
+      <table>
+        <thead><tr><th>Variant</th><th>SKU</th><th>Price</th><th>Stock</th></tr></thead>
+        <tbody>
+            {% for variant in product.variants %}
+              <tr>
+                <td>{{ variant.label }}</td>
+                <td>{{ variant.sku }}</td>
+                <td>${{ "%.2f"|format(variant.price_cents() / 100) }}</td>
+                <td id="stock-{{ variant.id }}">{% include "admin/_stock_input.html" %}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No products yet.</p>
+  {% endfor %}
+{% endblock %}

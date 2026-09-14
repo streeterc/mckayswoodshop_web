@@ -1,0 +1,69 @@
+# Production Nginx config: terminates TLS, proxies everything to the `web`
+# container, and serves the Certbot ACME challenge for cert renewal.
+#
+# Replace ${DOMAIN} below with your actual domain before first run (or use
+# envsubst — see scripts/init_certbot.sh which does this for you).
+
+server {
+    listen 80;
+    server_name ${DOMAIN};
+
+    # Let's Encrypt ACME challenge — must stay on plain HTTP.
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    # Everything else: redirect to HTTPS.
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    http2 on;
+    server_name ${DOMAIN};
+
+    ssl_certificate     /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    client_max_body_size 10m;
+
+    # --- Optional: lock the admin dashboard down to specific IPs ---
+    # Uncomment and replace with your own IP(s) for an extra layer of
+    # protection beyond the password (spec §6). Leave commented if you'd
+    # rather rely on password + rate limiting alone (e.g. if your IP changes
+    # often).
+    #
+    # location /admin {
+    #     allow 203.0.113.42;   # your home/office IP
+    #     deny all;
+    #     proxy_pass http://web:8000;
+    #     proxy_set_header Host $host;
+    #     proxy_set_header X-Real-IP $remote_addr;
+    #     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #     proxy_set_header X-Forwarded-Proto $scheme;
+    # }
+
+    # Basic rate limiting for the admin login route to slow down brute force.
+    limit_req_zone $binary_remote_addr zone=admin_login:10m rate=5r/m;
+
+    location /admin/login {
+        limit_req zone=admin_login burst=3 nodelay;
+        proxy_pass http://web:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location / {
+        proxy_pass http://web:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

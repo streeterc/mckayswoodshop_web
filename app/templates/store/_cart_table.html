@@ -1,0 +1,26 @@
+{% if rows %}
+  <table>
+    <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row.variant.product.name }} — {{ row.variant.label }}</td>
+          <td>
+            <form hx-post="/shop/cart/update" hx-target="#cart-contents" hx-swap="innerHTML" class="inline">
+              <input type="hidden" name="variant_id" value="{{ row.variant.id }}">
+              <input type="number" name="quantity" value="{{ row.quantity }}" min="0" max="99" style="width:60px;"
+                     hx-post="/shop/cart/update" hx-trigger="change" hx-target="#cart-contents"
+                     hx-include="closest form">
+            </form>
+          </td>
+          <td>${{ "%.2f"|format(row.line_total_cents / 100) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p><strong>Subtotal: ${{ "%.2f"|format(subtotal_cents / 100) }}</strong></p>
+  <p><small>Shipping is calculated at checkout based on your address.</small></p>
+  <a class="btn" href="/checkout">Proceed to checkout</a>
+{% else %}
+  <p>Your cart is empty. <a href="/shop">Browse the shop</a>.</p>
+{% endif %}

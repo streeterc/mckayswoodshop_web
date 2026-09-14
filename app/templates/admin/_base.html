@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Admin{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.3/htmx.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/admin/orders"><span class="brand-name">Admin</span></a>
+    <nav class="site-nav">
+      <a href="/admin/orders">Orders</a>
+      <a href="/admin/products">Products</a>
+      <a href="/admin/settings">Settings</a>
+      <a href="/admin/logout">Log out</a>
+    </nav>
+  </header>
+  <main class="site-main" style="max-width:1000px;">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

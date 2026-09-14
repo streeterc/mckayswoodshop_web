@@ -1,0 +1,2 @@
+<span class="badge badge-{{ order.status.value }}">{{ order.status.value }}</span>
+{% if order.tracking_number %}<p>Tracking: {{ order.tracking_carrier }} {{ order.tracking_number }}</p>{% endif %}

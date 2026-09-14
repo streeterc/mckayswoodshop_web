@@ -1,0 +1,22 @@
+# Used for the FIRST deploy only, before a Let's Encrypt certificate exists
+# (the full nginx.prod.conf.template references cert files that don't exist
+# yet, which would stop Nginx from starting). `make prod-up` renders this by
+# default; `scripts/init_certbot.sh` swaps it out for the real HTTPS config
+# once a certificate has been issued.
+
+server {
+    listen 80;
+    server_name ${DOMAIN};
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        proxy_pass http://web:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

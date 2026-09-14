@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Your Name{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.3/htmx.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">
+      <img src="/static/img/logo.svg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
+      <span class="brand-name">Your Name</span>
+    </a>
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="/shop">Shop</a>
+      <a href="/shop/cart" id="cart-link" hx-get="/shop/cart" hx-target="body" hx-push-url="true">Cart</a>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ '2026' }} Your Name. All rights reserved.</p>
+  </footer>
+</body>
+</html>

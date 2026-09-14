@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Shop{% endblock %}
+{% block content %}
+  <h1>Shop</h1>
+  <div class="product-grid">
+    {% for product in products %}
+      <div class="card">
+        {% if product.image_path %}
+          <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width:100%;border-radius:4px;">
+        {% endif %}
+        <h3><a href="/shop/{{ product.slug }}">{{ product.name }}</a></h3>
+        <p>${{ "%.2f"|format(product.base_price_cents / 100) }}</p>
+        {% if not product.in_stock %}<span class="badge">Out of stock</span>{% endif %}
+      </div>
+    {% else %}
+      <p>No products yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

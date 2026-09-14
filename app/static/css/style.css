@@ -1,0 +1,100 @@
+/*
+  Drop your brand colors/fonts in here. Everything below references these
+  variables so a rebrand later is a one-place edit, not a hunt-and-replace.
+*/
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-primary: #111111;      /* replace with your brand primary */
+  --color-accent: #6b5bff;       /* replace with your brand accent */
+  --color-muted: #666666;
+  --color-border: #e5e5e5;
+  --font-heading: "Georgia", serif;   /* replace with your brand heading font */
+  --font-body: system-ui, -apple-system, sans-serif; /* replace with your brand body font */
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: var(--font-heading); }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.brand { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--color-text); }
+.brand-logo { height: 32px; }
+.brand-name { font-family: var(--font-heading); font-weight: bold; font-size: 1.2rem; }
+
+.site-nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.site-nav a:hover { color: var(--color-accent); }
+
+.site-main { max-width: 860px; margin: 0 auto; padding: 2rem; }
+.site-footer { text-align: center; padding: 2rem; color: var(--color-muted); font-size: 0.9rem; }
+
+.btn {
+  display: inline-block;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+}
+.btn:hover { background: var(--color-accent); }
+.btn-secondary { background: transparent; color: var(--color-text); border: 1px solid var(--color-border); }
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.6rem; border-bottom: 1px solid var(--color-border); }
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: var(--color-border);
+}
+.badge-paid, .badge-shipped, .badge-fulfilled { background: #d4f4dd; }
+.badge-pending { background: #fff3cd; }
+.badge-cancelled { background: #f8d7da; }
+
+form.inline { display: flex; gap: 0.5rem; align-items: center; }
+input, select, textarea {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1rem;
+}
+label { display: block; margin-top: 0.8rem; font-weight: 600; font-size: 0.9rem; }

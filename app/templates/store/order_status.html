@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.public_id[:8] }}{% endblock %}
+{% block content %}
+  <h1>Order #{{ order.public_id[:8] }}</h1>
+  <p>Status: <span class="badge badge-{{ order.status.value }}">{{ order.status.value }}</span></p>
+  {% if order.tracking_number %}
+    <p>Tracking: {{ order.tracking_carrier }} {{ order.tracking_number }}</p>
+  {% endif %}
+
+  <h3>Items</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Qty</th><th>Price</th></tr></thead>
+    <tbody>
+      {% for item in order.items %}
+        <tr>
+          <td>{{ item.product_name }} — {{ item.variant_label }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ "%.2f"|format(item.unit_price_cents * item.quantity / 100) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p>Shipping: ${{ "%.2f"|format(order.shipping_cents / 100) }}</p>
+  <p><strong>Total: ${{ "%.2f"|format(order.total_cents / 100) }} {{ order.currency.upper() }}</strong></p>
+
+  <p><small>Bookmark this page to check your order status any time.</small></p>
+{% endblock %}

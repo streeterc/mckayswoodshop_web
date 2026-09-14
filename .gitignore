@@ -1,0 +1,21 @@
+# Environments — never commit real secrets
+.env
+.env.dev
+.env.prod
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Docker/local
+*.log
+
+# Generated Nginx config (rendered from templates per-domain)
+nginx/nginx.prod.conf
+
+# OS/editor cruft
+.DS_Store
+.vscode/
+.idea/

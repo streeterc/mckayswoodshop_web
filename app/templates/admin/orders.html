@@ -1,0 +1,21 @@
+{% extends "admin/_base.html" %}
+{% block title %}Orders — Admin{% endblock %}
+{% block content %}
+  <h1>Orders</h1>
+  <table>
+    <thead><tr><th>Order</th><th>Email</th><th>Total</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.public_id[:8] }}</td>
+          <td>{{ order.customer_email }}</td>
+          <td>${{ "%.2f"|format(order.total_cents / 100) }} {{ order.currency.upper() }}</td>
+          <td><span class="badge badge-{{ order.status.value }}">{{ order.status.value }}</span></td>
+          <td><a href="/admin/orders/{{ order.id }}">Manage</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5">No orders yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
