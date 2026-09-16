@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Admin{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/typography.css">
   <link rel="stylesheet" href="/static/css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.3/htmx.min.js"></script>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="/admin/orders"><span class="brand-name">Admin</span></a>
-    <nav class="site-nav">
-      <a href="/admin/orders">Orders</a>
-      <a href="/admin/products">Products</a>
-      <a href="/admin/settings">Settings</a>
-      <a href="/admin/logout">Log out</a>
-    </nav>
+    <div class="shell site-header-inner">
+      <div class="header-start">
+        <a class="brand" href="/admin/orders"><span class="brand-name">Admin</span></a>
+      </div>
+      <div class="header-end">
+        <nav class="site-nav">
+          <a href="/admin/orders" {% if request.url.path.startswith('/admin/orders') %}aria-current="page"{% endif %}>Orders</a>
+          <a href="/admin/quotes" {% if request.url.path == '/admin/quotes' %}aria-current="page"{% endif %}>Quote requests</a>
+          <a href="/admin/products" {% if request.url.path == '/admin/products' %}aria-current="page"{% endif %}>Products</a>
+          <a href="/admin/settings" {% if request.url.path == '/admin/settings' %}aria-current="page"{% endif %}>Settings</a>
+          <a href="/admin/logout">Log out</a>
+        </nav>
+      </div>
+    </div>
   </header>
-  <main class="site-main" style="max-width:1000px;">
+  <main class="site-main shell" style="max-width: 1000px">
     {% block content %}{% endblock %}
   </main>
 </body>

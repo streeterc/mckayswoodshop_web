@@ -63,7 +63,11 @@ endblock %} {% block content %}
   </div>
 
   <div style="margin-top: var(--sp-4)">
-    {% if posts %} {{ m.featured_post_card(posts[0]) }} {% else %}
+    {% if posts %}
+    <div class="grid grid-2-up">
+      {% for post in posts[:2] %} {{ m.post_card(post) }} {% endfor %}
+    </div>
+    {% else %}
     <p>
       No posts yet — drop a Markdown file into
       <code>app/content/posts/</code> to get started.

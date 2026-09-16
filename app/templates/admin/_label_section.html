@@ -1,0 +1,10 @@
+{% if order.label_url %}
+  <p>Tracking: {{ order.tracking_number }}</p>
+  <p><a href="{{ order.label_url }}" target="_blank" rel="noopener">Download label</a></p>
+{% elif order.shippo_rate_id %}
+  <form hx-post="/admin/orders/{{ order.id }}/buy-label" hx-target="#label-section" hx-swap="innerHTML">
+    <button class="btn" type="submit">Buy shipping label</button>
+  </form>
+{% else %}
+  <p><small>This order was placed with flat-rate shipping — no live Shippo rate to buy a label for.</small></p>
+{% endif %}

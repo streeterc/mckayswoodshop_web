@@ -1,0 +1,337 @@
+<form
+  id="quote-form"
+  method="post"
+  action="/quote"
+  hx-post="/quote"
+  hx-encoding="multipart/form-data"
+  hx-target="this"
+  hx-swap="outerHTML"
+>
+  {% if error %}
+    <p class="quote-error" role="alert">{{ error }}</p>
+  {% endif %}
+
+  <div class="quote-progress">
+    <div class="quote-progress-seg is-active" data-seg="1"></div>
+    <div class="quote-progress-seg" data-seg="2"></div>
+    <div class="quote-progress-seg" data-seg="3"></div>
+  </div>
+
+  <input type="hidden" name="category" id="quote-category">
+  <input type="hidden" name="exposure" id="quote-exposure">
+  <input type="hidden" name="timeline" id="quote-timeline">
+  <input type="hidden" name="contact_method" id="quote-contact-method">
+
+  <!-- STEP 1: CATEGORY -->
+  <section class="quote-step" id="quote-step-1">
+    <div class="quote-step-label">Step 1 of 3</div>
+    <h4>What are you looking to build?</h4>
+    <p class="hint">Pick the closest match — you can add detail next.</p>
+    <div class="quote-tiles">
+      <button type="button" class="quote-tile" data-cat="furniture">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h16M4 10v9M20 10v9M6 19v2M18 19v2M4 10l1.5-5h13L20 10"/></svg>
+        <span class="quote-tile-label">Furniture</span>
+        <span class="quote-tile-desc">Tables, chairs, cabinets</span>
+      </button>
+      <button type="button" class="quote-tile" data-cat="builtins">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="0.5"/><path d="M4 9h16M4 15h16M12 3v18"/></svg>
+        <span class="quote-tile-label">Built-ins</span>
+        <span class="quote-tile-desc">Shelving, closets, benches</span>
+      </button>
+      <button type="button" class="quote-tile" data-cat="outdoor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l7 8h-4v12h-6V10H5l7-8z"/></svg>
+        <span class="quote-tile-label">Outdoor</span>
+        <span class="quote-tile-desc">Decks, pergolas, planters</span>
+      </button>
+      <button type="button" class="quote-tile" data-cat="restoration">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.5 3.5l6 6-9 9L3 21l2.5-8.5 9-9z"/><path d="M12.5 5.5l6 6"/></svg>
+        <span class="quote-tile-label">Restoration</span>
+        <span class="quote-tile-desc">Repair an existing piece</span>
+      </button>
+      <button type="button" class="quote-tile quote-tile--wide" data-cat="other">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1-1.5 2.2M12 17h.01"/></svg>
+        <div>
+          <span class="quote-tile-label">Not sure yet / something else</span>
+          <span class="quote-tile-desc">Tell us a bit and we'll figure it out together</span>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 2: DETAILS -->
+  <section class="quote-step" id="quote-step-2" hidden>
+    <div class="quote-step-label">Step 2 of 3 — <span id="quote-cat-echo"></span></div>
+    <h4>Project details</h4>
+    <p class="hint">Drag, tap, and choose — no need to type here.</p>
+
+    <div class="field">
+      <label>Approximate size</label>
+      <div class="quote-slider-row">
+        <input type="range" name="size_in" id="quote-size-slider" min="6" max="240" value="36" step="1">
+        <div class="quote-slider-readout" id="quote-size-readout">3 ft</div>
+      </div>
+      <div class="quote-slider-scale"><span>6 in</span><span>20 ft</span></div>
+    </div>
+
+    <div class="field quote-conditional" id="quote-wall-field" hidden>
+      <label>Available wall width</label>
+      <div class="quote-slider-row">
+        <input type="range" name="wall_in" id="quote-wall-slider" min="12" max="240" value="60" step="1">
+        <div class="quote-slider-readout" id="quote-wall-readout">5 ft</div>
+      </div>
+      <div class="quote-slider-scale"><span>1 ft</span><span>20 ft</span></div>
+    </div>
+
+    <div class="field">
+      <label for="quote-room">Room / setting</label>
+      <select name="room" id="quote-room">
+        <option>Living Room</option>
+        <option>Kitchen</option>
+        <option>Dining</option>
+        <option>Bedroom</option>
+        <option>Office</option>
+        <option>Outdoor</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="quote-material">Wood / material preference</label>
+      <select name="material" id="quote-material">
+        <option>Oak</option>
+        <option>Walnut</option>
+        <option>Maple</option>
+        <option>Cherry</option>
+        <option>Pine</option>
+        <option>Reclaimed</option>
+        <option>Not sure — let's discuss</option>
+      </select>
+    </div>
+
+    <div class="field quote-conditional" id="quote-exposure-field" hidden>
+      <label>Exposure</label>
+      <div class="quote-toggle-pair">
+        <button type="button" class="quote-chip" data-exposure="uncovered">Uncovered</button>
+        <button type="button" class="quote-chip" data-exposure="covered">Covered</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Timeline</label>
+      <div class="quote-chip-group">
+        <button type="button" class="quote-chip" data-timeline="No rush">No rush</button>
+        <button type="button" class="quote-chip" data-timeline="Within 3 months">3 months</button>
+        <button type="button" class="quote-chip" data-timeline="Within 1 month">1 month</button>
+        <button type="button" class="quote-chip" data-timeline="ASAP">ASAP</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label id="quote-photo-label">Reference photos</label>
+      <label class="quote-upload" id="quote-upload-box" for="quote-file-input">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        <span class="quote-upload-text"><strong>Tap to add photos</strong><br>or choose up to 3 images</span>
+      </label>
+      <div class="quote-thumbs" id="quote-thumbs" hidden></div>
+      <p class="hint" id="quote-photo-hint">Optional — helps us understand what you have in mind.</p>
+      <input type="file" name="photos" id="quote-file-input" accept="image/*" multiple hidden>
+    </div>
+
+    <div class="quote-nav-row">
+      <button type="button" class="btn btn-ghost" id="quote-back-1">Back</button>
+      <button type="button" class="btn btn-accent" id="quote-to-3" disabled>Continue</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: CONTACT -->
+  <section class="quote-step" id="quote-step-3" hidden>
+    <div class="quote-step-label">Step 3 of 3</div>
+    <h4>How should we reach you?</h4>
+    <p class="hint">Just enough to send your quote — no account needed.</p>
+
+    <div class="field">
+      <label for="quote-name">Name</label>
+      <input type="text" name="name" id="quote-name" placeholder="Full name">
+    </div>
+
+    <div class="field">
+      <label for="quote-city">City</label>
+      <input type="text" name="city" id="quote-city" placeholder="Where's the project?">
+    </div>
+
+    <div class="grid grid-2-up">
+      <div class="field">
+        <label for="quote-email">Email</label>
+        <input type="email" name="email" id="quote-email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="quote-phone">Phone <span class="hint">Optional if email given</span></label>
+        <input type="tel" name="phone" id="quote-phone" placeholder="(555) 555-5555">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Preferred contact method <span class="hint">Optional</span></label>
+      <div class="quote-toggle-pair">
+        <button type="button" class="quote-chip" data-method="Call">Call me</button>
+        <button type="button" class="quote-chip" data-method="Email">Email me</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="quote-notes">Anything else we should know? <span class="hint">Optional</span></label>
+      <textarea name="notes" id="quote-notes" rows="3"></textarea>
+    </div>
+
+    <div class="quote-nav-row">
+      <button type="button" class="btn btn-ghost" id="quote-back-2">Back</button>
+      <button class="btn btn-accent" type="submit" id="quote-submit-btn" disabled>Send request</button>
+    </div>
+  </section>
+</form>
+
+<script>
+  (function () {
+    var form = document.getElementById("quote-form");
+    if (!form) return;
+
+    var state = { category: null, exposure: null, timeline: null, method: null, photoCount: 0 };
+
+    function formatLength(inches) {
+      if (inches <= 12) return inches + " in";
+      var ft = Math.floor(inches / 12);
+      var rem = inches % 12;
+      return rem === 0 ? ft + " ft" : ft + " ft " + rem + " in";
+    }
+
+    function goTo(step) {
+      [1, 2, 3].forEach(function (i) {
+        document.getElementById("quote-step-" + i).hidden = i !== step;
+        var seg = form.querySelector('.quote-progress-seg[data-seg="' + i + '"]');
+        seg.classList.remove("is-active", "is-done");
+        if (i < step) seg.classList.add("is-done");
+        if (i === step) seg.classList.add("is-active");
+      });
+    }
+
+    var catLabels = {
+      furniture: "Furniture", builtins: "Built-ins", outdoor: "Outdoor",
+      restoration: "Restoration", other: "Not sure yet"
+    };
+
+    // STEP 1 — category tiles
+    form.querySelectorAll(".quote-tile").forEach(function (tile) {
+      tile.addEventListener("click", function () {
+        state.category = tile.dataset.cat;
+        document.getElementById("quote-category").value = state.category;
+        document.getElementById("quote-cat-echo").textContent = catLabels[state.category];
+
+        document.getElementById("quote-wall-field").hidden = state.category !== "builtins";
+        document.getElementById("quote-exposure-field").hidden = state.category !== "outdoor";
+
+        var isRestoration = state.category === "restoration";
+        var uploadBox = document.getElementById("quote-upload-box");
+        var photoLabel = document.getElementById("quote-photo-label");
+        var photoHint = document.getElementById("quote-photo-hint");
+        photoLabel.innerHTML = isRestoration
+          ? 'Photos of the piece <span class="quote-req-badge">Required</span>'
+          : "Reference photos";
+        photoHint.textContent = isRestoration
+          ? "Show us the piece and any damage — at least one photo."
+          : "Optional — helps us understand what you have in mind.";
+        uploadBox.classList.toggle("is-required", isRestoration);
+
+        checkStep2();
+        goTo(2);
+      });
+    });
+
+    // SIZE / WALL SLIDERS
+    var sizeSlider = document.getElementById("quote-size-slider");
+    var sizeReadout = document.getElementById("quote-size-readout");
+    sizeSlider.addEventListener("input", function () {
+      sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10));
+    });
+    sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10));
+
+    var wallSlider = document.getElementById("quote-wall-slider");
+    var wallReadout = document.getElementById("quote-wall-readout");
+    wallSlider.addEventListener("input", function () {
+      wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10));
+    });
+    wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10));
+
+    // EXPOSURE TOGGLE
+    form.querySelectorAll("[data-exposure]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        form.querySelectorAll("[data-exposure]").forEach(function (b) { b.classList.remove("is-selected"); });
+        btn.classList.add("is-selected");
+        state.exposure = btn.dataset.exposure;
+        document.getElementById("quote-exposure").value = state.exposure;
+        checkStep2();
+      });
+    });
+
+    // TIMELINE
+    form.querySelectorAll("[data-timeline]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        form.querySelectorAll("[data-timeline]").forEach(function (b) { b.classList.remove("is-selected"); });
+        btn.classList.add("is-selected");
+        state.timeline = btn.dataset.timeline;
+        document.getElementById("quote-timeline").value = state.timeline;
+        checkStep2();
+      });
+    });
+
+    // CONTACT METHOD
+    form.querySelectorAll("[data-method]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        form.querySelectorAll("[data-method]").forEach(function (b) { b.classList.remove("is-selected"); });
+        btn.classList.add("is-selected");
+        state.method = btn.dataset.method;
+        document.getElementById("quote-contact-method").value = state.method;
+      });
+    });
+
+    // PHOTO UPLOAD
+    var uploadBox = document.getElementById("quote-upload-box");
+    var fileInput = document.getElementById("quote-file-input");
+    var thumbs = document.getElementById("quote-thumbs");
+    fileInput.addEventListener("change", function () {
+      var count = Math.min(fileInput.files.length, 3);
+      state.photoCount = count;
+      thumbs.hidden = count === 0;
+      thumbs.innerHTML = "";
+      for (var i = 0; i < count; i++) {
+        var t = document.createElement("div");
+        t.className = "quote-thumb";
+        t.textContent = "IMG";
+        thumbs.appendChild(t);
+      }
+      checkStep2();
+    });
+
+    function checkStep2() {
+      var ok = !!state.category && !!state.timeline;
+      if (state.category === "outdoor") ok = ok && !!state.exposure;
+      if (state.category === "restoration") ok = ok && state.photoCount > 0;
+      document.getElementById("quote-to-3").disabled = !ok;
+    }
+
+    document.getElementById("quote-back-1").addEventListener("click", function () { goTo(1); });
+    document.getElementById("quote-to-3").addEventListener("click", function () { goTo(3); });
+    document.getElementById("quote-back-2").addEventListener("click", function () { goTo(2); });
+
+    // STEP 3 — enable submit once minimally reachable
+    function checkStep3() {
+      var name = document.getElementById("quote-name").value.trim();
+      var city = document.getElementById("quote-city").value.trim();
+      var email = document.getElementById("quote-email").value.trim();
+      var phone = document.getElementById("quote-phone").value.trim();
+      document.getElementById("quote-submit-btn").disabled = !(name && city && (email || phone));
+    }
+    ["quote-name", "quote-city", "quote-email", "quote-phone"].forEach(function (id) {
+      document.getElementById(id).addEventListener("input", checkStep3);
+    });
+  })();
+</script>

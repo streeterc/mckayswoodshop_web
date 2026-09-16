@@ -24,9 +24,10 @@
         </div>
 
         <div class="header-end">
-          <a
+          <button
+            type="button"
             class="quote-btn-icon"
-            href="mailto:shop@mckayswoodshop.ca?subject=Quote request"
+            data-quote-open
             aria-label="Request a quote"
             title="Request a quote"
           >
@@ -34,7 +35,7 @@
               <rect x="3" y="5" width="18" height="14" rx="2"/>
               <path d="m3 7 9 6 9-6"/>
             </svg>
-          </a>
+          </button>
 
           <button
             class="nav-toggle"
@@ -67,7 +68,7 @@
             >
           </nav>
 
-          <a class="btn btn-accent btn-sm quote-btn-full" href="mailto:shop@mckayswoodshop.ca?subject=Quote request">Request a quote</a>
+          <button type="button" class="btn btn-accent btn-sm quote-btn-full" data-quote-open>Request a quote</button>
         </div>
       </div>
     </header>
@@ -93,7 +94,7 @@
           <a href="/">Home</a>
           <a href="/shop">Shop</a>
           <a href="/shop/cart">Cart</a>
-          <a href="mailto:shop@mckayswoodshop.ca?subject=Quote request">Request a quote</a>
+          <button type="button" class="link-btn" data-quote-open>Request a quote</button>
         </div>
 
         <div class="footer-col">
@@ -121,5 +122,52 @@
         </span>
       </div>
     </footer>
+
+    <div class="quote-modal-overlay" id="quote-modal" hidden>
+      <div class="quote-modal" role="dialog" aria-modal="true" aria-labelledby="quote-modal-title">
+        <div class="quote-modal-header">
+          <h3 id="quote-modal-title">Request a quote</h3>
+          <button type="button" class="quote-modal-close" data-quote-close aria-label="Close">&times;</button>
+        </div>
+        <div class="quote-modal-body">
+          {% include "content/_quote_form.html" %}
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var modal = document.getElementById("quote-modal");
+        var lastFocused = null;
+
+        function openModal() {
+          lastFocused = document.activeElement;
+          modal.hidden = false;
+          document.body.style.overflow = "hidden";
+          var firstField = modal.querySelector("input, textarea, button");
+          if (firstField) firstField.focus();
+        }
+
+        function closeModal() {
+          modal.hidden = true;
+          document.body.style.overflow = "";
+          if (lastFocused) lastFocused.focus();
+        }
+
+        document.addEventListener("click", function (e) {
+          if (e.target.closest("[data-quote-open]")) {
+            e.preventDefault();
+            openModal();
+          }
+          if (e.target.closest("[data-quote-close]") || e.target === modal) {
+            closeModal();
+          }
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !modal.hidden) closeModal();
+        });
+      })();
+    </script>
   </body>
 </html>

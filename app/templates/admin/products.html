@@ -7,7 +7,7 @@
     <div class="card">
       <h3>{{ product.name }} <small>({{ product.slug }})</small></h3>
       <table>
-        <thead><tr><th>Variant</th><th>SKU</th><th>Price</th><th>Stock</th></tr></thead>
+        <thead><tr><th>Variant</th><th>SKU</th><th>Price</th><th>Stock</th><th>Dimensions (oz / L×W×H in)</th></tr></thead>
         <tbody>
             {% for variant in product.variants %}
               <tr>
@@ -15,6 +15,7 @@
                 <td>{{ variant.sku }}</td>
                 <td>${{ "%.2f"|format(variant.price_cents() / 100) }}</td>
                 <td id="stock-{{ variant.id }}">{% include "admin/_stock_input.html" %}</td>
+                <td id="dims-{{ variant.id }}">{% include "admin/_variant_dims_input.html" %}</td>
               </tr>
             {% endfor %}
         </tbody>

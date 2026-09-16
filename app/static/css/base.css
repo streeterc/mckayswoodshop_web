@@ -2,12 +2,12 @@
    McKay's Woodshop — Starter CSS
    Tokens sourced from the brand design system (see
    "McKay's Woodshop Design System/readme.md"): forest +
-   copper + sand palette, Newsreader/Work Sans/IBM Plex Mono
+   copper + sand palette, Fraunces/Work Sans/IBM Plex Mono
    type, machined (small-radius) corners, no-shadow-at-rest cards.
    Mobile-first. Breakpoints: 640px, 1024px.
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Work+Sans:ital,wght@0,300..700;1,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,wght@0,9..144,0..100,300..700;1,9..144,0..100,300..600&family=Work+Sans:ital,wght@0,300..700;1,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
   /* Brand colors — forest (logo field), copper (logo mark), sand (neutrals) */
@@ -50,7 +50,7 @@
   --shadow-md: 0 2px 6px rgba(21, 19, 15, 0.07), 0 1px 2px rgba(21, 19, 15, 0.05);
 
   /* Fonts */
-  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
@@ -210,6 +210,14 @@ small {
   transform: translateY(1px);
 }
 
+.btn:disabled {
+  background: var(--sand-200);
+  border-color: var(--sand-200);
+  color: var(--muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-accent {
   background: var(--clay);
   border-color: var(--clay);
@@ -302,19 +310,27 @@ small {
   font-weight: 400;
 }
 
-.field input,
-.field select {
+/* Applies to every text-like input, not just ones wrapped in .field, so
+   compact admin table edits (stock counts, dimensions) get the same
+   tokenized look without needing the full .field wrapper. */
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='number'],
+input[type='password'],
+input[type='date'],
+select,
+textarea {
   padding: 0.65em 0.75em;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--forest);
+  font-family: var(--font-body);
 }
 
-.field input:focus-visible,
-.field select:focus-visible {
-  outline: 2px solid var(--clay);
-  outline-offset: 1px;
+textarea {
+  resize: vertical;
 }
 
 .field-radio {
@@ -323,6 +339,37 @@ small {
   gap: 0.6em;
   font-weight: 400;
   cursor: pointer;
+}
+
+.form-error {
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-2) var(--sp-3);
+  margin-bottom: var(--sp-3);
+  color: var(--clay-darker);
+  font-size: var(--step-1);
+}
+
+.form-actions {
+  margin-top: var(--sp-3);
+}
+
+input.input-narrow {
+  width: 4.5em;
+  font-family: var(--font-mono);
+}
+
+input.input-narrower {
+  width: 3.5em;
+  font-family: var(--font-mono);
+}
+
+/* Compact editable-cell forms (stock count, variant dimensions) */
+.inline-form {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
 }
 
 /* ---------- Placeholders ---------- */

@@ -12,6 +12,7 @@ from app.database import get_db
 from app.models import ProductVariant, Order, OrderItem, StoreSettings, OrderStatus, PaymentMethod
 from app.schemas import ShippingAddressIn
 from app import cart as cart_module
+from app import shipping as shipping_api
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -52,6 +53,62 @@ def checkout_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
+@router.post("/checkout/rates")
+def checkout_rates(
+    request: Request,
+    db: Session = Depends(get_db),
+    name: str = Form(""),
+    email: str = Form(""),
+    address_line1: str = Form(...),
+    address_line2: str = Form(""),
+    city: str = Form(...),
+    state: str = Form(""),
+    postal_code: str = Form(...),
+    country: str = Form(...),
+):
+    cart = cart_module.get_cart(request)
+    if not cart:
+        raise HTTPException(status_code=400, detail="Your cart is empty")
+    rows, _ = cart_module.resolve_cart_rows(db, cart)
+
+    country_code = country.strip().upper()
+
+    rates = []
+    error = None
+    if not settings.shippo_api_key:
+        error = "Shipping is not configured for this store yet — please contact us to place an order."
+    else:
+        try:
+            address = {
+                "name": name or "Customer",
+                "address_line1": address_line1,
+                "address_line2": address_line2,
+                "city": city,
+                "state": state,
+                "postal_code": postal_code,
+                "country": country_code,
+                "email": email,
+            }
+            rates = [
+                {
+                    "id": rate.object_id,
+                    "label": f"{rate.provider} {rate.servicelevel.name}",
+                    "amount_cents": round(float(rate.amount) * 100),
+                    "days": rate.estimated_days,
+                }
+                for rate in shipping_api.get_rates(address, rows)
+            ]
+            if not rates:
+                error = "No shipping options were found for that address. Please double-check it and try again."
+        except shipping_api.ShippoError:
+            error = "Live shipping rates are temporarily unavailable. Please try again in a moment."
+
+    return templates.TemplateResponse(
+        "store/_shipping_rates.html",
+        {"request": request, "rates": rates, "error": error},
+    )
+
+
 @router.post("/checkout")
 def checkout_submit(
     request: Request,
@@ -66,6 +123,7 @@ def checkout_submit(
     postal_code: str = Form(...),
     country: str = Form(...),
     payment_method: str = Form(...),  # "stripe" | "coinbase"
+    shippo_rate_id: str = Form(""),
 ):
     cart = cart_module.get_cart(request)
     if not cart:
@@ -87,9 +145,21 @@ def checkout_submit(
 
     store_settings = _get_store_settings(db)
     is_domestic = shipping.country == store_settings.domestic_country_code
-    shipping_cents = (
-        store_settings.domestic_shipping_cents if is_domestic else store_settings.intl_shipping_cents
-    )
+
+    # Live Shippo rates are required — there is no flat-rate fallback.
+    # Never trust a client-submitted rate amount, so re-fetch it from Shippo.
+    if not shippo_rate_id:
+        raise HTTPException(
+            status_code=400, detail="Please calculate and select a shipping option before paying."
+        )
+    try:
+        verified_rate = shipping_api.get_verified_rate(shippo_rate_id)
+    except shipping_api.ShippoError:
+        raise HTTPException(
+            status_code=409,
+            detail="That shipping rate is no longer available — please reselect shipping.",
+        )
+    shipping_cents = round(float(verified_rate.amount) * 100)
 
     # Resolve cart -> order items, re-checking stock server-side (never trust
     # client-held cart contents for pricing or availability).
@@ -127,6 +197,7 @@ def checkout_submit(
         total_cents=total_cents,
         currency=store_settings.currency,
         status=OrderStatus.pending,
+        shippo_rate_id=shippo_rate_id,
     )
     for variant, qty, unit_price in order_items:
         order.items.append(

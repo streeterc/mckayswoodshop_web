@@ -54,7 +54,7 @@ Two brand colours, both lifted from the logo, plus one warm neutral family.
 ### Typography
 | Role | Face | Notes |
 | --- | --- | --- |
-| Display / headings | **Newsreader** | Optical-size serif, regular weight, `-0.02em`, leading 1.02–1.25. Refined counterweight to the rustic mark. |
+| Display / headings | **Fraunces** | Optical-size serif, regular weight, `-0.02em`, leading 1.02–1.25. Refined counterweight to the rustic mark. |
 | UI / body | **Work Sans** | 17px / 1.62 for prose at a 64ch measure; 15px / 1.5 for dense UI. |
 | Specs, numbers, dates | **IBM Plex Mono** | Every measurement, job number, date and dollar figure, with tabular figures. |
 

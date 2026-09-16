@@ -139,7 +139,7 @@ No redeploy needed in dev — the content loader re-reads the folder on request
 
 ## 3. Design system
 
-The visual language (forest green + copper + warm sand palette, Newsreader
+The visual language (forest green + copper + warm sand palette, Fraunces
 serif headings over Work Sans UI text, IBM Plex Mono for prices/dates/specs,
 tight "machined" corner radii, flat cards with no shadow at rest) lives as
 plain CSS custom properties in `app/static/css/base.css` and

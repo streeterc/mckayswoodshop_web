@@ -32,23 +32,38 @@
     <p>Payment: {{ order.payment_method.value if order.payment_method else "—" }} ({{ order.payment_reference or "no reference yet" }})</p>
   </div>
 
+  <div class="card">
+    <h3>Shipping label</h3>
+    <div id="label-section">
+      {% include "admin/_label_section.html" %}
+    </div>
+  </div>
+
   <div class="card" id="status-card">
     <h3>Status</h3>
     <div id="status-badge">
       {% include "admin/_order_status_badge.html" %}
     </div>
     <form hx-post="/admin/orders/{{ order.id }}/status" hx-target="#status-badge" hx-swap="innerHTML">
-      <label for="status">Update status</label>
-      <select name="status" id="status">
-        {% for s in ["pending", "paid", "fulfilled", "shipped", "cancelled"] %}
-          <option value="{{ s }}" {% if order.status.value == s %}selected{% endif %}>{{ s }}</option>
-        {% endfor %}
-      </select>
-      <label for="tracking_carrier">Tracking carrier</label>
-      <input type="text" name="tracking_carrier" id="tracking_carrier" value="{{ order.tracking_carrier }}">
-      <label for="tracking_number">Tracking number</label>
-      <input type="text" name="tracking_number" id="tracking_number" value="{{ order.tracking_number }}">
-      <button class="btn" type="submit" style="margin-top:1rem;">Save</button>
+      <div class="field">
+        <label for="status">Update status</label>
+        <select name="status" id="status">
+          {% for s in ["pending", "paid", "fulfilled", "shipped", "cancelled"] %}
+            <option value="{{ s }}" {% if order.status.value == s %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="tracking_carrier">Tracking carrier</label>
+        <input type="text" name="tracking_carrier" id="tracking_carrier" value="{{ order.tracking_carrier }}">
+      </div>
+      <div class="field">
+        <label for="tracking_number">Tracking number</label>
+        <input type="text" name="tracking_number" id="tracking_number" value="{{ order.tracking_number }}">
+      </div>
+      <div class="form-actions">
+        <button class="btn" type="submit">Save</button>
+      </div>
     </form>
     <p><small>Marking a paid order "shipped" for the first time sends the customer a shipping email automatically.</small></p>
   </div>

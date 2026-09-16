@@ -1,0 +1,40 @@
+{% extends "admin/_base.html" %}
+{% block title %}Quote requests — Admin{% endblock %}
+{% block content %}
+  <h1>Quote requests</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th><th>Name</th><th>Contact</th><th>City</th>
+        <th>Project</th><th>Timeline</th><th>Photos</th><th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for quote in quotes %}
+        <tr>
+          <td>{{ quote.created_at.strftime("%Y-%m-%d") }}</td>
+          <td>{{ quote.name }}</td>
+          <td>
+            {% if quote.phone %}{{ quote.phone }}<br>{% endif %}
+            {% if quote.email %}{{ quote.email }}{% endif %}
+            {% if quote.contact_method %}<br><small>Prefers: {{ quote.contact_method }}</small>{% endif %}
+          </td>
+          <td>{{ quote.city }}</td>
+          <td>
+            <strong>{{ category_labels.get(quote.category, quote.category) }}</strong><br>
+            <small>
+              {{ quote.size_in }}" &middot; {{ quote.room }} &middot; {{ quote.material }}
+              {%- if quote.category == "builtins" and quote.wall_in %} &middot; wall {{ quote.wall_in }}"{% endif -%}
+              {%- if quote.category == "outdoor" and quote.exposure %} &middot; {{ quote.exposure }}{% endif -%}
+            </small>
+          </td>
+          <td>{{ quote.timeline or "—" }}</td>
+          <td>{{ quote.photo_count }}</td>
+          <td>{{ quote.notes or "—" }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="8">No quote requests yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

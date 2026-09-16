@@ -1,4 +1,5 @@
-<form hx-post="/admin/variants/{{ variant.id }}/stock" hx-target="#stock-{{ variant.id }}" hx-swap="innerHTML" class="inline">
-  <input type="number" name="stock_count" value="{{ variant.stock_count }}" min="0" style="width:70px;">
-  <button class="btn btn-secondary" type="submit">Update</button>
+<form hx-post="/admin/variants/{{ variant.id }}/stock" hx-target="#stock-{{ variant.id }}" hx-swap="innerHTML" class="inline-form">
+  <label for="stock-count-{{ variant.id }}" class="sr-only">Stock count</label>
+  <input type="number" name="stock_count" id="stock-count-{{ variant.id }}" value="{{ variant.stock_count }}" min="0" class="input-narrow">
+  <button class="btn btn-ghost btn-sm" type="submit">Update</button>
 </form>

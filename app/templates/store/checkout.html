@@ -5,7 +5,7 @@
     <h1>Checkout</h1>
     <p style="max-width: 56ch">Guest checkout — no account needed. You'll get an order confirmation email with a lookup link.</p>
 
-    <form method="post" action="/checkout" class="grid grid-2-up" style="align-items: start; margin-top: var(--sp-3)">
+    <form method="post" action="/checkout" id="checkout-form" class="grid grid-2-up" style="align-items: start; margin-top: var(--sp-3)">
       <div>
         <div class="grid grid-2-up">
           <div class="field">
@@ -45,6 +45,15 @@
             <input type="text" name="country" id="country" maxlength="2" required style="text-transform: uppercase">
           </div>
         </div>
+
+        <div class="field">
+          <button type="button" class="btn" hx-post="/checkout/rates" hx-include="closest form" hx-target="#shipping-rates" hx-swap="innerHTML">
+            Calculate shipping
+          </button>
+        </div>
+        <div id="shipping-rates">
+          <p class="hint">Fill in your address, then calculate shipping.</p>
+        </div>
       </div>
 
       <div class="card">
@@ -69,13 +78,33 @@
           </div>
           <div class="summary-row">
             <span>Shipping</span>
-            <span class="value">Calculated from your address</span>
+            <span class="value" id="shipping-cost">—</span>
+          </div>
+          <div class="summary-row">
+            <span>Total</span>
+            <span class="value price" id="total-cost">${{ "%.2f"|format(subtotal_cents / 100) }}</span>
           </div>
         </div>
 
-        <button class="btn btn-accent btn-lg btn-block" type="submit" style="margin-top: var(--sp-3)">Pay</button>
-        <p style="margin-top: var(--sp-3)"><small>Shipping is a flat rate set in the shop settings. Taxes are added on the payment page.</small></p>
+        <button class="btn btn-accent btn-lg btn-block" type="submit" id="pay-button" disabled style="margin-top: var(--sp-3)">Pay</button>
+        <p style="margin-top: var(--sp-3)"><small>Shipping is quoted live from your address — calculate it to unlock payment. Taxes are added on the payment page.</small></p>
       </div>
     </form>
   </section>
+  <script>
+    function updateShippingCost(radio) {
+      var payButton = document.getElementById('pay-button');
+      if (!radio) {
+        document.getElementById('shipping-cost').textContent = '—';
+        document.getElementById('total-cost').textContent = '${{ "%.2f"|format(subtotal_cents / 100) }}';
+        payButton.disabled = true;
+        return;
+      }
+      var cents = parseInt(radio.dataset.amountCents, 10) || 0;
+      var subtotal = {{ subtotal_cents }};
+      document.getElementById('shipping-cost').textContent = '$' + (cents / 100).toFixed(2);
+      document.getElementById('total-cost').textContent = '$' + ((subtotal + cents) / 100).toFixed(2);
+      payButton.disabled = false;
+    }
+  </script>
 {% endblock %}

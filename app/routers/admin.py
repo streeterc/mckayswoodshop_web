@@ -5,13 +5,15 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 
 from app.database import get_db
-from app.models import Order, OrderStatus, Product, ProductVariant, AdminUser, StoreSettings
+from app.models import Order, OrderStatus, Product, ProductVariant, AdminUser, StoreSettings, QuoteRequest
+from app.schemas import QUOTE_CATEGORIES
 from app.security import (
     verify_password, create_session_token, require_admin,
     SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS,
 )
 from app.email import send_email
 from app.config import get_settings
+from app import shipping as shipping_api
 
 router = APIRouter(prefix="/admin")
 templates = Jinja2Templates(directory="app/templates")
@@ -116,6 +118,30 @@ def order_update_status(
     )
 
 
+@router.post("/orders/{order_id}/buy-label")
+def buy_shipping_label(
+    request: Request, order_id: int, db: Session = Depends(get_db), admin: str = Depends(require_admin)
+):
+    order = db.get(Order, order_id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    if not order.shippo_rate_id:
+        raise HTTPException(
+            status_code=400, detail="This order was placed with flat-rate shipping — no live rate to buy a label for"
+        )
+    if not order.label_url:
+        try:
+            tracking_number, label_url = shipping_api.buy_label(order.shippo_rate_id)
+        except (shipping_api.ShippoError, RuntimeError) as e:
+            raise HTTPException(status_code=502, detail=str(e))
+        order.tracking_number = tracking_number
+        order.label_url = label_url
+        db.commit()
+    return templates.TemplateResponse(
+        "admin/_label_section.html", {"request": request, "order": order}
+    )
+
+
 @router.get("/products")
 def products_list(request: Request, db: Session = Depends(get_db), admin: str = Depends(require_admin)):
     products = db.scalars(select(Product).order_by(Product.name)).all()
@@ -139,6 +165,39 @@ def update_stock(
     db.commit()
     return templates.TemplateResponse(
         "admin/_stock_input.html", {"request": request, "variant": variant}
+    )
+
+
+@router.post("/variants/{variant_id}/dimensions")
+def update_variant_dimensions(
+    request: Request,
+    variant_id: int,
+    weight_oz: float = Form(...),
+    length_in: float = Form(...),
+    width_in: float = Form(...),
+    height_in: float = Form(...),
+    db: Session = Depends(get_db),
+    admin: str = Depends(require_admin),
+):
+    variant = db.get(ProductVariant, variant_id)
+    if not variant:
+        raise HTTPException(status_code=404, detail="Variant not found")
+    variant.weight_oz = max(0.1, weight_oz)
+    variant.length_in = max(0.1, length_in)
+    variant.width_in = max(0.1, width_in)
+    variant.height_in = max(0.1, height_in)
+    db.commit()
+    return templates.TemplateResponse(
+        "admin/_variant_dims_input.html", {"request": request, "variant": variant}
+    )
+
+
+@router.get("/quotes")
+def quotes_list(request: Request, db: Session = Depends(get_db), admin: str = Depends(require_admin)):
+    quotes = db.scalars(select(QuoteRequest).order_by(QuoteRequest.created_at.desc())).all()
+    return templates.TemplateResponse(
+        "admin/quotes.html",
+        {"request": request, "quotes": quotes, "admin": admin, "category_labels": QUOTE_CATEGORIES},
     )
 
 

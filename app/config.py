@@ -19,6 +19,18 @@ class Settings(BaseSettings):
     default_intl_shipping_cents: int = 1800
     default_currency: str = "usd"
 
+    # Fallback flat rates are still used if Shippo has no API key configured
+    # or a live rate lookup fails (spec: never block checkout on a carrier API).
+    shippo_api_key: str = ""
+    shop_address_name: str = "McKay's Woodshop"
+    shop_address_street1: str = ""
+    shop_address_street2: str = ""
+    shop_address_city: str = ""
+    shop_address_state: str = ""
+    shop_address_zip: str = ""
+    shop_address_country: str = "US"
+    shop_address_phone: str = ""
+
     stripe_secret_key: str = ""
     stripe_publishable_key: str = ""
     stripe_webhook_secret: str = ""

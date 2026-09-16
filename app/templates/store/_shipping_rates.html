@@ -1,0 +1,15 @@
+{% if error %}<p class="hint">{{ error }}</p>{% endif %}
+{% if rates %}
+  <div class="shipping-options" style="display: flex; flex-direction: column; gap: var(--sp-2)">
+    {% for rate in rates %}
+      <label class="field-radio">
+        <input type="radio" name="shippo_rate_id" value="{{ rate.id }}" data-amount-cents="{{ rate.amount_cents }}"
+               onchange="updateShippingCost(this)" {% if loop.first %}checked{% endif %}>
+        {{ rate.label }} — ${{ "%.2f"|format(rate.amount_cents / 100) }}{% if rate.days %} ({{ rate.days }} business days){% endif %}
+      </label>
+    {% endfor %}
+  </div>
+{% endif %}
+<script>
+  updateShippingCost(document.querySelector('input[name="shippo_rate_id"]:checked'));
+</script>

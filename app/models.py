@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import (
-    String, Integer, Boolean, DateTime, ForeignKey, Text, Enum, func
+    String, Integer, Boolean, DateTime, ForeignKey, Text, Enum, Float, func
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -60,6 +60,12 @@ class ProductVariant(Base):
     price_override_cents: Mapped[int | None] = mapped_column(Integer, nullable=True)
     stock_count: Mapped[int] = mapped_column(Integer, default=0)
 
+    # Parcel dimensions used for live Shippo rate quotes (see app/shipping.py).
+    weight_oz: Mapped[float] = mapped_column(Float, default=8.0)
+    length_in: Mapped[float] = mapped_column(Float, default=6.0)
+    width_in: Mapped[float] = mapped_column(Float, default=6.0)
+    height_in: Mapped[float] = mapped_column(Float, default=6.0)
+
     product: Mapped["Product"] = relationship(back_populates="variants")
 
     def price_cents(self) -> int:
@@ -94,6 +100,12 @@ class Order(Base):
     tracking_number: Mapped[str] = mapped_column(String(120), default="")
     tracking_carrier: Mapped[str] = mapped_column(String(120), default="")
 
+    # The live Shippo rate quoted and accepted at checkout, re-verified before
+    # a label is purchased for it. label_url is set once the label is bought
+    # (see app/shipping.py:buy_label, admin order fulfillment).
+    shippo_rate_id: Mapped[str] = mapped_column(String(64), default="")
+    label_url: Mapped[str] = mapped_column(String(500), default="")
+
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
@@ -124,6 +136,38 @@ class AdminUser(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(80), unique=True)
     password_hash: Mapped[str] = mapped_column(String(255))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class QuoteRequest(Base):
+    """A lead submitted through the site-wide 'Request a quote' popup."""
+    __tablename__ = "quote_requests"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    # Step 1 — project category
+    category: Mapped[str] = mapped_column(String(30))
+
+    # Step 2 — structured project details
+    size_in: Mapped[int] = mapped_column(Integer, default=0)
+    wall_in: Mapped[int] = mapped_column(Integer, default=0)
+    room: Mapped[str] = mapped_column(String(60), default="")
+    material: Mapped[str] = mapped_column(String(60), default="")
+    exposure: Mapped[str] = mapped_column(String(20), default="")
+    timeline: Mapped[str] = mapped_column(String(40), default="")
+    # Photos are attached to the admin notification email, not stored
+    # server-side — this just records how many were sent (see app/shipping.py
+    # sibling app/email.py for the attachment path).
+    photo_count: Mapped[int] = mapped_column(Integer, default=0)
+
+    # Step 3 — contact info
+    name: Mapped[str] = mapped_column(String(200))
+    phone: Mapped[str] = mapped_column(String(40), default="")
+    email: Mapped[str] = mapped_column(String(255), default="")
+    city: Mapped[str] = mapped_column(String(120))
+    contact_method: Mapped[str] = mapped_column(String(20), default="")
+    notes: Mapped[str] = mapped_column(Text, default="")
+
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
