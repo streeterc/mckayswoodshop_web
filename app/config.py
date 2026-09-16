@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     notify_admin_email: str = "you@example.com"
     postmark_server_token: str = ""
     sendgrid_api_key: str = ""
+    brevo_api_key: str = ""
     aws_ses_region: str = ""
     aws_access_key_id: str = ""
     aws_secret_access_key: str = ""

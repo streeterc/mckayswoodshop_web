@@ -6,6 +6,7 @@ elsewhere in the app, since routers only ever call `send_email(...)`.
 """
 import base64
 import logging
+import re
 
 import httpx
 
@@ -16,6 +17,18 @@ settings = get_settings()
 
 # (filename, raw bytes, content type)
 Attachment = tuple[str, bytes, str]
+
+_FROM_HEADER_RE = re.compile(r'^\s*(?P<name>.*?)\s*<(?P<email>[^<>]+)>\s*$')
+
+
+def _parse_from_address(value: str) -> tuple[str, str]:
+    """Splits an EMAIL_FROM value of either 'Name <email@x.com>' or a bare
+    'email@x.com' into (name, email) — Brevo (unlike Postmark/SendGrid)
+    wants the sender as separate fields rather than one header string."""
+    match = _FROM_HEADER_RE.match(value)
+    if match:
+        return match.group("name").strip().strip('"'), match.group("email").strip()
+    return "", value.strip()
 
 
 def send_email(
@@ -41,6 +54,8 @@ def send_email(
         _send_postmark(to, subject, html_body, text_body, attachments)
     elif provider == "sendgrid":
         _send_sendgrid(to, subject, html_body, text_body, attachments)
+    elif provider == "brevo":
+        _send_brevo(to, subject, html_body, text_body, attachments)
     elif provider == "ses":
         _send_ses(to, subject, html_body, text_body)
     else:
@@ -101,6 +116,39 @@ def _send_sendgrid(
         headers={
             "Authorization": f"Bearer {settings.sendgrid_api_key}",
             "Content-Type": "application/json",
+        },
+        json=payload,
+        timeout=30,
+    )
+    resp.raise_for_status()
+
+
+def _send_brevo(
+    to: str, subject: str, html_body: str, text_body: str, attachments: list[Attachment]
+) -> None:
+    from_name, from_email = _parse_from_address(settings.email_from)
+    sender = {"email": from_email}
+    if from_name:
+        sender["name"] = from_name
+
+    payload = {
+        "sender": sender,
+        "to": [{"email": to}],
+        "subject": subject,
+        "htmlContent": html_body,
+        "textContent": text_body or html_body,
+    }
+    if attachments:
+        payload["attachment"] = [
+            {"name": filename, "content": base64.b64encode(content).decode()}
+            for filename, content, content_type in attachments
+        ]
+    resp = httpx.post(
+        "https://api.brevo.com/v3/smtp/email",
+        headers={
+            "api-key": settings.brevo_api_key,
+            "Content-Type": "application/json",
+            "accept": "application/json",
         },
         json=payload,
         timeout=30,
