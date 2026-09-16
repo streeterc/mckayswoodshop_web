@@ -10,6 +10,7 @@ from app.config import get_settings
 from app.database import get_db
 from app.models import Order, OrderStatus
 from app.email import send_email
+from app import tax as tax_module
 
 router = APIRouter()
 settings = get_settings()
@@ -20,6 +21,8 @@ def _mark_paid_and_notify(db: Session, order: Order) -> None:
         return  # idempotency guard — webhooks can be delivered more than once
     order.status = OrderStatus.paid
     db.commit()
+
+    tax_module.record_tax_transaction(order)
 
     send_email(
         to=order.customer_email,

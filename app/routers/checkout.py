@@ -13,6 +13,7 @@ from app.models import ProductVariant, Order, OrderItem, StoreSettings, OrderSta
 from app.schemas import ShippingAddressIn
 from app import cart as cart_module
 from app import shipping as shipping_api
+from app import tax as tax_module
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -180,7 +181,31 @@ def checkout_submit(
         subtotal_cents += unit_price * qty
         order_items.append((variant, qty, unit_price))
 
-    total_cents = subtotal_cents + shipping_cents
+    # Tax is required, not best-effort — an undercharged order is a real
+    # compliance problem, so a failed calculation blocks checkout rather
+    # than silently charging $0 (same call as the shipping rate above).
+    try:
+        tax_calc = tax_module.calculate_tax(
+            shipping_address={
+                "address_line1": shipping.address_line1,
+                "address_line2": shipping.address_line2,
+                "city": shipping.city,
+                "state": shipping.state,
+                "postal_code": shipping.postal_code,
+                "country": shipping.country,
+            },
+            subtotal_cents=subtotal_cents,
+            shipping_cents=shipping_cents,
+            currency=store_settings.currency,
+        )
+    except tax_module.TaxError:
+        raise HTTPException(
+            status_code=502,
+            detail="Couldn't calculate tax for your order — please try again in a moment.",
+        )
+    tax_cents = tax_calc.tax_amount_exclusive
+
+    total_cents = subtotal_cents + shipping_cents + tax_cents
 
     order = Order(
         customer_email=shipping.email,
@@ -194,6 +219,8 @@ def checkout_submit(
         is_domestic=is_domestic,
         shipping_cents=shipping_cents,
         subtotal_cents=subtotal_cents,
+        tax_cents=tax_cents,
+        tax_calculation_id=tax_calc.id,
         total_cents=total_cents,
         currency=store_settings.currency,
         status=OrderStatus.pending,
@@ -214,7 +241,7 @@ def checkout_submit(
     db.refresh(order)
 
     if payment_method == "stripe":
-        redirect_url = _create_stripe_session(order, order_items, shipping_cents)
+        redirect_url = _create_stripe_session(order, order_items, shipping_cents, tax_cents)
         order.payment_method = PaymentMethod.stripe
     else:
         redirect_url = _create_coinbase_charge(order)
@@ -227,7 +254,7 @@ def checkout_submit(
     return resp
 
 
-def _create_stripe_session(order: Order, order_items, shipping_cents: int) -> str:
+def _create_stripe_session(order: Order, order_items, shipping_cents: int, tax_cents: int) -> str:
     line_items = [
         {
             "price_data": {
@@ -246,6 +273,21 @@ def _create_stripe_session(order: Order, order_items, shipping_cents: int) -> st
                     "currency": order.currency,
                     "unit_amount": shipping_cents,
                     "product_data": {"name": "Shipping"},
+                },
+                "quantity": 1,
+            }
+        )
+    if tax_cents:
+        # Charged as a plain line item, not Checkout's automatic_tax —
+        # the amount is already authoritative from Stripe Tax's
+        # Calculation API (see app/tax.py), computed against the address
+        # collected on our own form rather than Stripe's hosted page.
+        line_items.append(
+            {
+                "price_data": {
+                    "currency": order.currency,
+                    "unit_amount": tax_cents,
+                    "product_data": {"name": "Tax"},
                 },
                 "quantity": 1,
             }

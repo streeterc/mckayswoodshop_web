@@ -90,6 +90,13 @@ class Order(Base):
     is_domestic: Mapped[bool] = mapped_column(Boolean, default=True)
     shipping_cents: Mapped[int] = mapped_column(Integer)
     subtotal_cents: Mapped[int] = mapped_column(Integer)
+    # Computed via Stripe Tax (app/tax.py) from the shipping address —
+    # included in total_cents below for both Stripe and Coinbase checkout.
+    tax_cents: Mapped[int] = mapped_column(Integer, default=0)
+    # The Stripe Tax Calculation backing tax_cents, recorded into a
+    # Transaction once the order is paid (see webhooks.py) so it counts
+    # toward Stripe Tax's remittance reporting.
+    tax_calculation_id: Mapped[str] = mapped_column(String(64), default="")
     total_cents: Mapped[int] = mapped_column(Integer)
     currency: Mapped[str] = mapped_column(String(10), default="usd")
 

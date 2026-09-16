@@ -28,6 +28,7 @@
       </tbody>
     </table>
     <p>Shipping: ${{ "%.2f"|format(order.shipping_cents / 100) }}</p>
+    {% if order.tax_cents %}<p>Tax: ${{ "%.2f"|format(order.tax_cents / 100) }}</p>{% endif %}
     <p><strong>Total: ${{ "%.2f"|format(order.total_cents / 100) }} {{ order.currency.upper() }}</strong></p>
     <p>Payment: {{ order.payment_method.value if order.payment_method else "—" }} ({{ order.payment_reference or "no reference yet" }})</p>
   </div>
