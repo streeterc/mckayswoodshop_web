@@ -1,0 +1,200 @@
+/* ============================================
+   McKay's Woodshop — Barebones Starter CSS
+   Mobile-first. Breakpoints: 640px, 1024px.
+   Fill in layout/design decisions as you build.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Karla:wght@400;500;600&display=swap');
+
+:root {
+  /* Brand colors — sampled from logo */
+  --forest: #143525;
+  --clay: #d17f50;
+  --paper: #FBF9F6;
+
+  /* Fonts */
+  --font-display: 'Work Sans', system-ui, sans-serif;
+  --font-body: 'Karla', system-ui, sans-serif;
+
+  /* Type scale */
+  --step-1: 0.875rem;
+  --step0: 1rem;
+  --step1: 1.25rem;
+  --step2: 1.75rem;
+  --step3: 2.25rem;
+
+  /* Spacing scale (4px base) */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2.5rem;
+  --sp-6: 4rem;
+
+  --max-content: 40rem;
+  --max-shell: 72rem;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--forest);
+  font-family: var(--font-body);
+  font-size: var(--step0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+ul, ol {
+  padding-left: 1.25em;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  margin: 0 0 var(--sp-3);
+}
+
+h1 { font-size: var(--step3); }
+h2 { font-size: var(--step2); }
+h3 { font-size: var(--step1); }
+
+p {
+  margin: 0 0 var(--sp-3);
+}
+
+small {
+  font-size: var(--step-1);
+}
+
+/* ---------- Layout helpers ---------- */
+.shell {
+  max-width: var(--max-shell);
+  margin-inline: auto;
+  padding-inline: var(--sp-3);
+}
+
+.prose {
+  max-width: var(--max-content);
+  margin-inline: auto;
+}
+
+/* ---------- Page skeleton ---------- */
+/* body is a flex column (see Reset); site-main grows to fill the
+   space between header/footer and lays its direct sections out with
+   consistent rhythm, so a sticky-footer page needs no extra markup. */
+.site-main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--max-shell);
+  margin-inline: auto;
+  padding: var(--sp-5) var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.site-footer {
+  padding: var(--sp-4) var(--sp-3);
+  text-align: center;
+}
+
+/* ---------- Basic elements ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--font-display);
+  padding: 0.6em 1.2em;
+  border: 1px solid var(--forest);
+  background: var(--clay);
+  color: var(--forest);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.card {
+  border: 1px solid var(--forest);
+  padding: var(--sp-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  margin-bottom: var(--sp-3);
+}
+
+.field input,
+.field select {
+  padding: 0.6em;
+  border: 1px solid var(--forest);
+  background: var(--paper);
+  color: var(--forest);
+}
+
+/* ---------- Grid utilities (flexbox-based) ---------- */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+}
+
+.grid > * {
+  flex: 1 1 100%;
+}
+
+/* ============================================
+   Tablet — 640px and up
+   ============================================ */
+@media (min-width: 640px) {
+  .grid-2-up > * {
+    flex: 1 1 calc(50% - var(--sp-4) / 2);
+  }
+}
+
+/* ============================================
+   Desktop — 1024px and up
+   ============================================ */
+@media (min-width: 1024px) {
+  .grid-3-up > * {
+    flex: 1 1 calc(33.333% - var(--sp-4) * 2 / 3);
+  }
+}

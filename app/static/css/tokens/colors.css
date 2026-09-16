@@ -1,0 +1,27 @@
+:root{
+/* ---- Base palette: Forest (from the logo field) ---- */
+--forest-900:#08180F;--forest-800:#0B2117;--forest-700:#123425;--forest-600:#1C4A34;--forest-500:#2E6B4C;--forest-400:#4E8A69;--forest-300:#8FB3A1;--forest-200:#C3D6CB;--forest-100:#E7EEE9;
+/* ---- Base palette: Copper (from the logo mark) ---- */
+--copper-900:#6E3A1E;--copper-800:#8E4C28;--copper-700:#B7663B;--copper-600:#D17F51;--copper-500:#DE9569;--copper-400:#E9B38E;--copper-300:#F2D0B7;--copper-200:#F8E5D6;--copper-100:#FCF3EC;
+/* ---- Base palette: warm neutrals (paper + graphite) ---- */
+--sand-50:#FBF9F6;--sand-100:#F4F1EC;--sand-200:#E8E3DB;--sand-300:#D6CFC4;--sand-400:#B3ABA0;--sand-500:#8A8379;--sand-600:#5F5A53;--sand-700:#3E3A35;--sand-800:#262320;--sand-900:#15130F;
+/* ---- Base palette: semantics ---- */
+--barn-600:#A93B2A;--barn-100:#F7E4E0;--amber-600:#B3842A;--amber-100:#F7EEDA;--moss-600:#2E6B4C;--moss-100:#E2EEE7;
+
+/* ---- Semantic: ink ---- */
+--text-heading:var(--forest-800);--text-body:var(--sand-700);--text-muted:var(--sand-500);--text-faint:var(--sand-400);
+--text-on-forest:var(--copper-100);--text-on-forest-muted:var(--forest-300);--text-on-copper:var(--forest-800);
+--text-accent:var(--copper-700);--text-link:var(--forest-600);--text-link-hover:var(--copper-700);
+/* ---- Semantic: surfaces ---- */
+--surface-page:var(--sand-50);--surface-card:#FFFFFF;--surface-sunken:var(--sand-100);--surface-raised:#FFFFFF;
+--surface-inverse:var(--forest-700);--surface-inverse-deep:var(--forest-800);--surface-accent:var(--copper-600);--surface-accent-wash:var(--copper-100);--surface-moss-wash:var(--moss-100);
+/* ---- Semantic: lines ---- */
+--line-hairline:var(--sand-200);--line-default:var(--sand-300);--line-strong:var(--forest-700);--line-accent:var(--copper-600);--line-on-inverse:rgba(226,238,231,.18);
+/* ---- Semantic: interactive ---- */
+--action-primary:var(--forest-700);--action-primary-hover:var(--forest-600);--action-primary-active:var(--forest-800);
+--action-accent:var(--copper-600);--action-accent-hover:var(--copper-700);--action-accent-active:var(--copper-800);
+--action-quiet-hover:var(--sand-100);--action-disabled:var(--sand-200);--action-disabled-text:var(--sand-400);
+--focus-ring:var(--copper-700);
+/* ---- Semantic: status ---- */
+--status-success:var(--moss-600);--status-success-wash:var(--moss-100);--status-warning:var(--amber-600);--status-warning-wash:var(--amber-100);--status-danger:var(--barn-600);--status-danger-wash:var(--barn-100);
+}

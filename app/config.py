@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://siteapp:devpassword@db:5432/siteapp"
 
-    site_name: str = "Your Name"
+    site_name: str = "McKay's Woodshop"
     domain: str = "localhost"
     base_url: str = "http://localhost:8000"
 

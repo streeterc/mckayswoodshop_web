@@ -1,32 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Your Name{% endblock %}</title>
-  <link rel="stylesheet" href="/static/css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.3/htmx.min.js"></script>
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="/">
-      <img src="/static/img/logo.svg" alt="Logo" class="brand-logo" onerror="this.style.display='none'">
-      <span class="brand-name">Your Name</span>
-    </a>
-    <nav class="site-nav">
-      <a href="/">Home</a>
-      <a href="/blog">Blog</a>
-      <a href="/shop">Shop</a>
-      <a href="/shop/cart" id="cart-link" hx-get="/shop/cart" hx-target="body" hx-push-url="true">Cart</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Your Name{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/typography.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/2.0.3/htmx.min.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell site-header-inner">
+        <div class="header-start">
+          <a class="brand" href="/">
+            <img
+              src="/static/img/logo_green.svg"
+              alt="Logo"
+              class="brand-logo"
+              onerror="this.style.display = 'none'"
+            />
+          </a>
+        </div>
 
-  <main class="site-main">
-    {% block content %}{% endblock %}
-  </main>
+        <div class="header-end">
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            onclick="
+              document.getElementById('site-nav').classList.toggle('is-open');
+              this.setAttribute(
+                'aria-expanded',
+                this.getAttribute('aria-expanded') !== 'true',
+              );
+            "
+          >
+            <span class="sr-only">Menu</span>
+            <span class="nav-toggle-bar"></span>
+          </button>
 
-  <footer class="site-footer">
-    <p>&copy; {{ '2026' }} Your Name. All rights reserved.</p>
-  </footer>
-</body>
+          <nav class="site-nav" id="site-nav">
+            <a href="/">Home</a>
+            <a href="/shop">Shop</a>
+            <a
+              href="/shop/cart"
+              id="cart-link"
+              hx-get="/shop/cart"
+              hx-target="body"
+              hx-push-url="true"
+              >Cart</a
+            >
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="site-main">{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+      <p>&copy; {{ '2026' }} Your Name. All rights reserved.</p>
+    </footer>
+  </body>
 </html>

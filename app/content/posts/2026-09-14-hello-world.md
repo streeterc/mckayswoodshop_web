@@ -3,7 +3,7 @@ title: "Hello, world"
 date: 2026-09-14
 slug: hello-world
 summary: "The first post on the new site."
-tags: [meta]
+tags: [woodwork]
 ---
 
 This is your first post. Edit or delete this file at

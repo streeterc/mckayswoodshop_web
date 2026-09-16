@@ -2,24 +2,21 @@
 {% block title %}Your Name — Home{% endblock %}
 {% block content %}
   <section>
-    <h1>Hi, I'm Your Name.</h1>
+    <h1>Hi, I'm Eric McKay.</h1>
     <p>A short intro about you and what you do goes here. Keep it brief — the content below does the talking.</p>
   </section>
 
   <section>
-    <h2>Recent posts</h2>
-    {% if posts %}
-      {% for post in posts %}
-        <div class="card">
-          <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
-          <p>{{ post.summary }}</p>
-          <small>{{ post.date }}</small>
-        </div>
-      {% endfor %}
-      <p><a href="/blog">View all posts &rarr;</a></p>
+    <h2>Posts</h2>
+    {% for post in posts %}
+      <div class="card">
+        <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
+        <p>{{ post.summary }}</p>
+        <small>{{ post.date }} {% if post.tags %}&middot; {{ post.tags | join(', ') }}{% endif %}</small>
+      </div>
     {% else %}
       <p>No posts yet — drop a Markdown file into <code>app/content/posts/</code> to get started.</p>
-    {% endif %}
+    {% endfor %}
   </section>
 
   <section>
