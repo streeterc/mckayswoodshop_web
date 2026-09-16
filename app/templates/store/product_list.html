@@ -1,19 +1,28 @@
 {% extends "base.html" %}
+{% import "_macros.html" as m %}
 {% block title %}Shop{% endblock %}
 {% block content %}
-  <h1>Shop</h1>
-  <div class="product-grid">
-    {% for product in products %}
-      <div class="card">
-        {% if product.image_path %}
-          <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width:100%;border-radius:4px;">
-        {% endif %}
-        <h3><a href="/shop/{{ product.slug }}">{{ product.name }}</a></h3>
-        <p>${{ "%.2f"|format(product.base_price_cents / 100) }}</p>
-        {% if not product.in_stock %}<span class="badge">Out of stock</span>{% endif %}
-      </div>
-    {% else %}
-      <p>No products yet.</p>
-    {% endfor %}
-  </div>
+  <section class="shell">
+    {{ m.section_heading('Ready to ship', 'Shop', level=1) }}
+    <p style="max-width: 56ch">Finished pieces built in small runs. Shipping is calculated at checkout based on your address.</p>
+
+    <div class="grid grid-3-up" style="margin-top: var(--sp-4)">
+      {% for product in products %}
+        <a class="card card--interactive" href="/shop/{{ product.slug }}" style="padding: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; overflow: hidden">
+          {% if product.image_path %}
+            <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block">
+          {% else %}
+            <div class="photo-placeholder" style="border-radius: 0; border-width: 0 0 1px">Product photo</div>
+          {% endif %}
+          <div style="padding: var(--sp-3); display: flex; flex-direction: column; gap: 0.4em">
+            <h3 style="margin: 0">{{ product.name }}</h3>
+            <span class="price" style="font-weight: 600">${{ "%.2f"|format(product.base_price_cents / 100) }}</span>
+            {% if not product.in_stock %}<span class="badge" style="margin-top: 0.2em">Out of stock</span>{% endif %}
+          </div>
+        </a>
+      {% else %}
+        <p>No products yet.</p>
+      {% endfor %}
+    </div>
+  </section>
 {% endblock %}

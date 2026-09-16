@@ -1,26 +1,45 @@
 {% if rows %}
-  <table>
-    <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th></th></tr></thead>
-    <tbody>
-      {% for row in rows %}
+  <div class="card" style="padding: 0; overflow: hidden">
+    <table>
+      <thead>
         <tr>
-          <td>{{ row.variant.product.name }} — {{ row.variant.label }}</td>
-          <td>
-            <form hx-post="/shop/cart/update" hx-target="#cart-contents" hx-swap="innerHTML" class="inline">
-              <input type="hidden" name="variant_id" value="{{ row.variant.id }}">
-              <input type="number" name="quantity" value="{{ row.quantity }}" min="0" max="99" style="width:60px;"
-                     hx-post="/shop/cart/update" hx-trigger="change" hx-target="#cart-contents"
-                     hx-include="closest form">
-            </form>
-          </td>
-          <td>${{ "%.2f"|format(row.line_total_cents / 100) }}</td>
+          <th>Item</th>
+          <th style="width: 90px">Qty</th>
+          <th class="text-right" style="width: 110px">Price</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <p><strong>Subtotal: ${{ "%.2f"|format(subtotal_cents / 100) }}</strong></p>
-  <p><small>Shipping is calculated at checkout based on your address.</small></p>
-  <a class="btn" href="/checkout">Proceed to checkout</a>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>
+              {{ row.variant.product.name }}
+              <div class="meta">{{ row.variant.label }}</div>
+            </td>
+            <td>
+              <form hx-post="/shop/cart/update" hx-target="#cart-contents" hx-swap="innerHTML" class="inline">
+                <input type="hidden" name="variant_id" value="{{ row.variant.id }}">
+                <input type="number" name="quantity" value="{{ row.quantity }}" min="0" max="99" style="width: 64px"
+                       hx-post="/shop/cart/update" hx-trigger="change" hx-target="#cart-contents"
+                       hx-include="closest form">
+              </form>
+            </td>
+            <td class="text-right price">${{ "%.2f"|format(row.line_total_cents / 100) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="summary-row summary-row--total" style="padding: var(--sp-3)">
+      <span>Subtotal</span>
+      <span class="value price">${{ "%.2f"|format(subtotal_cents / 100) }}</span>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-3)">
+    <p style="margin: 0; max-width: 46ch"><small>Shipping is calculated at checkout based on your address.</small></p>
+    <a class="btn btn-accent btn-lg" style="margin-left: auto" href="/checkout">Proceed to checkout</a>
+  </div>
 {% else %}
-  <p>Your cart is empty. <a href="/shop">Browse the shop</a>.</p>
+  <div class="card" style="background: var(--sand)">
+    <p style="margin: 0">Your cart is empty. <a href="/shop">Browse the shop</a>.</p>
+  </div>
 {% endif %}

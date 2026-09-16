@@ -13,26 +13,10 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/shop/cart")
 def cart_view(request: Request, db: Session = Depends(get_db)):
     cart = cart_module.get_cart(request)
-    rows, subtotal = _cart_details(db, cart)
+    rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     return templates.TemplateResponse(
         "store/cart.html", {"request": request, "rows": rows, "subtotal_cents": subtotal}
     )
-
-def _cart_details(db: Session, cart: dict[int, int]):
-    """Resolve {variant_id: qty} into display rows + a subtotal in cents."""
-    rows = []
-    subtotal = 0
-    if not cart:
-        return rows, subtotal
-    variants = db.scalars(
-        select(ProductVariant).where(ProductVariant.id.in_(cart.keys()))
-    ).all()
-    for v in variants:
-        qty = cart[v.id]
-        line_total = v.price_cents() * qty
-        subtotal += line_total
-        rows.append({"variant": v, "quantity": qty, "line_total_cents": line_total})
-    return rows, subtotal
 
 
 @router.get("/shop")
@@ -70,7 +54,7 @@ def cart_add(
         raise HTTPException(status_code=400, detail="Requested quantity not available")
 
     cart = cart_module.add_item(request, response, variant_id, quantity)
-    rows, subtotal = _cart_details(db, cart)
+    rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     # HTMX partial: re-render the mini cart badge/dropdown
     return templates.TemplateResponse(
         "store/_cart_summary.html",
@@ -87,7 +71,7 @@ def cart_update(
     db: Session = Depends(get_db),
 ):
     cart = cart_module.set_item(request, response, variant_id, quantity)
-    rows, subtotal = _cart_details(db, cart)
+    rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     return templates.TemplateResponse(
         "store/_cart_table.html",
         {"request": request, "rows": rows, "subtotal_cents": subtotal},

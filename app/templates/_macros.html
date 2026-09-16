@@ -1,0 +1,44 @@
+{% macro section_heading(eyebrow, heading, level=2) %}
+  <div class="eyebrow">{{ eyebrow }}</div>
+  <div class="accent-line"></div>
+  {% if level == 1 %}
+    <h1>{{ heading }}</h1>
+  {% else %}
+    <h2>{{ heading }}</h2>
+  {% endif %}
+{% endmacro %}
+
+{% macro post_card(post) %}
+  <a class="card card--interactive" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.6em; text-decoration: none; color: inherit">
+    <h3 style="margin: 0">{{ post.title }}</h3>
+    <p style="margin: 0; flex: 1 1 auto">{{ post.summary }}</p>
+    <div class="meta" style="display: flex; align-items: center; gap: 0.5em; padding-top: var(--sp-2); border-top: 1px solid var(--line)">
+      <span>{{ post.date }}</span>
+      {% if post.tags %}
+        <span>&middot;</span>
+        <span>{{ post.tags | join(', ') }}</span>
+      {% endif %}
+      <span style="margin-left: auto; color: var(--clay-dark)">&rarr;</span>
+    </div>
+  </a>
+{% endmacro %}
+
+{% macro featured_post_card(post) %}
+  <a class="card card--interactive" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.75em; max-width: 42rem; text-decoration: none; color: inherit; padding: var(--sp-4)">
+    <div class="meta">
+      <span>{{ post.date }}</span>
+      {% if post.tags %}
+        <span>&middot;</span>
+        <span>{{ post.tags | join(', ') }}</span>
+      {% endif %}
+    </div>
+    <h3 style="margin: 0">{{ post.title }}</h3>
+    <p style="margin: 0; color: var(--text-heading)">{{ post.summary }}</p>
+    {% if post.snippet %}
+      <p style="margin: 0; color: var(--muted)">{{ post.snippet }}</p>
+    {% endif %}
+    <div style="padding-top: var(--sp-2); border-top: 1px solid var(--line); font-family: var(--font-body); font-weight: 600; font-size: var(--step-1); color: var(--clay-dark)">
+      Read the full post &rarr;
+    </div>
+  </a>
+{% endmacro %}

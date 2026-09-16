@@ -40,9 +40,15 @@ def checkout_form(request: Request, db: Session = Depends(get_db)):
     cart = cart_module.get_cart(request)
     if not cart:
         return RedirectResponse("/shop/cart", status_code=303)
+    rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     return templates.TemplateResponse(
         "store/checkout.html",
-        {"request": request, "crypto_enabled": settings.enable_crypto_checkout},
+        {
+            "request": request,
+            "crypto_enabled": settings.enable_crypto_checkout,
+            "rows": rows,
+            "subtotal_cents": subtotal,
+        },
     )
 
 

@@ -10,8 +10,11 @@ import json
 
 from itsdangerous import URLSafeSerializer, BadSignature
 from fastapi import Request, Response
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 from app.config import get_settings
+from app.models import ProductVariant
 
 settings = get_settings()
 CART_COOKIE_NAME = "cart"
@@ -55,3 +58,20 @@ def set_item(request: Request, response: Response, variant_id: int, quantity: in
 
 def clear_cart(response: Response) -> None:
     response.delete_cookie(CART_COOKIE_NAME)
+
+
+def resolve_cart_rows(db: Session, cart: dict[int, int]):
+    """Resolve {variant_id: qty} into display rows + a subtotal in cents."""
+    rows = []
+    subtotal = 0
+    if not cart:
+        return rows, subtotal
+    variants = db.scalars(
+        select(ProductVariant).where(ProductVariant.id.in_(cart.keys()))
+    ).all()
+    for v in variants:
+        qty = cart[v.id]
+        line_total = v.price_cents() * qty
+        subtotal += line_total
+        rows.append({"variant": v, "quantity": qty, "line_total_cents": line_total})
+    return rows, subtotal

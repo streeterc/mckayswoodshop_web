@@ -1,0 +1,32 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Forms" subtitle="Field, Input, Textarea, Select, Checkbox, Radio, Switch" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:18px;background:var(--surface-page)}.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:16px}.cap{font:var(--type-eyebrow);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-faint)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const DS=window.McKaySWoodshopDesignSystem_ff08a8;
+const {Field,Input,Textarea,Select,Checkbox,Radio,Switch,Icon}=DS;
+function Demo(){
+ const [c,setC]=React.useState(true),[r,setR]=React.useState('built-in'),[s,setS]=React.useState(true);
+ return <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:18}}>
+  <Field label="Full name" required htmlFor="n"><Input id="n" placeholder="Jordan McKay"/></Field>
+  <Field label="Search" hint="Matches project name or address"><Input prefix={<Icon name="search" size={15}/>} placeholder="Search projects"/></Field>
+  <Field label="Species"><Select placeholder="Choose a species" options={['White oak','Black walnut','Hard maple','Douglas fir']}/></Field>
+  <Field label="Budget" error="Enter a number"><Input invalid defaultValue="about six grand"/></Field>
+  <Field label="Notes" style={{gridColumn:'1 / -1'}}><Textarea rows={2} placeholder="Ceiling height, existing millwork, anything we should know."/></Field>
+  <div className="stack" style={{gap:10}}>
+   <Checkbox label="Include installation" checked={c} onChange={e=>setC(e.target.checked)}/>
+   <Checkbox label="Include finishing" checked={false} onChange={()=>{}}/>
+   <Checkbox label="Unavailable option" disabled/>
+  </div>
+  <div className="stack" style={{gap:10}}>
+   <Radio name="s" label="Built-in cabinetry" checked={r==='built-in'} onChange={()=>setR('built-in')}/>
+   <Radio name="s" label="Freestanding furniture" checked={r==='free'} onChange={()=>setR('free')}/>
+   <Switch label="Text me build updates" checked={s} onChange={e=>setS(e.target.checked)}/>
+  </div>
+ </div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

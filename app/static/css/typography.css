@@ -18,9 +18,11 @@ p {
   text-wrap: pretty; /* nicer paragraph line-breaking where supported */
 }
 
-/* Tabular figures — keeps prices/numbers aligned in grids and checkout */
+/* Specs, numbers, dates and job/order codes — set in the mono face with
+   tabular figures, per the brand's numeric convention. */
 .price,
 .tabular-nums {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
@@ -62,17 +64,32 @@ a:hover {
 }
 
 /* ---------- Meta / label text ---------- */
-/* Dates, tags, prices, eyebrow labels — a small distinct voice
-   separate from body copy and headings. */
-.meta,
+/* Structure comes from uppercase micro-caps in the UI face, not from the
+   display serif: eyebrows (section kickers) in copper, field/panel labels
+   in a quieter muted tone. */
 .eyebrow,
 .label {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--step-1);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--clay);
+  letter-spacing: 0.14em;
+}
+
+.eyebrow {
+  color: var(--clay-dark);
+}
+
+.label {
+  color: var(--muted);
+}
+
+/* Dates, tags and other specs — set in the mono face per the brand's
+   numeric convention, not uppercased. */
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--step-1);
+  color: var(--muted);
 }
 
 /* ---------- Blockquotes ---------- */

@@ -1,0 +1,25 @@
+:root{
+/* families */
+--font-display:"Newsreader",Georgia,"Times New Roman",serif;
+--font-ui:"Work Sans","Helvetica Neue",Arial,sans-serif;
+--font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+/* size ramp — 1.22 ratio, rounded to whole px */
+--text-3xs:11px;--text-2xs:12px;--text-xs:13px;--text-sm:15px;--text-md:17px;--text-lg:20px;--text-xl:25px;--text-2xl:31px;--text-3xl:38px;--text-4xl:47px;--text-5xl:58px;--text-6xl:72px;
+/* line heights */
+--leading-tight:1.06;--leading-snug:1.2;--leading-normal:1.5;--leading-relaxed:1.62;
+/* weights */
+--weight-light:300;--weight-regular:400;--weight-medium:500;--weight-semibold:600;--weight-bold:700;
+/* tracking */
+--tracking-tight:-0.02em;--tracking-normal:0;--tracking-wide:0.04em;--tracking-label:0.14em;--tracking-eyebrow:0.22em;
+/* composed roles */
+--type-display:var(--weight-regular) var(--text-5xl)/var(--leading-tight) var(--font-display);
+--type-h1:var(--weight-regular) var(--text-4xl)/1.1 var(--font-display);
+--type-h2:var(--weight-regular) var(--text-3xl)/1.14 var(--font-display);
+--type-h3:var(--weight-medium) var(--text-xl)/1.25 var(--font-display);
+--type-h4:var(--weight-semibold) var(--text-md)/1.35 var(--font-ui);
+--type-body:var(--weight-regular) var(--text-md)/var(--leading-relaxed) var(--font-ui);
+--type-body-sm:var(--weight-regular) var(--text-sm)/var(--leading-normal) var(--font-ui);
+--type-label:var(--weight-semibold) var(--text-2xs)/1.2 var(--font-ui);
+--type-eyebrow:var(--weight-semibold) var(--text-3xs)/1.2 var(--font-ui);
+--type-spec:500 var(--text-xs)/1.4 var(--font-mono);
+}

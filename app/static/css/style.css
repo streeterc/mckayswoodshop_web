@@ -8,18 +8,18 @@
 @import url("tokens/base.css");
 
 /* ---------- Header ---------- */
-/* Three-way flex split: start/end sides get equal flex-basis so the
-   center brand name sits truly centered regardless of side content width. */
+/* Dark forest header everywhere, so it reads as one continuous band with
+   the homepage hero and stays consistent on every other page too. */
 .site-header {
-  background: var(--paper);
-  /* border-bottom: 1px solid var(--forest); */
+  background: var(--forest);
+  border-bottom: 1px solid var(--line-on-inverse);
 }
 
 .site-header-inner {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
-  padding-block: var(--sp-1);
+  padding-block: var(--sp-2);
   position: relative;
 }
 
@@ -32,7 +32,7 @@
 
 .header-end {
   justify-content: flex-end;
-  gap: var(--sp-4);
+  gap: var(--sp-3);
 }
 
 .brand {
@@ -51,7 +51,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--step1);
-  color: var(--forest);
+  color: var(--on-forest);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -61,18 +61,51 @@
   display: flex;
   align-items: center;
   gap: var(--sp-4);
+  margin-right: var(--sp-1);
 }
 
 .site-nav a {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
   text-decoration: none;
-  color: var(--forest);
+  color: var(--on-forest);
 }
 
 .site-nav a:hover,
 .site-nav a:focus-visible {
   color: var(--clay);
+}
+
+.site-nav a[aria-current='page'] {
+  color: var(--clay);
+  text-decoration-line: underline;
+}
+
+/* Icon-only quote button — mobile only, sits beside the hamburger. The
+   text version (.quote-btn-full) takes over from 640px up. */
+.quote-btn-icon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  background: var(--clay);
+  color: var(--forest);
+  transition: background-color 0.15s ease;
+}
+
+.quote-btn-icon:hover {
+  background: var(--clay-dark);
+}
+
+.quote-btn-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.quote-btn-full {
+  white-space: nowrap;
 }
 
 /* Hamburger toggle — hidden on desktop */
@@ -82,7 +115,7 @@
   width: 2.25rem;
   height: 2.25rem;
   padding: 0;
-  border: 1px solid var(--forest);
+  border: 1px solid var(--line-on-inverse);
   background: transparent;
   cursor: pointer;
 }
@@ -94,7 +127,7 @@
   left: 50%;
   width: 1.25rem;
   height: 2px;
-  background: var(--forest);
+  background: var(--on-forest);
   transform: translateX(-50%);
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
@@ -149,6 +182,14 @@
     font-size: var(--step0);
   }
 
+  .quote-btn-full {
+    display: none;
+  }
+
+  .quote-btn-icon {
+    display: inline-flex;
+  }
+
   .nav-toggle {
     display: block;
   }
@@ -164,11 +205,89 @@
     justify-content: center;
     gap: var(--sp-3) var(--sp-4);
     padding: var(--sp-3);
-    background: var(--paper);
-    border-bottom: 1px solid var(--forest);
+    background: var(--forest);
+    border-bottom: 1px solid var(--line-on-inverse);
   }
 
   .site-nav.is-open {
     display: flex;
   }
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--forest-deep);
+  color: var(--on-forest-muted);
+  padding: var(--sp-6) var(--sp-3) var(--sp-3);
+}
+
+.site-footer-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-5);
+}
+
+.site-footer .footer-brand-logo {
+  height: 2rem;
+  width: auto;
+}
+
+.site-footer .footer-blurb {
+  margin-top: var(--sp-2);
+  max-width: 32ch;
+  font-size: var(--step-1);
+}
+
+.site-footer h4 {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clay);
+  margin: 0 0 var(--sp-2);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  font-size: var(--step-1);
+}
+
+.footer-col a {
+  color: var(--on-forest-muted);
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: var(--paper);
+  text-decoration: underline;
+}
+
+.site-footer-bottom {
+  max-width: var(--max-shell);
+  margin: var(--sp-5) auto 0;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line-on-inverse);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--sp-2);
+  column-gap: var(--sp-3);
+  font-size: var(--step-1);
+  opacity: 0.75;
+}
+
+.footer-glyphs {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.footer-glyphs img {
+  height: 20px;
+  width: auto;
 }

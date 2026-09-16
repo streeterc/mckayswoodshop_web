@@ -1,20 +1,58 @@
 /* ============================================
-   McKay's Woodshop — Barebones Starter CSS
+   McKay's Woodshop — Starter CSS
+   Tokens sourced from the brand design system (see
+   "McKay's Woodshop Design System/readme.md"): forest +
+   copper + sand palette, Newsreader/Work Sans/IBM Plex Mono
+   type, machined (small-radius) corners, no-shadow-at-rest cards.
    Mobile-first. Breakpoints: 640px, 1024px.
-   Fill in layout/design decisions as you build.
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Karla:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Work+Sans:ital,wght@0,300..700;1,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Brand colors — sampled from logo */
-  --forest: #143525;
-  --clay: #d17f50;
-  --paper: #FBF9F6;
+  /* Brand colors — forest (logo field), copper (logo mark), sand (neutrals) */
+  --forest: #123425;
+  --forest-600: #1c4a34;
+  --forest-deep: #0b2117;
+  --forest-on-dark-muted: #8fb3a1;
+  --clay: #d17f51;
+  --clay-dark: #b7663b;
+  --clay-darker: #8e4c28;
+  --paper: #fbf9f6;
+  --sand: #f4f1ec;
+  --sand-200: #e8e3db;
+
+  /* Surfaces */
+  --surface-card: #ffffff;
+
+  /* Text */
+  --text-heading: #0b2117;
+  --text-body: #3e3a35;
+  --on-forest: #fcf3ec;
+  --on-forest-muted: var(--forest-on-dark-muted);
+
+  /* Muted text-on-light */
+  --muted: #8a8379;
+  --faint: #b3aba0;
+
+  /* Lines */
+  --line: var(--sand-200);
+  --line-on-inverse: rgba(226, 238, 231, 0.18);
+
+  /* Radius — the brand favours tight, machined corners, not soft ones */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+
+  /* Elevation — cards sit flat; shadow is earned on hover/float only */
+  --shadow-sm: 0 1px 2px rgba(21, 19, 15, 0.06), 0 1px 1px rgba(21, 19, 15, 0.04);
+  --shadow-md: 0 2px 6px rgba(21, 19, 15, 0.07), 0 1px 2px rgba(21, 19, 15, 0.05);
 
   /* Fonts */
-  --font-display: 'Work Sans', system-ui, sans-serif;
-  --font-body: 'Karla', system-ui, sans-serif;
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   /* Type scale */
   --step-1: 0.875rem;
@@ -41,13 +79,14 @@
 }
 
 html {
+  background: var(--paper);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   background: var(--paper);
-  color: var(--forest);
+  color: var(--text-body);
   font-family: var(--font-body);
   font-size: var(--step0);
   line-height: 1.6;
@@ -90,7 +129,10 @@ button, input, select, textarea {
 /* ---------- Typography ---------- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
   line-height: 1.2;
+  color: var(--text-heading);
   margin: 0 0 var(--sp-3);
 }
 
@@ -108,6 +150,10 @@ small {
 
 /* ---------- Layout helpers ---------- */
 .shell {
+  /* explicit width (not auto) so this doesn't trip the flexbox auto-margin
+     shrink-to-fit special case when .shell sits directly in .site-main,
+     which is a column flex container */
+  width: 100%;
   max-width: var(--max-shell);
   margin-inline: auto;
   padding-inline: var(--sp-3);
@@ -133,28 +179,110 @@ small {
   gap: var(--sp-6);
 }
 
-.site-footer {
-  padding: var(--sp-4) var(--sp-3);
-  text-align: center;
-}
 
 /* ---------- Basic elements ---------- */
 .btn {
-  display: inline-block;
-  font-family: var(--font-display);
-  padding: 0.6em 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--step-1);
+  padding: 0.75em 1.4em;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--forest);
-  background: var(--clay);
-  color: var(--forest);
+  background: var(--forest);
+  color: var(--paper);
   text-decoration: none;
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+}
+
+.btn:hover {
+  background: var(--forest-600);
+  border-color: var(--forest-600);
+}
+
+.btn:active {
+  background: var(--forest-deep);
+  border-color: var(--forest-deep);
+  transform: translateY(1px);
+}
+
+.btn-accent {
+  background: var(--clay);
+  border-color: var(--clay);
+  color: var(--forest);
+}
+
+.btn-accent:hover {
+  background: var(--clay-dark);
+  border-color: var(--clay-dark);
+}
+
+.btn-accent:active {
+  background: var(--clay-darker);
+  border-color: var(--clay-darker);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--forest);
+}
+
+.btn-ghost:hover {
+  background: var(--sand);
+  border-color: var(--forest);
+}
+
+.btn-sm {
+  padding: 0.5em 1em;
+  font-size: var(--step-1);
+}
+
+.btn-lg {
+  padding: 0.9em 1.8em;
+  font-size: var(--step0);
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
 }
 
 .card {
-  border: 1px solid var(--forest);
+  background: var(--surface-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   padding: var(--sp-3);
 }
 
+.card--interactive {
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.card--interactive:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: var(--step-1);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.3em 0.7em;
+  border-radius: var(--radius-xs);
+  background: var(--sand);
+  color: var(--forest);
+}
+
+/* ---------- Forms ---------- */
 .field {
   display: flex;
   flex-direction: column;
@@ -162,13 +290,152 @@ small {
   margin-bottom: var(--sp-3);
 }
 
+.field label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--step-1);
+}
+
+.field .hint {
+  font-size: var(--step-1);
+  color: var(--muted);
+  font-weight: 400;
+}
+
 .field input,
 .field select {
-  padding: 0.6em;
-  border: 1px solid var(--forest);
+  padding: 0.65em 0.75em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
   background: var(--paper);
   color: var(--forest);
 }
+
+.field input:focus-visible,
+.field select:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 1px;
+}
+
+.field-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+/* ---------- Placeholders ---------- */
+.photo-placeholder {
+  aspect-ratio: 4 / 3;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: var(--faint);
+  font-family: var(--font-body);
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: var(--sp-2);
+}
+
+.photo-placeholder--square { aspect-ratio: 1 / 1; }
+.photo-placeholder--portrait { aspect-ratio: 5 / 6; }
+
+/* ---------- Section accents ---------- */
+.accent-line {
+  width: 48px;
+  height: 3px;
+  background: var(--clay);
+  margin: var(--sp-2) 0 var(--sp-3);
+}
+
+/* Full-bleed section: plain full-width block with its own vertical padding
+   and an inner .shell to re-constrain the actual content. Pairs with
+   .site-main--bleed-ready (below), which drops .site-main's own max-width
+   so children don't need to be pulled back out of it — no 100vw/transform
+   trick, which breaks at some widths on browsers with reserved-space
+   scrollbars (100vw includes the scrollbar; the layout it's centered
+   against doesn't, leaving a stray gap on one side). */
+.bleed {
+  padding-block: var(--sp-6);
+}
+
+/* Opt a page's <main> out of .site-main's max-width/inline-padding so a
+   .bleed section inside it can span the full viewport width. Non-bleed
+   sections on that page still self-constrain via their own .shell. */
+.site-main--bleed-ready {
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* Cancel .site-main's own top padding when a bleed section leads the page,
+   so a dark header running straight into a dark hero has no cream seam. */
+.site-main > .bleed:first-child {
+  margin-top: calc(-1 * var(--sp-5));
+}
+
+.bleed--inverse {
+  background: var(--forest);
+  color: var(--on-forest-muted);
+}
+
+.bleed--inverse h1,
+.bleed--inverse h2 { color: var(--on-forest); }
+
+.bleed--sunken {
+  background: var(--sand);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Summary rows (order totals) ---------- */
+.summary-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding-block: 0.5em;
+}
+
+.summary-row + .summary-row {
+  border-top: 1px solid var(--line);
+}
+
+.summary-row .value {
+  margin-left: auto;
+}
+
+.summary-row--total {
+  font-weight: 600;
+  font-size: var(--step1);
+}
+
+/* ---------- Tables ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.75em 0.5em;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+th {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.text-right { text-align: right; }
 
 /* ---------- Grid utilities (flexbox-based) ---------- */
 .grid {

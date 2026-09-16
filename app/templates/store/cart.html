@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Your Cart{% endblock %}
 {% block content %}
-  <h1>Your Cart</h1>
-  <div id="cart-contents">
-    {% include "store/_cart_table.html" %}
-  </div>
+  <section class="shell" style="max-width: 55rem">
+    <h1>Your cart</h1>
+    <div id="cart-contents" style="margin-top: var(--sp-4)">
+      {% include "store/_cart_table.html" %}
+    </div>
+  </section>
 {% endblock %}

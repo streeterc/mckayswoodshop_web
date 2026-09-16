@@ -1,26 +1,75 @@
-{% extends "base.html" %}
-{% block title %}Your Name — Home{% endblock %}
-{% block content %}
-  <section>
-    <h1>Hi, I'm Eric McKay.</h1>
-    <p>A short intro about you and what you do goes here. Keep it brief — the content below does the talking.</p>
-  </section>
-
-  <section>
-    <h2>Posts</h2>
-    {% for post in posts %}
-      <div class="card">
-        <h3><a href="/blog/{{ post.slug }}">{{ post.title }}</a></h3>
-        <p>{{ post.summary }}</p>
-        <small>{{ post.date }} {% if post.tags %}&middot; {{ post.tags | join(', ') }}{% endif %}</small>
+{% extends "base.html" %} {% import "_macros.html" as m %} {% block title %}Eric
+McKay — Home{% endblock %} {% block main_class %}site-main--bleed-ready{%
+endblock %} {% block content %}
+<section class="bleed bleed--inverse">
+  <div class="shell grid grid-2-up" style="align-items: center">
+    <div>
+      <div class="eyebrow">
+        Carpenter &middot; Woodworker &middot; New Lowell, ON
       </div>
-    {% else %}
-      <p>No posts yet — drop a Markdown file into <code>app/content/posts/</code> to get started.</p>
-    {% endfor %}
-  </section>
+      <div class="accent-line"></div>
+      <h1 style="color: var(--on-forest)">Hi, I'm Eric McKay.</h1>
+      <p style="max-width: 46ch">
+        A short intro about you and what you do goes here. Keep it brief — the
+        content below does the talking.
+      </p>
+    </div>
+    <div class="photo-placeholder photo-placeholder--portrait">
+      Photo &middot; shop interior
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>Shop</h2>
-    <p>Take a look at what I'm making. <a href="/shop">Visit the shop &rarr;</a></p>
-  </section>
+<section class="bleed bleed--sunken">
+  <div class="shell grid grid-2-up" style="align-items: center">
+    <div>
+      {{ m.section_heading('Shop', "Take a look at what I'm making.") }}
+      <p style="max-width: 52ch">
+        Small runs of finished pieces, priced and ready to ship. Shipping is
+        calculated at checkout based on your address.
+      </p>
+      <a
+        class="btn btn-accent btn-lg"
+        href="/shop"
+        style="margin-top: var(--sp-3)"
+        >Visit the shop</a
+      >
+    </div>
+    <div
+      style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3)"
+    >
+      <div class="photo-placeholder photo-placeholder--square">
+        Product photo
+      </div>
+      <div class="photo-placeholder photo-placeholder--square">
+        Product photo
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="shell">
+  <div
+    style="
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    "
+  >
+    <div>{{ m.section_heading('From the bench', 'Posts') }}</div>
+    <a class="btn btn-ghost btn-sm" href="/blog">All posts</a>
+  </div>
+
+  <div style="margin-top: var(--sp-4)">
+    {% if posts %} {{ m.featured_post_card(posts[0]) }} {% else %}
+    <p>
+      No posts yet — drop a Markdown file into
+      <code>app/content/posts/</code> to get started.
+    </p>
+    {% endif %}
+  </div>
+</section>
+
 {% endblock %}

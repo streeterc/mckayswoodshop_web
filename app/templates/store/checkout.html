@@ -1,42 +1,81 @@
 {% extends "base.html" %}
 {% block title %}Checkout{% endblock %}
 {% block content %}
-  <h1>Checkout</h1>
-  <p>Guest checkout — no account needed. You'll get an order confirmation email with a lookup link.</p>
+  <section class="shell">
+    <h1>Checkout</h1>
+    <p style="max-width: 56ch">Guest checkout — no account needed. You'll get an order confirmation email with a lookup link.</p>
 
-  <form method="post" action="/checkout">
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" required>
+    <form method="post" action="/checkout" class="grid grid-2-up" style="align-items: start; margin-top: var(--sp-3)">
+      <div>
+        <div class="grid grid-2-up">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+          </div>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" name="name" id="name" required>
+          </div>
+        </div>
 
-    <label for="name">Full name</label>
-    <input type="text" name="name" id="name" required>
+        <div class="field">
+          <label for="address_line1">Address line 1</label>
+          <input type="text" name="address_line1" id="address_line1" required>
+        </div>
+        <div class="field">
+          <label for="address_line2">Address line 2 <span class="hint">Optional</span></label>
+          <input type="text" name="address_line2" id="address_line2">
+        </div>
 
-    <label for="address_line1">Address line 1</label>
-    <input type="text" name="address_line1" id="address_line1" required>
+        <div class="grid grid-2-up">
+          <div class="field">
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" required>
+          </div>
+          <div class="field">
+            <label for="state">State / province <span class="hint">Optional</span></label>
+            <input type="text" name="state" id="state">
+          </div>
+          <div class="field">
+            <label for="postal_code">Postal code</label>
+            <input type="text" name="postal_code" id="postal_code" required>
+          </div>
+          <div class="field">
+            <label for="country">Country <span class="hint">2-letter code, e.g. US, CA, GB</span></label>
+            <input type="text" name="country" id="country" maxlength="2" required style="text-transform: uppercase">
+          </div>
+        </div>
+      </div>
 
-    <label for="address_line2">Address line 2 (optional)</label>
-    <input type="text" name="address_line2" id="address_line2">
+      <div class="card">
+        <span class="label">Payment method</span>
+        <div style="display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2)">
+          <label class="field-radio">
+            <input type="radio" name="payment_method" value="stripe" checked>
+            Card (Stripe)
+          </label>
+          {% if crypto_enabled %}
+            <label class="field-radio">
+              <input type="radio" name="payment_method" value="coinbase">
+              Crypto (Coinbase Commerce)
+            </label>
+          {% endif %}
+        </div>
 
-    <label for="city">City</label>
-    <input type="text" name="city" id="city" required>
+        <div style="margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line)">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span class="value price">${{ "%.2f"|format(subtotal_cents / 100) }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span class="value">Calculated from your address</span>
+          </div>
+        </div>
 
-    <label for="state">State / Province (optional)</label>
-    <input type="text" name="state" id="state">
-
-    <label for="postal_code">Postal code</label>
-    <input type="text" name="postal_code" id="postal_code" required>
-
-    <label for="country">Country (2-letter code, e.g. US, CA, GB)</label>
-    <input type="text" name="country" id="country" maxlength="2" required style="text-transform:uppercase;">
-
-    <label>Payment method</label>
-    <div>
-      <label style="font-weight:normal;"><input type="radio" name="payment_method" value="stripe" checked> Card (Stripe)</label>
-      {% if crypto_enabled %}
-        <label style="font-weight:normal;"><input type="radio" name="payment_method" value="coinbase"> Crypto (Coinbase Commerce)</label>
-      {% endif %}
-    </div>
-
-    <button class="btn" type="submit" style="margin-top:1.2rem;">Pay</button>
-  </form>
+        <button class="btn btn-accent btn-lg btn-block" type="submit" style="margin-top: var(--sp-3)">Pay</button>
+        <p style="margin-top: var(--sp-3)"><small>Shipping is a flat rate set in the shop settings. Taxes are added on the payment page.</small></p>
+      </div>
+    </form>
+  </section>
 {% endblock %}

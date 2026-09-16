@@ -1,26 +1,44 @@
 {% extends "base.html" %}
 {% block title %}{{ product.name }}{% endblock %}
 {% block content %}
-  <a href="/shop">&larr; Back to shop</a>
-  <h1>{{ product.name }}</h1>
-  {% if product.image_path %}
-    <img src="{{ product.image_path }}" alt="{{ product.name }}" style="max-width:100%;border-radius:6px;">
-  {% endif %}
-  <p>{{ product.description }}</p>
+  <section class="shell">
+    <a href="/shop" class="label" style="text-decoration: none">&larr; Back to shop</a>
 
-  <form hx-post="/shop/cart/add" hx-target="#cart-feedback" hx-swap="innerHTML" class="inline">
-    <label for="variant_id">Variant</label>
-    <select name="variant_id" id="variant_id">
-      {% for v in product.variants %}
-        <option value="{{ v.id }}" {% if v.stock_count == 0 %}disabled{% endif %}>
-          {{ v.label }} — ${{ "%.2f"|format(v.price_cents() / 100) }}
-          {% if v.stock_count == 0 %}(out of stock){% endif %}
-        </option>
-      {% endfor %}
-    </select>
-    <label for="quantity">Qty</label>
-    <input type="number" name="quantity" id="quantity" value="1" min="1" max="99" style="width:70px;">
-    <button class="btn" type="submit">Add to cart</button>
-  </form>
-  <div id="cart-feedback"></div>
+    <div class="grid grid-2-up" style="margin-top: var(--sp-4); align-items: start">
+      {% if product.image_path %}
+        <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)">
+      {% else %}
+        <div class="photo-placeholder photo-placeholder--square">Product photo</div>
+      {% endif %}
+
+      <div>
+        <h1>{{ product.name }}</h1>
+        <div class="price" style="font-size: var(--step1); font-weight: 500; margin-top: 0.2em">${{ "%.2f"|format(product.base_price_cents / 100) }}</div>
+        {% if product.description %}<p style="margin-top: var(--sp-3); max-width: 56ch">{{ product.description }}</p>{% endif %}
+
+        <form hx-post="/shop/cart/add" hx-target="#cart-feedback" hx-swap="innerHTML" style="margin-top: var(--sp-4)">
+          <div class="grid grid-2-up" style="align-items: end">
+            <div class="field" style="flex: 2 1 200px; margin-bottom: 0">
+              <label for="variant_id">Variant</label>
+              <select name="variant_id" id="variant_id">
+                {% for v in product.variants %}
+                  <option value="{{ v.id }}" {% if v.stock_count == 0 %}disabled{% endif %}>
+                    {{ v.label }} — ${{ "%.2f"|format(v.price_cents() / 100) }}
+                    {% if v.stock_count == 0 %}(out of stock){% endif %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="field" style="flex: 0 0 96px; margin-bottom: 0">
+              <label for="quantity">Qty</label>
+              <input type="number" name="quantity" id="quantity" value="1" min="1" max="99">
+            </div>
+          </div>
+          <button class="btn" type="submit" style="margin-top: var(--sp-3)">Add to cart</button>
+        </form>
+        <p style="margin-top: var(--sp-2)"><small>Added items stay in your cart for two weeks.</small></p>
+        <div id="cart-feedback"></div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

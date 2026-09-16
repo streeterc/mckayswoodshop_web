@@ -6,6 +6,7 @@ files and redeploy. In production we cache the parsed posts for a short
 time so we're not re-parsing Markdown on every request; in development
 caching is disabled so edits show up immediately on refresh.
 """
+import re
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,6 +22,8 @@ POSTS_DIR = Path(__file__).parent / "content" / "posts"
 _CACHE_TTL_SECONDS = 0 if not settings.is_production else 60
 _cache: dict = {"posts": None, "loaded_at": 0.0}
 
+_SNIPPET_MAX_CHARS = 220
+
 
 @dataclass
 class Post:
@@ -30,6 +33,18 @@ class Post:
     summary: str
     tags: list[str]
     html: str
+    snippet: str
+
+
+def _make_snippet(html: str, max_chars: int = _SNIPPET_MAX_CHARS) -> str:
+    """A plain-text teaser pulled from the rendered post body, for the
+    homepage's featured-post card (distinct from the frontmatter summary)."""
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+([,;:!?])", r"\1", text)
+    if len(text) <= max_chars:
+        return text
+    return text[:max_chars].rsplit(" ", 1)[0] + "…"
 
 
 def _load_all() -> list[Post]:
@@ -48,6 +63,7 @@ def _load_all() -> list[Post]:
                 summary=fm.get("summary", ""),
                 tags=fm.get("tags", []) or [],
                 html=html,
+                snippet=_make_snippet(html),
             )
         )
     posts.sort(key=lambda p: p.date, reverse=True)
