@@ -17,12 +17,118 @@ endblock %} {% block content %}
     <img
       src="/static/img/shop-interior.jpg"
       alt="Carpenter working on a wood board in the shop"
-      style="width: 100%; aspect-ratio: 5 / 6; object-fit: cover; border-radius: var(--radius-md)"
+      style="display: block; width: 100%; min-width: 0; aspect-ratio: 5 / 6; object-fit: cover; border-radius: var(--radius-sm)"
     />
   </div>
 </section>
 
+<section class="bleed">
+  <div class="shell">
+    <div class="grid grid-2-up" style="align-items: start">
+      <div>
+        {{ m.section_heading('About', "Every piece starts with a board, not a blueprint.") }}
+      </div>
+      <div>
+        <p style="max-width: 52ch">
+          Placeholder — a paragraph on how you got into woodworking, your
+          background or training, and what led to opening the shop in New
+          Lowell. Two or three sentences is plenty.
+        </p>
+        <p style="max-width: 52ch">
+          Placeholder — a second paragraph on your approach: the kind of wood
+          you favor, how you finish pieces, and anything about the process
+          that makes the work distinctly yours.
+        </p>
+        <div
+          class="grid grid-3-up"
+          style="margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--line)"
+        >
+          <div>
+            <div class="price" style="font-size: var(--step1); font-weight: 600">00</div>
+            <div class="hint">Years in the shop</div>
+          </div>
+          <div>
+            <div class="price" style="font-size: var(--step1); font-weight: 600">00</div>
+            <div class="hint">Pieces built</div>
+          </div>
+          <div>
+            <div class="price" style="font-size: var(--step1); font-weight: 600">Solid wood</div>
+            <div class="hint">Materials, always</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="bleed bleed--sunken">
+  <div class="shell">
+    {{ m.section_heading('What I build', 'Four kinds of projects, one shop.') }}
+    <p style="max-width: 56ch">
+      Placeholder — a sentence on the range of work you take on, from small
+      commissions to full built-ins.
+    </p>
+
+    <div class="grid grid-2-up" style="margin-top: var(--sp-4)">
+      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M4 10h16M4 10v9M20 10v9M6 19v2M18 19v2M4 10l1.5-5h13L20 10"/></svg>
+        <div>
+          <h3 style="margin-bottom: 0.2em">Furniture</h3>
+          <p style="margin: 0">Placeholder — tables, chairs, cabinets, and other freestanding pieces built to order.</p>
+        </div>
+      </div>
+      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><rect x="4" y="3" width="16" height="18" rx="0.5"/><path d="M4 9h16M4 15h16M12 3v18"/></svg>
+        <div>
+          <h3 style="margin-bottom: 0.2em">Built-ins</h3>
+          <p style="margin: 0">Placeholder — shelving, closets, and benches built to fit a specific room.</p>
+        </div>
+      </div>
+      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M12 2l7 8h-4v12h-6V10H5l7-8z"/></svg>
+        <div>
+          <h3 style="margin-bottom: 0.2em">Outdoor</h3>
+          <p style="margin: 0">Placeholder — decks, pergolas, and planters built to hold up outside.</p>
+        </div>
+      </div>
+      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M14.5 3.5l6 6-9 9L3 21l2.5-8.5 9-9z"/><path d="M12.5 5.5l6 6"/></svg>
+        <div>
+          <h3 style="margin-bottom: 0.2em">Restoration</h3>
+          <p style="margin: 0">Placeholder — repair and refinishing for an existing piece worth saving.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--sp-6)">
+      {{ m.section_heading('How it works', 'From first message to finished piece.') }}
+      <div class="grid grid-2-up" style="margin-top: var(--sp-4)">
+        <div>
+          <div class="hint" style="font-family: var(--font-mono)">01</div>
+          <h3 style="margin: 0.2em 0">Reach out</h3>
+          <p>Placeholder — send a quote request with the rough idea, size, and timeline.</p>
+        </div>
+        <div>
+          <div class="hint" style="font-family: var(--font-mono)">02</div>
+          <h3 style="margin: 0.2em 0">Get a quote</h3>
+          <p>Placeholder — a follow-up call or message to firm up details, then a price and timeline.</p>
+        </div>
+        <div>
+          <div class="hint" style="font-family: var(--font-mono)">03</div>
+          <h3 style="margin: 0.2em 0">Built to order</h3>
+          <p>Placeholder — the piece gets built in the shop, with updates along the way.</p>
+        </div>
+        <div>
+          <div class="hint" style="font-family: var(--font-mono)">04</div>
+          <h3 style="margin: 0.2em 0">Delivery or pickup</h3>
+          <p>Placeholder — finished pieces are delivered locally or ready for pickup at the shop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bleed">
   <div class="shell grid grid-2-up" style="align-items: center">
     <div>
       {{ m.section_heading('Shop', "Take a look at what I'm making.") }}
@@ -43,14 +149,29 @@ endblock %} {% block content %}
       <img
         src="/static/img/products/walnut-cutting-board.jpg"
         alt="Walnut cutting board"
-        style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)"
+        style="display: block; width: 100%; min-width: 0; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line)"
       />
       <img
         src="/static/img/products/wood-butter-knife.jpg"
         alt="Hand-carved wood butter knife"
-        style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)"
+        style="display: block; width: 100%; min-width: 0; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line)"
       />
     </div>
+  </div>
+</section>
+
+<section class="bleed bleed--inverse">
+  <div class="shell" style="text-align: center; max-width: 46rem; margin-inline: auto">
+    <div class="eyebrow" style="justify-content: center; display: flex">Have something in mind?</div>
+    <div class="accent-line" style="margin-inline: auto"></div>
+    <h2 style="color: var(--on-forest)">Let's build it together.</h2>
+    <p style="max-width: 46ch; margin-inline: auto">
+      Placeholder — a closing sentence inviting visitors to reach out with
+      their project, whatever stage it's at.
+    </p>
+    <button type="button" class="btn btn-accent btn-lg" data-quote-open style="margin-top: var(--sp-3)">
+      Request a quote
+    </button>
   </div>
 </section>
 

@@ -7,7 +7,7 @@
 
     <div class="grid grid-2-up" style="margin-top: var(--sp-4); align-items: start">
       {% if product.image_path %}
-        <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)">
+        <img src="{{ product.image_path }}" alt="{{ product.name }}" style="display: block; width: 100%; min-width: 0; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)">
       {% else %}
         <div class="photo-placeholder photo-placeholder--square">Product photo</div>
       {% endif %}
