@@ -1,3 +1,4 @@
+{% import "_macros.html" as m %}
 {% if rows %}
   <div class="card" style="padding: 0; overflow: hidden">
     <table>
@@ -35,7 +36,10 @@
   </div>
 
   <div style="display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-3)">
-    <p style="margin: 0; max-width: 46ch"><small>Shipping is calculated at checkout based on your address.</small></p>
+    <div>
+      <p style="margin: 0; max-width: 46ch"><small>Shipping is calculated at checkout based on your address.</small></p>
+      {{ m.payment_badges(crypto_enabled) }}
+    </div>
     <a class="btn btn-accent btn-lg" style="margin-left: auto" href="/checkout">Proceed to checkout</a>
   </div>
 {% else %}

@@ -1,3 +1,16 @@
+{% macro payment_badges(crypto_enabled) %}
+  <div class="payment-badges">
+    <span class="payment-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      Card
+    </span>
+    <span class="payment-badge {% if not crypto_enabled %}payment-badge--soon{% endif %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4.5v11L12 22l-8-4.5v-11z"/></svg>
+      Crypto{% if not crypto_enabled %} <span class="hint">(coming soon)</span>{% endif %}
+    </span>
+  </div>
+{% endmacro %}
+
 {% macro section_heading(eyebrow, heading, level=2) %}
   <div class="eyebrow">{{ eyebrow }}</div>
   <div class="accent-line"></div>

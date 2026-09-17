@@ -3,19 +3,25 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
+from app.config import get_settings
 from app.database import get_db
 from app.models import Product, ProductVariant
 from app import cart as cart_module
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+settings = get_settings()
 
 @router.get("/shop/cart")
 def cart_view(request: Request, db: Session = Depends(get_db)):
     cart = cart_module.get_cart(request)
     rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     return templates.TemplateResponse(
-        "store/cart.html", {"request": request, "rows": rows, "subtotal_cents": subtotal}
+        "store/cart.html",
+        {
+            "request": request, "rows": rows, "subtotal_cents": subtotal,
+            "crypto_enabled": settings.enable_crypto_checkout,
+        },
     )
 
 
@@ -25,7 +31,11 @@ def shop_list(request: Request, db: Session = Depends(get_db)):
         select(Product).where(Product.active.is_(True)).order_by(Product.name)
     ).all()
     return templates.TemplateResponse(
-        "store/product_list.html", {"request": request, "products": products}
+        "store/product_list.html",
+        {
+            "request": request, "products": products,
+            "crypto_enabled": settings.enable_crypto_checkout,
+        },
     )
 
 
@@ -35,7 +45,11 @@ def product_detail(request: Request, slug: str, db: Session = Depends(get_db)):
     if not product or not product.active:
         raise HTTPException(status_code=404, detail="Product not found")
     return templates.TemplateResponse(
-        "store/product_detail.html", {"request": request, "product": product}
+        "store/product_detail.html",
+        {
+            "request": request, "product": product,
+            "crypto_enabled": settings.enable_crypto_checkout,
+        },
     )
 
 
@@ -74,6 +88,9 @@ def cart_update(
     rows, subtotal = cart_module.resolve_cart_rows(db, cart)
     return templates.TemplateResponse(
         "store/_cart_table.html",
-        {"request": request, "rows": rows, "subtotal_cents": subtotal},
+        {
+            "request": request, "rows": rows, "subtotal_cents": subtotal,
+            "crypto_enabled": settings.enable_crypto_checkout,
+        },
         headers=response.headers,
     )

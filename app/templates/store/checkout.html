@@ -18,31 +18,52 @@
           </div>
         </div>
 
-        <div class="field">
-          <label for="address_line1">Address line 1</label>
-          <input type="text" name="address_line1" id="address_line1" required>
+        <div class="field" id="address-autocomplete-field" hidden>
+          <label for="address-search">Search for your address</label>
+          <div id="address-autocomplete-container"></div>
         </div>
-        <div class="field">
-          <label for="address_line2">Address line 2 <span class="hint">Optional</span></label>
-          <input type="text" name="address_line2" id="address_line2">
-        </div>
+        {% if google_maps_api_key %}
+          <button type="button" class="btn btn-ghost btn-sm" id="manual-address-toggle" style="margin-bottom: var(--sp-3)">
+            Can't find your address? Enter it manually (e.g. PO Box)
+          </button>
+        {% endif %}
 
-        <div class="grid grid-2-up">
+        <div id="address-fields" {% if google_maps_api_key %}hidden{% endif %}>
           <div class="field">
-            <label for="city">City</label>
-            <input type="text" name="city" id="city" required>
+            <label for="address_line1">Address line 1</label>
+            <input type="text" name="address_line1" id="address_line1" required>
+            <span class="field-error" id="err-address_line1"></span>
           </div>
           <div class="field">
-            <label for="state">State / province <span class="hint">Optional</span></label>
-            <input type="text" name="state" id="state">
+            <label for="address_line2">Address line 2 <span class="hint">Optional — apartment, suite, unit</span></label>
+            <input type="text" name="address_line2" id="address_line2">
           </div>
-          <div class="field">
-            <label for="postal_code">Postal code</label>
-            <input type="text" name="postal_code" id="postal_code" required>
-          </div>
-          <div class="field">
-            <label for="country">Country <span class="hint">2-letter code, e.g. US, CA, GB</span></label>
-            <input type="text" name="country" id="country" maxlength="2" required style="text-transform: uppercase">
+
+          <div class="grid grid-2-up">
+            <div class="field">
+              <label for="city">City</label>
+              <input type="text" name="city" id="city" required>
+              <span class="field-error" id="err-city"></span>
+            </div>
+            <div class="field">
+              <label for="state">State / province <span class="hint">Optional</span></label>
+              <input type="text" name="state" id="state">
+              <span class="field-error" id="err-state"></span>
+            </div>
+            <div class="field">
+              <label for="postal_code">Postal code</label>
+              <input type="text" name="postal_code" id="postal_code" required>
+              <span class="field-error" id="err-postal_code"></span>
+            </div>
+            <div class="field">
+              <label for="country">Country</label>
+              <select name="country" id="country" required>
+                <option value="" disabled selected>Select a country</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+              </select>
+              <span class="field-error" id="err-country"></span>
+            </div>
           </div>
         </div>
 
@@ -59,16 +80,22 @@
       <div class="card">
         <span class="label">Payment method</span>
         <div style="display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2)">
-          <label class="field-radio">
+          <label class="payment-method-option">
             <input type="radio" name="payment_method" value="stripe" checked>
-            Card (Stripe)
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            <span>
+              <span class="payment-method-name">Card</span>
+              <span class="hint">Visa, Mastercard, and more via Stripe.</span>
+            </span>
           </label>
-          {% if crypto_enabled %}
-            <label class="field-radio">
-              <input type="radio" name="payment_method" value="coinbase">
-              Crypto (Coinbase Commerce)
-            </label>
-          {% endif %}
+          <label class="payment-method-option {% if not crypto_enabled %}payment-method-option--soon{% endif %}">
+            <input type="radio" name="payment_method" value="coinbase" {% if not crypto_enabled %}disabled{% endif %}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4.5v11L12 22l-8-4.5v-11z"/></svg>
+            <span>
+              <span class="payment-method-name">Crypto {% if not crypto_enabled %}<span class="hint">(coming soon)</span>{% endif %}</span>
+              <span class="hint">BTC, ETH, USDC and more, via Coinbase Commerce. You'll be redirected to complete payment.</span>
+            </span>
+          </label>
         </div>
 
         <div style="margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line)">
@@ -91,6 +118,78 @@
       </div>
     </form>
   </section>
+  {% if google_maps_api_key %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initAddressAutocomplete&loading=async" async defer></script>
+    <script>
+      // Uses the newer PlaceAutocompleteElement (Places API "New"), not the
+      // classic google.maps.places.Autocomplete widget — this project's API
+      // key only has Places API (New) enabled, and the classic widget
+      // depends on the legacy Places API backend, which fails silently
+      // against a New-only key. This is a separate search box that
+      // populates the plain fields below it; it doesn't submit as form
+      // data itself.
+      // The looked-up fields are shown read-only (so the customer can see
+      // what will actually be quoted/shipped, not free-type over Google's
+      // result) — except address_line2, which Google's lookup never fills
+      // in and stays editable for apartment/suite/unit numbers. The manual
+      // toggle below is the escape hatch for anything Places can't find,
+      // most notably PO Boxes, which generally aren't real geocodable
+      // places and won't turn up as a suggestion.
+      function revealAddressFields(readOnly) {
+        document.getElementById('address-fields').hidden = false;
+        // country is a <select>, not a text input — the `readonly` attribute
+        // has no effect on it per spec, and `disabled` would drop its value
+        // from form submission entirely, so it's just left interactive.
+        // Only two real options exist, so mis-clicking is low-risk, and
+        // "Calculate shipping" re-validates whatever ends up selected.
+        ['address_line1', 'city', 'state', 'postal_code'].forEach(function (id) {
+          document.getElementById(id).readOnly = readOnly;
+        });
+      }
+
+      function initAddressAutocomplete() {
+        var container = document.getElementById('address-autocomplete-container');
+        var field = document.getElementById('address-autocomplete-field');
+        var manualToggle = document.getElementById('manual-address-toggle');
+        if (manualToggle) {
+          manualToggle.addEventListener('click', function () {
+            revealAddressFields(false);
+          });
+        }
+        if (!container || !google.maps.places.PlaceAutocompleteElement) return;
+
+        var autocomplete = new google.maps.places.PlaceAutocompleteElement();
+        autocomplete.id = 'address-search';
+        autocomplete.includedRegionCodes = ['us', 'ca'];
+        container.appendChild(autocomplete);
+        field.hidden = false;
+
+        function textOf(components, type, useShort) {
+          for (var i = 0; i < components.length; i++) {
+            if (components[i].types.indexOf(type) !== -1) {
+              return useShort ? components[i].shortText : components[i].longText;
+            }
+          }
+          return '';
+        }
+
+        autocomplete.addEventListener('gmp-select', function (event) {
+          var place = event.placePrediction.toPlace();
+          place.fetchFields({ fields: ['addressComponents'] }).then(function () {
+            var comps = place.addressComponents || [];
+            var streetNumber = textOf(comps, 'street_number', false);
+            var route = textOf(comps, 'route', false);
+            document.getElementById('address_line1').value = [streetNumber, route].filter(Boolean).join(' ');
+            document.getElementById('city').value = textOf(comps, 'locality', false);
+            document.getElementById('state').value = textOf(comps, 'administrative_area_level_1', true);
+            document.getElementById('postal_code').value = textOf(comps, 'postal_code', false);
+            document.getElementById('country').value = textOf(comps, 'country', true);
+            revealAddressFields(true);
+          });
+        });
+      }
+    </script>
+  {% endif %}
   <script>
     function updateShippingCost(radio) {
       var payButton = document.getElementById('pay-button');

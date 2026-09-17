@@ -1,0 +1,4 @@
+{% for field in ["address_line1", "city", "state", "postal_code", "country"] %}
+  <span id="err-{{ field }}" hx-swap-oob="true" class="field-error">{{ field_errors.get(field, "") }}</span>
+{% endfor %}
+{% include "store/_shipping_rates.html" %}

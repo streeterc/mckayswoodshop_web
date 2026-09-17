@@ -32,28 +32,43 @@ def seed_sample_products(db):
         print("Products already exist — skipping sample product seed.")
         return
 
-    tee = Product(
-        slug="classic-tee",
-        name="Classic T-Shirt",
-        description="Soft, everyday tee in your brand colors.",
-        base_price_cents=2500,
+    board = Product(
+        slug="walnut-cutting-board",
+        name="Walnut Cutting Board",
+        description=(
+            "Solid walnut end-grain board, sanded smooth and finished with "
+            "food-safe oil. Every board is a little different — grain and "
+            "color vary piece to piece."
+        ),
+        base_price_cents=4500,
+        image_path="/static/img/products/walnut-cutting-board.jpg",
         active=True,
     )
-    tee.variants = [
-        ProductVariant(sku="TEE-S", label="Small", stock_count=10),
-        ProductVariant(sku="TEE-M", label="Medium", stock_count=15),
-        ProductVariant(sku="TEE-L", label="Large", stock_count=8),
+    board.variants = [
+        ProductVariant(sku="BOARD-S", label="Small (8 x 5 in)", stock_count=10,
+                        weight_oz=16.0, length_in=10.0, width_in=7.0, height_in=1.5),
+        ProductVariant(sku="BOARD-M", label="Medium (12 x 7 in)", stock_count=15,
+                        weight_oz=24.0, length_in=14.0, width_in=9.0, height_in=1.5),
+        ProductVariant(sku="BOARD-L", label="Large (16 x 9 in)", stock_count=8,
+                        weight_oz=32.0, length_in=18.0, width_in=11.0, height_in=2.0),
     ]
-    mug = Product(
-        slug="ceramic-mug",
-        name="Ceramic Mug",
-        description="12oz mug, dishwasher safe.",
+    knife = Product(
+        slug="wood-butter-knife",
+        name="Wood Butter Knife",
+        description=(
+            "A single-piece hand-carved butter knife, shaped and sanded "
+            "from offcut hardwood so nothing in the shop goes to waste."
+        ),
         base_price_cents=1800,
+        image_path="/static/img/products/wood-butter-knife.jpg",
         active=True,
     )
-    mug.variants = [ProductVariant(sku="MUG-01", label="Standard", stock_count=20)]
+    knife.variants = [
+        ProductVariant(sku="KNIFE-01", label="Standard", stock_count=20,
+                        weight_oz=3.0, length_in=8.0, width_in=2.0, height_in=1.0),
+    ]
 
-    db.add_all([tee, mug])
+    db.add_all([board, knife])
     db.commit()
     print("Seeded sample products: Classic T-Shirt, Ceramic Mug.")
 

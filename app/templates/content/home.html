@@ -14,9 +14,11 @@ endblock %} {% block content %}
         content below does the talking.
       </p>
     </div>
-    <div class="photo-placeholder photo-placeholder--portrait">
-      Photo &middot; shop interior
-    </div>
+    <img
+      src="/static/img/shop-interior.jpg"
+      alt="Carpenter working on a wood board in the shop"
+      style="width: 100%; aspect-ratio: 5 / 6; object-fit: cover; border-radius: var(--radius-md)"
+    />
   </div>
 </section>
 
@@ -38,12 +40,16 @@ endblock %} {% block content %}
     <div
       style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3)"
     >
-      <div class="photo-placeholder photo-placeholder--square">
-        Product photo
-      </div>
-      <div class="photo-placeholder photo-placeholder--square">
-        Product photo
-      </div>
+      <img
+        src="/static/img/products/walnut-cutting-board.jpg"
+        alt="Walnut cutting board"
+        style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)"
+      />
+      <img
+        src="/static/img/products/wood-butter-knife.jpg"
+        alt="Hand-carved wood butter knife"
+        style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--line)"
+      />
     </div>
   </div>
 </section>
@@ -58,7 +64,7 @@ endblock %} {% block content %}
       flex-wrap: wrap;
     "
   >
-    <div>{{ m.section_heading('From the bench', 'Posts') }}</div>
+    <div>{{ m.section_heading('Benchside Journal', 'Posts') }}</div>
     <a class="btn btn-ghost btn-sm" href="/blog">All posts</a>
   </div>
 

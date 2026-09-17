@@ -78,6 +78,14 @@
   box-sizing: border-box;
 }
 
+/* Author-level `display` rules (e.g. .field { display: flex }) otherwise
+   beat the browser's default [hidden] { display: none } — author styles
+   always win over the UA stylesheet regardless of selector specificity.
+   !important here just restores what `hidden` is supposed to guarantee. */
+[hidden] {
+  display: none !important;
+}
+
 html {
   background: var(--paper);
   -webkit-text-size-adjust: 100%;
@@ -290,6 +298,39 @@ small {
   color: var(--forest);
 }
 
+/* ---------- Payment method badges (shop/cart/checkout) ---------- */
+.payment-badges {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-top: var(--sp-2);
+}
+
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-body);
+  font-size: var(--step-1);
+  font-weight: 600;
+  padding: 0.3em 0.7em;
+  border-radius: var(--radius-xs);
+  background: var(--sand);
+  color: var(--forest);
+  border: 1px solid var(--line);
+}
+
+.payment-badge svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.payment-badge--soon {
+  color: var(--muted);
+  border-style: dashed;
+}
+
 /* ---------- Forms ---------- */
 .field {
   display: flex;
@@ -333,12 +374,143 @@ textarea {
   resize: vertical;
 }
 
+/* Confirmed-address fields (populated from a Places lookup, e.g. checkout)
+   read visually as "locked" rather than a plain empty-looking box. */
+input:read-only {
+  background: var(--sand);
+  color: var(--muted);
+  cursor: default;
+}
+
 .field-radio {
   display: flex;
   align-items: center;
   gap: 0.6em;
   font-weight: 400;
   cursor: pointer;
+}
+
+/* Payment method choice on checkout — a fuller row than .field-radio,
+   with an icon and a helper line under the name. */
+.payment-method-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7em;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.payment-method-option:has(input:checked) {
+  border-color: var(--clay);
+}
+
+.payment-method-option input[type='radio'] {
+  margin-top: 0.3em;
+}
+
+.payment-method-option svg {
+  width: 20px;
+  height: 20px;
+  color: var(--forest);
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+.payment-method-name {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.payment-method-option .hint {
+  display: block;
+}
+
+.payment-method-option--soon {
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+.payment-method-option--soon .payment-method-name,
+.payment-method-option--soon svg {
+  color: var(--muted);
+}
+
+/* ---------- Shipping rate picker (checkout) ---------- */
+.shipping-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.shipping-rate-option {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.shipping-rate-option:has(input:checked) {
+  border-color: var(--clay);
+}
+
+.shipping-rate-option input[type='radio'] {
+  flex-shrink: 0;
+}
+
+.shipping-rate-logo {
+  height: 20px;
+  max-width: 64px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.shipping-rate-logo--text {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--step-1);
+  color: var(--forest);
+}
+
+.shipping-rate-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.shipping-rate-service {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--forest);
+  font-size: var(--step-1);
+}
+
+.shipping-rate-info .hint {
+  font-size: var(--step-1);
+}
+
+.shipping-rate-tag {
+  margin-left: 0.5em;
+  font-size: 10px;
+  padding: 0.15em 0.5em;
+  vertical-align: middle;
+}
+
+.shipping-rate-price {
+  flex-shrink: 0;
+  font-weight: 600;
 }
 
 .form-error {
@@ -349,6 +521,17 @@ textarea {
   margin-bottom: var(--sp-3);
   color: var(--clay-darker);
   font-size: var(--step-1);
+}
+
+/* Per-field validation message (e.g. Shippo address validation on
+   checkout) — min-height keeps the field from jumping when the message
+   appears or clears. */
+.field-error {
+  display: block;
+  min-height: 1.2em;
+  color: var(--clay-darker);
+  font-size: var(--step-1);
+  margin-top: 0.3em;
 }
 
 .form-actions {
@@ -424,6 +607,13 @@ input.input-narrower {
    so a dark header running straight into a dark hero has no cream seam. */
 .site-main > .bleed:first-child {
   margin-top: calc(-1 * var(--sp-5));
+}
+
+/* Two adjacent bleed sections each already carry their own top/bottom
+   padding-block — without this, site-main's flex `gap` stacks a third
+   helping of spacing between them (triple, not double, the intended gap). */
+.bleed + .bleed {
+  margin-top: calc(-1 * var(--sp-6));
 }
 
 .bleed--inverse {

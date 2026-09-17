@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as m %}
 {% block title %}{{ product.name }}{% endblock %}
 {% block content %}
   <section class="shell">
@@ -15,6 +16,7 @@
         <h1>{{ product.name }}</h1>
         <div class="price" style="font-size: var(--step1); font-weight: 500; margin-top: 0.2em">${{ "%.2f"|format(product.base_price_cents / 100) }}</div>
         {% if product.description %}<p style="margin-top: var(--sp-3); max-width: 56ch">{{ product.description }}</p>{% endif %}
+        {{ m.payment_badges(crypto_enabled) }}
 
         <form hx-post="/shop/cart/add" hx-target="#cart-feedback" hx-swap="innerHTML" style="margin-top: var(--sp-4)">
           <div class="grid grid-2-up" style="align-items: end">

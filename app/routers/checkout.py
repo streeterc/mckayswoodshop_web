@@ -50,6 +50,7 @@ def checkout_form(request: Request, db: Session = Depends(get_db)):
             "crypto_enabled": settings.enable_crypto_checkout,
             "rows": rows,
             "subtotal_cents": subtotal,
+            "google_maps_api_key": settings.google_maps_api_key,
         },
     )
 
@@ -76,37 +77,88 @@ def checkout_rates(
 
     rates = []
     error = None
+    field_errors: dict[str, str] = {}
     if not settings.shippo_api_key:
         error = "Shipping is not configured for this store yet — please contact us to place an order."
     else:
+        address = {
+            "name": name or "Customer",
+            "address_line1": address_line1,
+            "address_line2": address_line2,
+            "city": city,
+            "state": state,
+            "postal_code": postal_code,
+            "country": country_code,
+            "email": email,
+        }
+
+        # Validate before quoting — a bad address should be caught here,
+        # not discovered when the rate call fails or a label can't print
+        # later. A validation-call failure (Shippo down, etc.) is treated
+        # as "unavailable", not "invalid" — fall through with raw input
+        # rather than stranding the customer.
         try:
-            address = {
-                "name": name or "Customer",
-                "address_line1": address_line1,
-                "address_line2": address_line2,
-                "city": city,
-                "state": state,
-                "postal_code": postal_code,
-                "country": country_code,
-                "email": email,
-            }
+            validated = shipping_api.validate_address(address)
+        except shipping_api.ShippoError:
+            validated = None
+
+        if validated is not None:
+            field_errors = shipping_api.field_errors_from_validation(validated)
+            if field_errors:
+                return templates.TemplateResponse(
+                    "store/_rates_response.html",
+                    {
+                        "request": request,
+                        "rates": [],
+                        "error": "We couldn't verify this address — check the highlighted fields.",
+                        "field_errors": field_errors,
+                    },
+                )
+            # Use Shippo's standardized address for the rate quote, not
+            # the raw input — what gets quoted should match what's
+            # actually deliverable.
+            address["address_line1"] = validated.street1
+            address["address_line2"] = validated.street2 or ""
+            address["city"] = validated.city
+            address["state"] = validated.state or ""
+            address["postal_code"] = validated.zip
+            address["country"] = validated.country
+
+        try:
+            fetched_rates = shipping_api.get_rates(address, rows)
+            # get_rates() already trims each carrier to (at most) its own
+            # cheapest + fastest. The badges here are a separate, global
+            # judgment across every carrier shown — "Cheapest" and
+            # "Fastest" each mark exactly one row (the same row, if a
+            # single option happens to be both), not one pair per carrier.
             rates = [
                 {
                     "id": rate.object_id,
-                    "label": f"{rate.provider} {rate.servicelevel.name}",
+                    "provider": rate.provider,
+                    "logo": shipping_api.carrier_logo(rate.provider),
+                    "service": rate.servicelevel.name,
                     "amount_cents": round(float(rate.amount) * 100),
                     "days": rate.estimated_days,
                 }
-                for rate in shipping_api.get_rates(address, rows)
+                for rate in fetched_rates
             ]
+            if rates:
+                cheapest = min(rates, key=lambda r: r["amount_cents"])
+                fastest = min(
+                    rates,
+                    key=lambda r: (r["days"] is None, r["days"] or 0, r["amount_cents"]),
+                )
+                for r in rates:
+                    r["is_cheapest"] = r is cheapest
+                    r["is_fastest"] = r is fastest
             if not rates:
                 error = "No shipping options were found for that address. Please double-check it and try again."
         except shipping_api.ShippoError:
             error = "Live shipping rates are temporarily unavailable. Please try again in a moment."
 
     return templates.TemplateResponse(
-        "store/_shipping_rates.html",
-        {"request": request, "rates": rates, "error": error},
+        "store/_rates_response.html",
+        {"request": request, "rates": rates, "error": error, "field_errors": field_errors},
     )
 
 

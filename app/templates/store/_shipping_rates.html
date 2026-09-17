@@ -1,11 +1,24 @@
 {% if error %}<p class="hint">{{ error }}</p>{% endif %}
 {% if rates %}
-  <div class="shipping-options" style="display: flex; flex-direction: column; gap: var(--sp-2)">
+  <div class="shipping-options">
     {% for rate in rates %}
-      <label class="field-radio">
+      <label class="shipping-rate-option">
         <input type="radio" name="shippo_rate_id" value="{{ rate.id }}" data-amount-cents="{{ rate.amount_cents }}"
                onchange="updateShippingCost(this)" {% if loop.first %}checked{% endif %}>
-        {{ rate.label }} — ${{ "%.2f"|format(rate.amount_cents / 100) }}{% if rate.days %} ({{ rate.days }} business days){% endif %}
+        {% if rate.logo %}
+          <img src="{{ rate.logo }}" alt="{{ rate.provider }}" class="shipping-rate-logo">
+        {% else %}
+          <span class="shipping-rate-logo shipping-rate-logo--text">{{ rate.provider }}</span>
+        {% endif %}
+        <span class="shipping-rate-info">
+          <span class="shipping-rate-service">
+            {{ rate.service }}
+            {% if rate.is_cheapest %}<span class="badge shipping-rate-tag">Cheapest</span>{% endif %}
+            {% if rate.is_fastest %}<span class="badge shipping-rate-tag">Fastest</span>{% endif %}
+          </span>
+          {% if rate.days %}<span class="hint">{{ rate.days }} business days</span>{% endif %}
+        </span>
+        <span class="shipping-rate-price price">${{ "%.2f"|format(rate.amount_cents / 100) }}</span>
       </label>
     {% endfor %}
   </div>
