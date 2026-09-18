@@ -6,23 +6,42 @@
     {{ m.section_heading('From the bench', 'All posts', level=1) }}
     <p style="max-width: 56ch">Notes from the shop — builds, techniques and what's on the bench.</p>
 
-    <div class="grid grid-3-up" style="margin-top: var(--sp-4)">
-      {% for post in posts %}
-        {{ m.post_card(post) }}
-      {% else %}
-        <p>No posts yet — drop a Markdown file into <code>app/content/posts/</code> to get started.</p>
-      {% endfor %}
-    </div>
-
-    {% if has_prev or has_next %}
-      <div style="display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-5)">
-        {% if has_prev %}
-          <a class="btn btn-ghost btn-sm" href="/blog?page={{ page - 1 }}">&larr; Previous</a>
-        {% endif %}
-        {% if has_next %}
-          <a class="btn btn-ghost btn-sm" style="margin-left: auto" href="/blog?page={{ page + 1 }}">More posts &rarr;</a>
-        {% endif %}
+    <div id="post-results">
+      <div class="grid grid-3-up" style="margin-top: var(--sp-4)">
+        {% for post in posts %}
+          {{ m.post_card(post) }}
+        {% else %}
+          <p>No posts yet — drop a Markdown file into <code>app/content/posts/</code> to get started.</p>
+        {% endfor %}
       </div>
-    {% endif %}
+
+      {% if has_prev or has_next %}
+        <div style="display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-5)">
+          {% if has_prev %}
+            <a
+              class="btn btn-ghost btn-sm"
+              href="/blog?page={{ page - 1 }}"
+              hx-get="/blog?page={{ page - 1 }}"
+              hx-select="#post-results"
+              hx-target="#post-results"
+              hx-swap="outerHTML"
+              hx-push-url="true"
+            >&larr; Previous</a>
+          {% endif %}
+          {% if has_next %}
+            <a
+              class="btn btn-ghost btn-sm"
+              style="margin-left: auto"
+              href="/blog?page={{ page + 1 }}"
+              hx-get="/blog?page={{ page + 1 }}"
+              hx-select="#post-results"
+              hx-target="#post-results"
+              hx-swap="outerHTML"
+              hx-push-url="true"
+            >More posts &rarr;</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
   </section>
 {% endblock %}

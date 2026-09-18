@@ -7,7 +7,15 @@ services:
   web:
     env_file:
       - .env.prod
-    volumes: []  # no bind mounts / hot reload in prod — run the image as built
+    # No bind mounts / hot reload in prod — run the image as built, except
+    # for a named volume over the product-photo upload directory: admin
+    # product-image uploads (app/routers/admin.py) write here at runtime,
+    # and without a persistent volume those writes would live only in the
+    # running container and vanish on the next `docker compose up --build`
+    # redeploy. Docker seeds the volume from the image's existing contents
+    # (the sample product photos already baked in) on its first mount.
+    volumes:
+      - product_images:/code/app/static/img/products
     ports: []    # not exposed directly; Nginx proxies to it over the internal network
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
 
@@ -34,3 +42,4 @@ services:
 volumes:
   certbot_www:
   certbot_certs:
+  product_images:

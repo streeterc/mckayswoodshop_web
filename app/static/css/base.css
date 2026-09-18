@@ -226,6 +226,42 @@ small {
   transform: none;
 }
 
+/* htmx-driven button loading state (e.g. "Calculate shipping") — htmx adds
+   the .htmx-request class to the element that triggered the in-flight
+   request, so a button wrapping a normal label (.cta-label) and a loading
+   label (.cta-loading) can swap between them with no JS. */
+.cta-loading {
+  display: none;
+}
+
+.htmx-request > .cta-label {
+  display: none;
+}
+
+.htmx-request > .cta-loading {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Growing ellipsis after the loading label: "." -> ".." -> "..." -> "",
+   looping. The fixed-width ::after reserves space for the widest state so
+   the button doesn't jiggle as the dots grow. */
+.cta-loading::after {
+  content: '';
+  display: inline-block;
+  width: 1.4em;
+  text-align: left;
+  animation: ellipsis 1.2s steps(4, end) infinite;
+}
+
+@keyframes ellipsis {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
 .btn-accent {
   background: var(--clay);
   border-color: var(--clay);
@@ -351,6 +387,17 @@ small {
   font-weight: 400;
 }
 
+/* Opt-in label layout for fields that pair a label with a trailing
+   check/x (.field-status) — keeps the status glyph pinned to the right
+   edge instead of crowding the label text, without changing plain
+   .field label rules used elsewhere (admin forms, the quote wizard). */
+.field-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
 /* Applies to every text-like input, not just ones wrapped in .field, so
    compact admin table edits (stock counts, dimensions) get the same
    tokenized look without needing the full .field wrapper. */
@@ -372,14 +419,6 @@ textarea {
 
 textarea {
   resize: vertical;
-}
-
-/* Confirmed-address fields (populated from a Places lookup, e.g. checkout)
-   read visually as "locked" rather than a plain empty-looking box. */
-input:read-only {
-  background: var(--sand);
-  color: var(--muted);
-  cursor: default;
 }
 
 .field-radio {
@@ -532,6 +571,21 @@ input:read-only {
   color: var(--clay-darker);
   font-size: var(--step-1);
   margin-top: 0.3em;
+}
+
+/* Per-field check/x shown next to the label once Shippo validation has
+   actually run — empty (and aria-hidden) until then, so an unvalidated
+   field never falsely reads as confirmed. */
+.field-status {
+  font-weight: 700;
+}
+
+.field-status--valid {
+  color: var(--forest);
+}
+
+.field-status--invalid {
+  color: var(--clay-darker);
 }
 
 .form-actions {

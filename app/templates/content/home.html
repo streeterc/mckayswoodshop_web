@@ -22,7 +22,7 @@
       </p>
       <div style="display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-3)">
         <span class="badge">Secure online checkout</span>
-        <span class="badge">Ships across Canada</span>
+        <span class="badge" id="ships-badge">Ships across Canada, US and Worldwide</span>
         <span class="badge">Ontario-made</span>
       </div>
     </div>
@@ -226,5 +226,37 @@
     {% endif %}
   </div>
 </section>
+<script>
+  // Swaps the generic "Ships across Canada, US and Worldwide" badge for a
+  // visitor-specific one, e.g. "Ships across Canada" for a CA visitor.
+  // Client-side, not server-rendered, so a slow/blocked/failed lookup never
+  // holds up the homepage — the default text (already correct, just less
+  // specific) is what's in the initial HTML and is all a JS-disabled or
+  // non-CA/US visitor ever sees. ipapi.co is free, keyless, and CORS-enabled
+  // for browser fetches; no API key or server-side dependency needed.
+  (function () {
+    var badge = document.getElementById('ships-badge');
+    if (!badge) return;
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function () { controller.abort(); }, 2500);
+    fetch('https://ipapi.co/json/', { signal: controller.signal })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (data) {
+        if (!data) return;
+        if (data.country_code === 'CA') {
+          badge.textContent = 'Ships across Canada';
+        } else if (data.country_code === 'US') {
+          badge.textContent = 'Ships across the United States';
+        }
+        // Any other country (or a lookup with no country_code) keeps the
+        // default badge text — it's already accurate, just not localized.
+      })
+      .catch(function () {
+        // Network error, timeout, or blocked by the visitor's browser —
+        // leave the default badge text as-is.
+      })
+      .finally(function () { clearTimeout(timeoutId); });
+  })();
+</script>
 
 {% endblock %}

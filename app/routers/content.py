@@ -65,9 +65,11 @@ async def quote_submit(
     category: str = Form(...),
     size_in: int = Form(...),
     wall_in: int = Form(0),
-    room: str = Form(...),
-    material: str = Form(...),
+    room: str = Form(""),
+    material: str = Form(""),
     exposure: str = Form(""),
+    repair_type: str = Form(""),
+    wood_type: str = Form(""),
     timeline: str = Form(...),
     contact_method: str = Form(""),
     name: str = Form(...),
@@ -92,9 +94,11 @@ async def quote_submit(
     try:
         data = QuoteRequestIn(
             category=category, size_in=size_in, wall_in=wall_in, room=room,
-            material=material, exposure=exposure, timeline=timeline,
-            photo_count=len(attachments), name=name, phone=phone, email=email,
-            city=city, contact_method=contact_method, notes=notes,
+            material=material, exposure=exposure, repair_type=repair_type,
+            wood_type=wood_type, timeline=timeline,
+            photo_count=len(attachments), name=name,
+            phone=phone, email=email, city=city,
+            contact_method=contact_method, notes=notes,
         )
     except ValidationError:
         return templates.TemplateResponse(
@@ -108,8 +112,9 @@ async def quote_submit(
     quote = QuoteRequest(
         category=data.category, size_in=data.size_in, wall_in=data.wall_in,
         room=data.room, material=data.material, exposure=data.exposure,
-        timeline=data.timeline, photo_count=data.photo_count,
-        name=data.name, phone=data.phone, email=data.email, city=data.city,
+        repair_type=data.repair_type, wood_type=data.wood_type,
+        timeline=data.timeline, photo_count=data.photo_count, name=data.name,
+        phone=data.phone, email=data.email, city=data.city,
         contact_method=data.contact_method, notes=data.notes,
     )
     db.add(quote)
@@ -122,10 +127,16 @@ async def quote_submit(
     ]
     if data.category == "builtins":
         lines.append(f"<p><strong>Wall width:</strong> {data.wall_in} in</p>")
-    lines.append(f"<p><strong>Room / setting:</strong> {data.room}</p>")
-    lines.append(f"<p><strong>Material:</strong> {data.material}</p>")
+    if data.room:
+        lines.append(f"<p><strong>Room / setting:</strong> {data.room}</p>")
+    if data.material:
+        lines.append(f"<p><strong>Material:</strong> {data.material}</p>")
     if data.category == "outdoor" and data.exposure:
         lines.append(f"<p><strong>Exposure:</strong> {data.exposure.title()}</p>")
+    if data.category == "restoration" and data.repair_type:
+        lines.append(f"<p><strong>Repair type:</strong> {data.repair_type}</p>")
+    if data.category == "restoration" and data.wood_type:
+        lines.append(f"<p><strong>Wood type:</strong> {data.wood_type}</p>")
     lines.append(f"<p><strong>Timeline:</strong> {data.timeline}</p>")
     lines.append(f"<p><strong>Photos attached:</strong> {len(attachments)}</p>")
     lines.append(f"<p><strong>Name:</strong> {data.name}</p>")

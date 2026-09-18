@@ -20,7 +20,7 @@
         <nav class="site-nav">
           <a href="/admin/orders" {% if request.url.path.startswith('/admin/orders') %}aria-current="page"{% endif %}>Orders</a>
           <a href="/admin/quotes" {% if request.url.path == '/admin/quotes' %}aria-current="page"{% endif %}>Quote requests</a>
-          <a href="/admin/products" {% if request.url.path == '/admin/products' %}aria-current="page"{% endif %}>Products</a>
+          <a href="/admin/products" {% if request.url.path.startswith('/admin/products') %}aria-current="page"{% endif %}>Products</a>
           <a href="/admin/settings" {% if request.url.path == '/admin/settings' %}aria-current="page"{% endif %}>Settings</a>
           <a href="/admin/logout">Log out</a>
         </nav>

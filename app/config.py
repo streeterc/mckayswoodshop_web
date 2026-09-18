@@ -31,8 +31,6 @@ class Settings(BaseSettings):
     shop_address_country: str = "US"
     shop_address_phone: str = ""
 
-    google_maps_api_key: str = ""
-
     stripe_secret_key: str = ""
     stripe_publishable_key: str = ""
     stripe_webhook_secret: str = ""

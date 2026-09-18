@@ -45,7 +45,7 @@ class Product(Base):
 
     @property
     def in_stock(self) -> bool:
-        return any(v.stock_count > 0 for v in self.variants)
+        return any(v.active and v.stock_count > 0 for v in self.variants)
 
 
 class ProductVariant(Base):
@@ -59,6 +59,11 @@ class ProductVariant(Base):
     label: Mapped[str] = mapped_column(String(200))
     price_override_cents: Mapped[int | None] = mapped_column(Integer, nullable=True)
     stock_count: Mapped[int] = mapped_column(Integer, default=0)
+    # Soft-delete flag — a variant that's ever appeared in an OrderItem can't
+    # be hard-deleted (the FK would reject it), so "removing" it from the
+    # admin instead sets this to False: hidden from the storefront, past
+    # orders keep their own snapshot fields untouched (see OrderItem).
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     # Parcel dimensions used for live Shippo rate quotes (see app/shipping.py).
     weight_oz: Mapped[float] = mapped_column(Float, default=8.0)
@@ -158,9 +163,18 @@ class QuoteRequest(Base):
     # Step 2 — structured project details
     size_in: Mapped[int] = mapped_column(Integer, default=0)
     wall_in: Mapped[int] = mapped_column(Integer, default=0)
+    # Room and material are category-dependent — not asked (blank) for
+    # Outdoor (room) or Restoration (material, since it's an existing piece
+    # rather than a new-build wood choice); see schemas.QuoteRequestIn.
     room: Mapped[str] = mapped_column(String(60), default="")
     material: Mapped[str] = mapped_column(String(60), default="")
     exposure: Mapped[str] = mapped_column(String(20), default="")
+    # Restoration-only: structural / cosmetic / missing parts / other.
+    repair_type: Mapped[str] = mapped_column(String(40), default="")
+    # Restoration-only, free text and optional — what the existing piece is
+    # made of (helps with matching stain/finish), distinct from `material`
+    # above which is a *new*-wood preference and doesn't apply here.
+    wood_type: Mapped[str] = mapped_column(String(60), default="")
     timeline: Mapped[str] = mapped_column(String(40), default="")
     # Photos are attached to the admin notification email, not stored
     # server-side — this just records how many were sent (see app/shipping.py

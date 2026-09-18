@@ -7,7 +7,8 @@
 
     <form method="post" action="/checkout" id="checkout-form" class="grid grid-2-up" style="align-items: start; margin-top: var(--sp-3)">
       <div>
-        <div class="grid grid-2-up">
+        <span class="label">Contact</span>
+        <div class="grid grid-2-up" style="margin-top: var(--sp-2)">
           <div class="field">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" required>
@@ -18,19 +19,13 @@
           </div>
         </div>
 
-        <div class="field" id="address-autocomplete-field" hidden>
-          <label for="address-search">Search for your address</label>
-          <div id="address-autocomplete-container"></div>
-        </div>
-        {% if google_maps_api_key %}
-          <button type="button" class="btn btn-ghost btn-sm" id="manual-address-toggle" style="margin-bottom: var(--sp-3)">
-            Can't find your address? Enter it manually (e.g. PO Box)
-          </button>
-        {% endif %}
-
-        <div id="address-fields" {% if google_maps_api_key %}hidden{% endif %}>
+        <span class="label" style="display: block; margin-top: var(--sp-4)">Shipping address</span>
+        <div id="address-fields" style="margin-top: var(--sp-2)">
           <div class="field">
-            <label for="address_line1">Address line 1</label>
+            <label for="address_line1" class="field-label-row">
+              <span>Address line 1</span>
+              <span class="field-status" id="status-address_line1" aria-hidden="true"></span>
+            </label>
             <input type="text" name="address_line1" id="address_line1" required>
             <span class="field-error" id="err-address_line1"></span>
           </div>
@@ -39,37 +34,64 @@
             <input type="text" name="address_line2" id="address_line2">
           </div>
 
-          <div class="grid grid-2-up">
-            <div class="field">
-              <label for="city">City</label>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--sp-3)">
+            <div class="field" style="flex: 2 1 180px; min-width: 0">
+              <label for="city" class="field-label-row">
+                <span>City</span>
+                <span class="field-status" id="status-city" aria-hidden="true"></span>
+              </label>
               <input type="text" name="city" id="city" required>
               <span class="field-error" id="err-city"></span>
             </div>
-            <div class="field">
-              <label for="state">State / province <span class="hint">Optional</span></label>
-              <input type="text" name="state" id="state">
+            <div class="field" style="flex: 1 1 100px; min-width: 0">
+              <label for="state" class="field-label-row">
+                <span>State / province</span>
+                <span class="field-status" id="status-state" aria-hidden="true"></span>
+              </label>
+              <input type="text" name="state" id="state" required>
               <span class="field-error" id="err-state"></span>
             </div>
-            <div class="field">
-              <label for="postal_code">Postal code</label>
+            <div class="field" style="flex: 1 1 120px; min-width: 0">
+              <label for="postal_code" class="field-label-row">
+                <span>Postal code</span>
+                <span class="field-status" id="status-postal_code" aria-hidden="true"></span>
+              </label>
               <input type="text" name="postal_code" id="postal_code" required>
               <span class="field-error" id="err-postal_code"></span>
             </div>
-            <div class="field">
-              <label for="country">Country</label>
-              <select name="country" id="country" required>
-                <option value="" disabled selected>Select a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-              </select>
-              <span class="field-error" id="err-country"></span>
-            </div>
+          </div>
+
+          <div class="field">
+            <label for="country" class="field-label-row">
+              <span>Country</span>
+              <span class="field-status" id="status-country" aria-hidden="true"></span>
+            </label>
+            <select name="country" id="country" required>
+              <option value="" disabled selected>Select a country</option>
+              {% for group_label, countries in country_groups %}
+                {% if group_label %}<optgroup label="{{ group_label }}">{% endif %}
+                {% for code, cname in countries %}
+                  <option value="{{ code }}">{{ cname }}</option>
+                {% endfor %}
+                {% if group_label %}</optgroup>{% endif %}
+              {% endfor %}
+            </select>
+            <span class="field-error" id="err-country"></span>
           </div>
         </div>
 
-        <div class="field">
-          <button type="button" class="btn" hx-post="/checkout/rates" hx-include="closest form" hx-target="#shipping-rates" hx-swap="innerHTML">
-            Calculate shipping
+        <div class="field" style="margin-top: var(--sp-2)">
+          <button
+            type="button"
+            class="btn"
+            hx-post="/checkout/rates"
+            hx-include="closest form"
+            hx-target="#shipping-rates"
+            hx-swap="innerHTML"
+            hx-disabled-elt="this"
+          >
+            <span class="cta-label">Calculate shipping</span>
+            <span class="cta-loading">Calculating shipping</span>
           </button>
         </div>
         <div id="shipping-rates">
@@ -118,78 +140,6 @@
       </div>
     </form>
   </section>
-  {% if google_maps_api_key %}
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initAddressAutocomplete&loading=async" async defer></script>
-    <script>
-      // Uses the newer PlaceAutocompleteElement (Places API "New"), not the
-      // classic google.maps.places.Autocomplete widget — this project's API
-      // key only has Places API (New) enabled, and the classic widget
-      // depends on the legacy Places API backend, which fails silently
-      // against a New-only key. This is a separate search box that
-      // populates the plain fields below it; it doesn't submit as form
-      // data itself.
-      // The looked-up fields are shown read-only (so the customer can see
-      // what will actually be quoted/shipped, not free-type over Google's
-      // result) — except address_line2, which Google's lookup never fills
-      // in and stays editable for apartment/suite/unit numbers. The manual
-      // toggle below is the escape hatch for anything Places can't find,
-      // most notably PO Boxes, which generally aren't real geocodable
-      // places and won't turn up as a suggestion.
-      function revealAddressFields(readOnly) {
-        document.getElementById('address-fields').hidden = false;
-        // country is a <select>, not a text input — the `readonly` attribute
-        // has no effect on it per spec, and `disabled` would drop its value
-        // from form submission entirely, so it's just left interactive.
-        // Only two real options exist, so mis-clicking is low-risk, and
-        // "Calculate shipping" re-validates whatever ends up selected.
-        ['address_line1', 'city', 'state', 'postal_code'].forEach(function (id) {
-          document.getElementById(id).readOnly = readOnly;
-        });
-      }
-
-      function initAddressAutocomplete() {
-        var container = document.getElementById('address-autocomplete-container');
-        var field = document.getElementById('address-autocomplete-field');
-        var manualToggle = document.getElementById('manual-address-toggle');
-        if (manualToggle) {
-          manualToggle.addEventListener('click', function () {
-            revealAddressFields(false);
-          });
-        }
-        if (!container || !google.maps.places.PlaceAutocompleteElement) return;
-
-        var autocomplete = new google.maps.places.PlaceAutocompleteElement();
-        autocomplete.id = 'address-search';
-        autocomplete.includedRegionCodes = ['us', 'ca'];
-        container.appendChild(autocomplete);
-        field.hidden = false;
-
-        function textOf(components, type, useShort) {
-          for (var i = 0; i < components.length; i++) {
-            if (components[i].types.indexOf(type) !== -1) {
-              return useShort ? components[i].shortText : components[i].longText;
-            }
-          }
-          return '';
-        }
-
-        autocomplete.addEventListener('gmp-select', function (event) {
-          var place = event.placePrediction.toPlace();
-          place.fetchFields({ fields: ['addressComponents'] }).then(function () {
-            var comps = place.addressComponents || [];
-            var streetNumber = textOf(comps, 'street_number', false);
-            var route = textOf(comps, 'route', false);
-            document.getElementById('address_line1').value = [streetNumber, route].filter(Boolean).join(' ');
-            document.getElementById('city').value = textOf(comps, 'locality', false);
-            document.getElementById('state').value = textOf(comps, 'administrative_area_level_1', true);
-            document.getElementById('postal_code').value = textOf(comps, 'postal_code', false);
-            document.getElementById('country').value = textOf(comps, 'country', true);
-            revealAddressFields(true);
-          });
-        });
-      }
-    </script>
-  {% endif %}
   <script>
     function updateShippingCost(radio) {
       var payButton = document.getElementById('pay-button');

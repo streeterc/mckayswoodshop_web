@@ -1,0 +1,22 @@
+{% extends "admin/_base.html" %}
+{% block title %}{{ product.name }} — Admin{% endblock %}
+{% block content %}
+  <p><a href="/admin/products" class="label" style="text-decoration: none">&larr; All products</a></p>
+  <h1>{{ product.name }}</h1>
+
+  {% include "admin/_product_form.html" %}
+
+  <div style="margin-top: var(--sp-3)">
+    <form
+      hx-post="/admin/products/{{ product.id }}/delete"
+      hx-confirm="Remove {{ product.name }}? If it's never been ordered this deletes it permanently — otherwise it will just be deactivated."
+    >
+      <button class="btn btn-ghost btn-sm" type="submit" style="color: var(--clay-darker)">Remove product</button>
+    </form>
+  </div>
+
+  <h2 style="margin-top: var(--sp-5)">Variants</h2>
+  <div id="variants-table">
+    {% include "admin/_variants_table.html" %}
+  </div>
+{% endblock %}

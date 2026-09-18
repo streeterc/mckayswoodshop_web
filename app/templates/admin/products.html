@@ -1,27 +1,29 @@
 {% extends "admin/_base.html" %}
 {% block title %}Products — Admin{% endblock %}
 {% block content %}
-  <h1>Products &amp; Stock</h1>
-  <p><small>Product catalog is small and changes infrequently — add new products directly via the database or a seed script (see scripts/init_db.py) rather than a full CRUD UI, per project scope.</small></p>
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap">
+    <h1>Products</h1>
+    <a class="btn" href="/admin/products/new">+ Add product</a>
+  </div>
+
   {% for product in products %}
-    <div class="card">
-      <h3>{{ product.name }} <small>({{ product.slug }})</small></h3>
-      <table>
-        <thead><tr><th>Variant</th><th>SKU</th><th>Price</th><th>Stock</th><th>Dimensions (oz / L×W×H in)</th></tr></thead>
-        <tbody>
-            {% for variant in product.variants %}
-              <tr>
-                <td>{{ variant.label }}</td>
-                <td>{{ variant.sku }}</td>
-                <td>${{ "%.2f"|format(variant.price_cents() / 100) }}</td>
-                <td id="stock-{{ variant.id }}">{% include "admin/_stock_input.html" %}</td>
-                <td id="dims-{{ variant.id }}">{% include "admin/_variant_dims_input.html" %}</td>
-              </tr>
-            {% endfor %}
-        </tbody>
-      </table>
+    <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap">
+      <div>
+        <strong>{{ product.name }}</strong> <small>({{ product.slug }})</small>
+        {% if product.active %}
+          <span class="badge">Active</span>
+        {% else %}
+          <span class="badge" style="opacity: 0.6">Inactive</span>
+        {% endif %}
+        <p class="hint" style="margin: 0.3em 0 0">
+          {{ product.variants|length }} variant{{ '' if product.variants|length == 1 else 's' }}
+          &middot; ${{ "%.2f"|format(product.base_price_cents / 100) }} base price
+          &middot; {{ 'In stock' if product.in_stock else 'Out of stock' }}
+        </p>
+      </div>
+      <a class="btn btn-ghost btn-sm" href="/admin/products/{{ product.id }}/edit">Edit</a>
     </div>
   {% else %}
-    <p>No products yet.</p>
+    <p>No products yet — <a href="/admin/products/new">add your first one</a>.</p>
   {% endfor %}
 {% endblock %}

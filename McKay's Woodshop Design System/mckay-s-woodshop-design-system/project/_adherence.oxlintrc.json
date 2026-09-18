@@ -41,8 +41,8 @@
         "message": "Raw px value — use a design-system spacing token via var()."
       },
       {
-        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Newsreader|Work Sans|IBM Plex Mono))/i]",
-        "message": "Font not provided by the design system. Available: Newsreader, Work Sans, IBM Plex Mono."
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Fraunces|Work Sans|IBM Plex Mono))/i]",
+        "message": "Font not provided by the design system. Available: Fraunces, Work Sans, IBM Plex Mono."
       },
       {
         "selector": "JSXOpeningElement[name.name='Badge'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tone|dot|style|key|ref|className|style|children)$/]",
@@ -636,8 +636,8 @@
       "--transition-transform": "color"
     },
     "fontFamilies": [
+      "Fraunces",
       "IBM Plex Mono",
-      "Newsreader",
       "Work Sans"
     ]
   }

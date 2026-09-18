@@ -1,0 +1,30 @@
+<tr id="variant-row-{{ variant.id }}" {% if not variant.active %}style="opacity: 0.55"{% endif %}>
+  <td>
+    {% if error %}<p class="field-error" style="margin: 0 0 0.3em">{{ error }}</p>{% endif %}
+    <form hx-post="/admin/variants/{{ variant.id }}/core" hx-target="#variant-row-{{ variant.id }}" hx-swap="outerHTML" class="inline-form" style="flex-direction: column; align-items: stretch; gap: 0.3em; min-width: 12rem">
+      <input type="text" name="label" value="{{ variant.label }}" aria-label="Label" placeholder="Label">
+      <input type="text" name="sku" value="{{ variant.sku }}" aria-label="SKU" placeholder="SKU">
+      <input type="number" name="price_override_cents" value="{{ variant.price_override_cents if variant.price_override_cents is not none else '' }}" aria-label="Price override, cents" placeholder="Price override (cents)" min="0">
+      <button class="btn btn-ghost btn-sm" type="submit">Save</button>
+    </form>
+  </td>
+  <td>${{ "%.2f"|format(variant.price_cents() / 100) }}</td>
+  <td id="stock-{{ variant.id }}">{% include "admin/_stock_input.html" %}</td>
+  <td id="dims-{{ variant.id }}">{% include "admin/_variant_dims_input.html" %}</td>
+  <td>
+    {% if variant.active %}
+      <span class="badge">Active</span>
+    {% else %}
+      <span class="badge" style="opacity: 0.6">Inactive</span>
+    {% endif %}
+    <form
+      hx-post="/admin/variants/{{ variant.id }}/delete"
+      hx-target="#variant-row-{{ variant.id }}"
+      hx-swap="outerHTML"
+      hx-confirm="Remove this variant? If it's never been ordered this deletes it permanently — otherwise it will just be marked inactive."
+      style="margin-top: 0.3em"
+    >
+      <button class="btn btn-ghost btn-sm" type="submit" style="color: var(--clay-darker)">Remove</button>
+    </form>
+  </td>
+</tr>

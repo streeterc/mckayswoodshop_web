@@ -1,4 +1,6 @@
 {% for field in ["address_line1", "city", "state", "postal_code", "country"] %}
   <span id="err-{{ field }}" hx-swap-oob="true" class="field-error">{{ field_errors.get(field, "") }}</span>
+  {% set status = field_status.get(field) %}
+  <span id="status-{{ field }}" hx-swap-oob="true" class="field-status {{ 'field-status--valid' if status == 'valid' else 'field-status--invalid' if status == 'invalid' else '' }}" aria-hidden="{{ 'false' if status else 'true' }}">{% if status == 'valid' %}✓{% elif status == 'invalid' %}✕{% endif %}</span>
 {% endfor %}
 {% include "store/_shipping_rates.html" %}

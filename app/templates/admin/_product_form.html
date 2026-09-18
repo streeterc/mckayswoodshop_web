@@ -1,0 +1,76 @@
+<form
+  id="product-form"
+  method="post"
+  action="{{ '/admin/products/' + product.id|string if product and product.id else '/admin/products' }}"
+  {% if product and product.id %}
+  hx-post="{{ '/admin/products/' + product.id|string }}"
+  hx-target="#product-form"
+  hx-swap="outerHTML"
+  {% endif %}
+  hx-encoding="multipart/form-data"
+  enctype="multipart/form-data"
+  class="card"
+  style="max-width: 32rem"
+>
+  {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+  {% if saved %}<p class="hint" role="status" style="color: var(--forest)">Saved.</p>{% endif %}
+
+  <div class="field">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" value="{{ product.name if product else '' }}" required>
+  </div>
+
+  <div class="field">
+    <label for="slug">Slug <span class="hint">URL-friendly, e.g. walnut-cutting-board</span></label>
+    <input type="text" name="slug" id="slug" value="{{ product.slug if product else '' }}" pattern="[a-z0-9]+(-[a-z0-9]+)*" required>
+  </div>
+
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea name="description" id="description" rows="4">{{ product.description if product else '' }}</textarea>
+  </div>
+
+  <div class="field">
+    <label for="base_price_cents">Base price <span class="hint">In cents — used when a variant has no price override</span></label>
+    <input type="number" name="base_price_cents" id="base_price_cents" min="0" value="{{ product.base_price_cents if product else '' }}" required>
+  </div>
+
+  <div class="field">
+    <label class="field-radio">
+      <input type="checkbox" name="active" value="true" {% if not product or product.active %}checked{% endif %}>
+      Active <span class="hint">Visible in the shop</span>
+    </label>
+  </div>
+
+  <div class="field">
+    <label for="image">Product photo <span class="hint">JPEG, PNG, or WebP, under 5MB</span></label>
+    {% if product and product.image_path %}
+      <img src="{{ product.image_path }}" alt="" style="display: block; width: 120px; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line); margin-bottom: var(--sp-2)">
+    {% endif %}
+    <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/webp">
+  </div>
+
+  <div class="form-actions">
+    <button class="btn" type="submit">{{ 'Save' if product and product.id else 'Create product' }}</button>
+  </div>
+</form>
+<script>
+  (function () {
+    var nameInput = document.getElementById('name');
+    var slugInput = document.getElementById('slug');
+    if (!nameInput || !slugInput) return;
+    // Auto-fills the slug from the name, but only until the admin edits the
+    // slug themselves — never overwrites a slug they've deliberately typed
+    // or one already saved on an existing product.
+    var slugTouched = slugInput.value.trim().length > 0;
+    slugInput.addEventListener('input', function () { slugTouched = true; });
+    nameInput.addEventListener('input', function () {
+      if (slugTouched) return;
+      slugInput.value = nameInput.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    });
+  })();
+</script>

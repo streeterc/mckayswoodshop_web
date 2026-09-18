@@ -62,7 +62,7 @@ def cart_add(
     db: Session = Depends(get_db),
 ):
     variant = db.get(ProductVariant, variant_id)
-    if not variant:
+    if not variant or not variant.active:
         raise HTTPException(status_code=404, detail="Variant not found")
     if quantity < 1 or quantity > variant.stock_count:
         raise HTTPException(status_code=400, detail="Requested quantity not available")

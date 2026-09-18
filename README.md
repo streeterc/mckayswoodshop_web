@@ -149,7 +149,6 @@ has a default (usually empty/disabled) except where noted.
 | `SITE_NAME`, `DOMAIN`, `BASE_URL` | Branding, Nginx/Certbot, absolute links in emails | |
 | `SHIPPO_API_KEY` | Live carrier rates + address validation ([app/shipping.py](app/shipping.py)) | Checkout **blocks** if this is unset or Shippo errors — no flat-rate fallback |
 | `SHOP_ADDRESS_NAME/STREET1/STREET2/CITY/STATE/ZIP/COUNTRY/PHONE` | Ship-from address for rate quotes/labels | Must be a real address Shippo can validate |
-| `GOOGLE_MAPS_API_KEY` | Places autocomplete on the checkout address form | Needs the **Places API (New)** enabled — the classic `Autocomplete` widget doesn't work with a New-only key; see `checkout.html` |
 | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Card checkout + webhook verification | Also powers Stripe Tax ([app/tax.py](app/tax.py)) — **must be activated in the Stripe Dashboard (Settings → Tax) with an origin address**, or checkout blocks with a 502 |
 | `COINBASE_COMMERCE_API_KEY`, `COINBASE_WEBHOOK_SHARED_SECRET`, `ENABLE_CRYPTO_CHECKOUT` | Crypto checkout | The UI (payment badges, checkout radio) always renders — shown disabled/"coming soon" until `ENABLE_CRYPTO_CHECKOUT=true` with valid keys |
 | `EMAIL_PROVIDER` | `console` \| `postmark` \| `sendgrid` \| `brevo` \| `ses` | `console` just logs — nothing is actually sent. `ses` needs boto3 wired up (not implemented) |
@@ -163,17 +162,26 @@ has a default (usually empty/disabled) except where noted.
 
 ### Shop + checkout
 - Guest cart via a signed cookie (no accounts).
-- **Address autocomplete**: Google Places (New) `PlaceAutocompleteElement` on
-  the checkout street field, restricted to US/CA. The parsed fields render
-  **read-only** once a place is selected (except apartment/unit, which
-  Google never fills in) — a "Can't find your address? Enter it manually"
-  toggle covers PO Boxes and anything else Places can't find.
-- **Address validation**: before quoting shipping, the address is validated
+- **Address entry**: plain, always-editable text fields (no autocomplete
+  widget); country is a `<select>` covering ~188 countries (`shipping.
+  country_choices()`), Canada and the US pinned first, then a "Popular
+  destinations" group, then everything else alphabetically. Sanctioned/
+  embargoed destinations (Cuba, Iran, North Korea, Russia, Sudan, Syria)
+  are left off entirely.
+- **Address format checks**: before ever calling Shippo, `shipping.
+  format_errors()` runs cheap syntax checks (US ZIP / Canadian postal code
+  shape, a 2-letter state/province, a street with a number) — exact for
+  US/CA, a looser sanity check everywhere else since formats vary too much
+  worldwide to hardcode per country. Required fields left blank, or fields
+  that fail this check, return immediately with red X's on just the
+  offending fields — no Shippo call, no rate quote.
+- **Address validation**: once formats pass, the address is validated
   through Shippo's Addresses API. Invalid fields come back as inline
-  per-field errors (HTMX out-of-band swaps); a Shippo *outage* during
-  validation is not treated as invalid — checkout falls through with the
-  customer's original input rather than blocking. A validated address is
-  standardized before it's used for the rate quote.
+  per-field errors (HTMX out-of-band swaps); a Shippo *outage*, or a 200
+  with an empty `validation_results` (seen for Canadian addresses on this
+  account), is not treated as invalid — checkout falls through with the
+  customer's original input rather than falsely confirming it or blocking.
+  A validated address is standardized before it's used for the rate quote.
 - **Live shipping rates**: quoted from Shippo, restricted to five carriers
   (Canada Post, Purolator, UPS, FedEx, DHL — see `CARRIER_LOGOS` in
   `app/shipping.py`). Each carrier is reduced to at most two rows — its
@@ -261,7 +269,6 @@ already factored out there.
    - **Live** Stripe keys, with **Stripe Tax activated in live mode**
    - Live Coinbase Commerce API key + webhook shared secret (if enabling crypto)
    - A **live** Shippo API key and your real ship-from address
-   - A production `GOOGLE_MAPS_API_KEY` with an HTTP referrer restriction for your domain
    - Real transactional email provider credentials
    - A strong `ADMIN_SESSION_SECRET` (random 32+ byte string — `openssl rand -hex 32`)
    - `DOMAIN=yourdomain.com` (used by Certbot)
@@ -298,7 +305,6 @@ or just `git pull && make prod-up && make prod-migrate` directly on the droplet.
 | Stripe Tax activation | Not yet active on the configured Stripe account as of this writing — checkout will 502 on the tax step until it is (Dashboard → Settings → Tax) |
 | Coinbase Commerce | UI is built and always visible but disabled ("coming soon") — needs `COINBASE_COMMERCE_API_KEY` + `COINBASE_WEBHOOK_SHARED_SECRET` + `ENABLE_CRYPTO_CHECKOUT=true` to go live |
 | Shippo carrier accounts | Only whichever carriers are activated under Settings → Carriers in the Shippo dashboard will actually return rates, even though 5 are allow-listed in code |
-| Google Maps API key restrictions | Restrict the key to your domain (HTTP referrers) before going to production — it's currently usable from anywhere |
 | Stripe country/payout support | Check https://stripe.com/global before going live |
 | Domain + DNS | `DOMAIN` env var, used by Nginx/Certbot config |
 
@@ -309,7 +315,6 @@ or just `git pull && make prod-up && make prod-migrate` directly on the droplet.
 - [ ] Admin password is strong and unique; consider adding IP allowlisting in `nginx.prod.conf` (`allow`/`deny` directives — see comments in that file)
 - [ ] `ADMIN_SESSION_SECRET` is a real random value, not the placeholder
 - [ ] Stripe and Coinbase webhook signature verification is on (`STRIPE_WEBHOOK_SECRET`, `COINBASE_WEBHOOK_SHARED_SECRET` set — the app refuses to start in production without them, see `config.py`)
-- [ ] `GOOGLE_MAPS_API_KEY` is restricted to your domain in Google Cloud Console
 - [ ] Stripe Tax is activated in **live** mode, not just test mode
 - [ ] `.env.prod` is **not** committed to git (already in `.gitignore`)
 - [ ] HTTPS is enforced (Nginx redirects HTTP→HTTPS in `nginx.prod.conf`)

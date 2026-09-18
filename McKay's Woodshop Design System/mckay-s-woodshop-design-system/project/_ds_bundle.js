@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"McKaySWoodshopDesignSystem_ff08a8","components":[{"name":"Icon","sourcePath":"components/brand/Icon.jsx"},{"name":"Logo","sourcePath":"components/brand/Logo.jsx"},{"name":"Mark","sourcePath":"components/brand/Mark.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"Divider","sourcePath":"components/core/Divider.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"SpecList","sourcePath":"components/core/SpecList.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"ProgressSteps","sourcePath":"components/feedback/ProgressSteps.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Tooltip","sourcePath":"components/feedback/Tooltip.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"Field","sourcePath":"components/forms/Field.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"Textarea","sourcePath":"components/forms/Textarea.jsx"},{"name":"NavBar","sourcePath":"components/navigation/NavBar.jsx"},{"name":"SideNav","sourcePath":"components/navigation/SideNav.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"}],"sourceHashes":{"components/brand/Icon.jsx":"e7f8d208583e","components/brand/Logo.jsx":"fc25e30aef27","components/brand/Mark.jsx":"85cf608be7e3","components/core/Badge.jsx":"69936c2e4495","components/core/Button.jsx":"96ec63397d20","components/core/Card.jsx":"2b1f4d087d36","components/core/Divider.jsx":"afdcf5ae02b6","components/core/IconButton.jsx":"1921c042c0d1","components/core/SpecList.jsx":"ab76bd0de380","components/core/Tag.jsx":"d83c4a312b3a","components/feedback/Dialog.jsx":"8b4992a0cc24","components/feedback/ProgressSteps.jsx":"776d04bb7a2f","components/feedback/Toast.jsx":"0f00cbc53a3e","components/feedback/Tooltip.jsx":"e26e96e3525d","components/forms/Checkbox.jsx":"0ebb5ee90ebf","components/forms/Field.jsx":"0ffc2acf12d0","components/forms/Input.jsx":"e810b17f42bc","components/forms/Radio.jsx":"34e0ab39c3fe","components/forms/Select.jsx":"ff3c51814c7c","components/forms/Switch.jsx":"f4186bbdcd42","components/forms/Textarea.jsx":"cd95ed686c93","components/navigation/NavBar.jsx":"64d0caf4658b","components/navigation/SideNav.jsx":"a91cebe4f710","components/navigation/Tabs.jsx":"db7dabef5359","guidelines/tweaks-panel.jsx":"d259e3a86f73","ui_kits/portal/Dashboard.jsx":"ce9860cf6b9c","ui_kits/portal/Invoices.jsx":"5696613b7908","ui_kits/portal/Login.jsx":"9bdb3a8eafb8","ui_kits/portal/Messages.jsx":"f56c69c8848d","ui_kits/portal/PortalChrome.jsx":"2b6417064ab5","ui_kits/portal/Project.jsx":"a98440878952","ui_kits/website/Chrome.jsx":"a1be5542a71a","ui_kits/website/Home.jsx":"6e85a9d747af","ui_kits/website/ProjectDetail.jsx":"2136aa28d4fb","ui_kits/website/QuoteRequest.jsx":"bf9b15cea4de","ui_kits/website/Work.jsx":"b9f55496985e"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"McKaySWoodshopDesignSystem_ff08a8","components":[{"name":"Icon","sourcePath":"components/brand/Icon.jsx"},{"name":"Logo","sourcePath":"components/brand/Logo.jsx"},{"name":"Mark","sourcePath":"components/brand/Mark.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"Divider","sourcePath":"components/core/Divider.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"SpecList","sourcePath":"components/core/SpecList.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"},{"name":"Dialog","sourcePath":"components/feedback/Dialog.jsx"},{"name":"ProgressSteps","sourcePath":"components/feedback/ProgressSteps.jsx"},{"name":"Toast","sourcePath":"components/feedback/Toast.jsx"},{"name":"Tooltip","sourcePath":"components/feedback/Tooltip.jsx"},{"name":"Checkbox","sourcePath":"components/forms/Checkbox.jsx"},{"name":"Field","sourcePath":"components/forms/Field.jsx"},{"name":"Input","sourcePath":"components/forms/Input.jsx"},{"name":"Radio","sourcePath":"components/forms/Radio.jsx"},{"name":"Select","sourcePath":"components/forms/Select.jsx"},{"name":"Switch","sourcePath":"components/forms/Switch.jsx"},{"name":"Textarea","sourcePath":"components/forms/Textarea.jsx"},{"name":"NavBar","sourcePath":"components/navigation/NavBar.jsx"},{"name":"SideNav","sourcePath":"components/navigation/SideNav.jsx"},{"name":"Tabs","sourcePath":"components/navigation/Tabs.jsx"}],"sourceHashes":{"components/brand/Icon.jsx":"e7f8d208583e","components/brand/Logo.jsx":"fc25e30aef27","components/brand/Mark.jsx":"85cf608be7e3","components/core/Badge.jsx":"69936c2e4495","components/core/Button.jsx":"96ec63397d20","components/core/Card.jsx":"2b1f4d087d36","components/core/Divider.jsx":"afdcf5ae02b6","components/core/IconButton.jsx":"1921c042c0d1","components/core/SpecList.jsx":"ab76bd0de380","components/core/Tag.jsx":"d83c4a312b3a","components/feedback/Dialog.jsx":"8b4992a0cc24","components/feedback/ProgressSteps.jsx":"776d04bb7a2f","components/feedback/Toast.jsx":"0f00cbc53a3e","components/feedback/Tooltip.jsx":"e26e96e3525d","components/forms/Checkbox.jsx":"0ebb5ee90ebf","components/forms/Field.jsx":"0ffc2acf12d0","components/forms/Input.jsx":"e810b17f42bc","components/forms/Radio.jsx":"34e0ab39c3fe","components/forms/Select.jsx":"ff3c51814c7c","components/forms/Switch.jsx":"f4186bbdcd42","components/forms/Textarea.jsx":"cd95ed686c93","components/navigation/NavBar.jsx":"a7e390d49bab","components/navigation/SideNav.jsx":"a91cebe4f710","components/navigation/Tabs.jsx":"db7dabef5359","guidelines/tweaks-panel.jsx":"d259e3a86f73","ui_kits/portal/Dashboard.jsx":"ce9860cf6b9c","ui_kits/portal/Invoices.jsx":"5696613b7908","ui_kits/portal/Login.jsx":"9bdb3a8eafb8","ui_kits/portal/Messages.jsx":"f56c69c8848d","ui_kits/portal/PortalChrome.jsx":"2b6417064ab5","ui_kits/portal/Project.jsx":"a98440878952","ui_kits/website/Cart.jsx":"630511f80955","ui_kits/website/Chrome.jsx":"a21499a70346","ui_kits/website/Home.jsx":"c413b4a8d3f8","ui_kits/website/Journal.jsx":"1c60e50d7b77","ui_kits/website/ProductDetail.jsx":"c3cc0250ec4b","ui_kits/website/QuoteRequest.jsx":"9fb837ce70ce","ui_kits/website/Shop.jsx":"514c2cdda974"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -1155,13 +1155,14 @@ Object.assign(__ds_scope, { Textarea });
 // components/navigation/NavBar.jsx
 try { (() => {
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-/** Site header: logo left, links centre-right, one action. */
+/** Site header: knockout logo left, links right, one copper action. Matches the shipped site header. */
 function NavBar({
   links = [],
   active,
   onNavigate,
   action,
   assetBase = '/assets',
+  logoHeight = 68,
   style,
   ...rest
 }) {
@@ -1169,11 +1170,10 @@ function NavBar({
     style: {
       display: 'flex',
       alignItems: 'center',
-      gap: 'var(--space-10)',
-      height: 76,
-      padding: '0 var(--space-9)',
+      gap: 'var(--space-6)',
+      padding: 'var(--space-4) var(--space-9)',
       background: 'var(--surface-inverse)',
-      borderBottom: '1px solid var(--forest-800)',
+      borderBottom: '1px solid var(--line-on-inverse)',
       ...style
     }
   }, rest), /*#__PURE__*/React.createElement("a", {
@@ -1188,12 +1188,13 @@ function NavBar({
     }
   }, /*#__PURE__*/React.createElement(__ds_scope.Logo, {
     variant: "knockout",
-    height: 30,
+    height: logoHeight,
     assetBase: assetBase
   })), /*#__PURE__*/React.createElement("nav", {
     style: {
       display: 'flex',
-      gap: 'var(--space-8)',
+      alignItems: 'center',
+      gap: 'var(--space-9)',
       marginLeft: 'auto'
     }
   }, links.map(l => {
@@ -1208,10 +1209,10 @@ function NavBar({
         border: 'none',
         padding: 0,
         cursor: 'pointer',
-        color: on ? 'var(--copper-500)' : 'var(--forest-200)',
-        font: 'var(--weight-semibold) var(--text-2xs)/1 var(--font-ui)',
-        letterSpacing: 'var(--tracking-label)',
-        textTransform: 'uppercase',
+        color: on ? 'var(--copper-600)' : 'var(--text-on-forest)',
+        font: 'var(--weight-semibold) var(--text-sm)/1 var(--font-ui)',
+        textDecorationLine: on ? 'underline' : 'none',
+        textUnderlineOffset: 3,
         transition: 'var(--transition-color)'
       }
     }, label);
@@ -3175,6 +3176,150 @@ function Project({
 window.Project = Project;
 })(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/portal/Project.jsx", error: String((e && e.message) || e) }); }
 
+// ui_kits/website/Cart.jsx
+try { (() => {
+const {
+  Button,
+  Card,
+  Input
+} = window.McKaySWoodshopDesignSystem_ff08a8;
+const ROWS = [{
+  name: 'Walnut cutting board',
+  variant: 'With juice groove',
+  qty: 1,
+  total: '$138.00'
+}, {
+  name: 'Hand-carved butter knife',
+  variant: 'Cherry',
+  qty: 2,
+  total: '$56.00'
+}];
+function Cart({
+  go
+}) {
+  const th = {
+    font: 'var(--type-label)',
+    letterSpacing: 'var(--tracking-label)',
+    textTransform: 'uppercase',
+    color: 'var(--text-muted)',
+    textAlign: 'left',
+    padding: '12px var(--card-pad)',
+    borderBottom: '1px solid var(--line-hairline)'
+  };
+  const td = {
+    padding: '14px var(--card-pad)',
+    borderBottom: '1px solid var(--line-hairline)',
+    font: 'var(--type-body-sm)',
+    color: 'var(--text-body)'
+  };
+  return /*#__PURE__*/React.createElement("section", {
+    style: {
+      maxWidth: 'var(--container-narrow)',
+      margin: '0 auto',
+      padding: 'var(--section-y-tight) 40px var(--section-y)'
+    }
+  }, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "Your cart",
+    title: "Cart",
+    level: 1
+  }), /*#__PURE__*/React.createElement(Card, {
+    padding: "none",
+    style: {
+      overflow: 'hidden',
+      marginTop: 32
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse'
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    style: th
+  }, "Item"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      ...th,
+      width: 110
+    }
+  }, "Qty"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      ...th,
+      width: 120,
+      textAlign: 'right'
+    }
+  }, "Price"))), /*#__PURE__*/React.createElement("tbody", null, ROWS.map(r => /*#__PURE__*/React.createElement("tr", {
+    key: r.name
+  }, /*#__PURE__*/React.createElement("td", {
+    style: td
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, r.name), /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-spec)',
+      color: 'var(--text-muted)',
+      marginTop: 2
+    }
+  }, r.variant)), /*#__PURE__*/React.createElement("td", {
+    style: td
+  }, /*#__PURE__*/React.createElement(Input, {
+    type: "number",
+    defaultValue: r.qty,
+    min: "0",
+    max: "99",
+    style: {
+      width: 72
+    }
+  })), /*#__PURE__*/React.createElement("td", {
+    style: {
+      ...td,
+      textAlign: 'right'
+    }
+  }, /*#__PURE__*/React.createElement(Price, {
+    style: {
+      color: 'var(--text-heading)'
+    }
+  }, r.total)))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      gap: 16,
+      padding: 'var(--card-pad)',
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Subtotal"), /*#__PURE__*/React.createElement(Price, {
+    style: {
+      marginLeft: 'auto',
+      fontSize: 'var(--text-md)',
+      fontWeight: 600
+    }
+  }, "$194.00"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 24,
+      flexWrap: 'wrap',
+      marginTop: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)',
+      maxWidth: '46ch'
+    }
+  }, "Shipping is calculated at checkout based on your address."), /*#__PURE__*/React.createElement(PaymentBadges, null)), /*#__PURE__*/React.createElement(Button, {
+    variant: "accent",
+    size: "lg",
+    style: {
+      marginLeft: 'auto'
+    }
+  }, "Proceed to checkout")));
+}
+window.Cart = Cart;
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Cart.jsx", error: String((e && e.message) || e) }); }
+
 // ui_kits/website/Chrome.jsx
 try { (() => {
 const {
@@ -3213,14 +3358,16 @@ function Photo({
 }
 function Eyebrow({
   children,
-  tone
+  tone,
+  align
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       font: 'var(--type-eyebrow)',
       letterSpacing: 'var(--tracking-eyebrow)',
       textTransform: 'uppercase',
-      color: tone === 'inverse' ? 'var(--copper-500)' : 'var(--text-accent)'
+      color: tone === 'inverse' ? 'var(--copper-500)' : 'var(--text-accent)',
+      textAlign: align
     }
   }, children);
 }
@@ -3229,8 +3376,10 @@ function SectionHead({
   title,
   lede,
   inverse,
-  align = 'left'
+  align = 'left',
+  level = 2
 }) {
+  const H = level === 1 ? 'h1' : 'h2';
   return /*#__PURE__*/React.createElement("div", {
     style: {
       maxWidth: '60ch',
@@ -3246,9 +3395,9 @@ function SectionHead({
       background: 'var(--line-accent)',
       margin: align === 'center' ? '14px auto 12px' : '14px 0 12px'
     }
-  }), /*#__PURE__*/React.createElement("h2", {
+  }), /*#__PURE__*/React.createElement(H, {
     style: {
-      font: 'var(--type-h2)',
+      font: level === 1 ? 'var(--type-h1)' : 'var(--type-h2)',
       letterSpacing: 'var(--tracking-tight)',
       color: inverse ? 'var(--text-on-forest)' : 'var(--text-heading)'
     }
@@ -3260,26 +3409,80 @@ function SectionHead({
     }
   }, lede));
 }
+function Price({
+  children,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--type-spec)',
+      fontVariantNumeric: 'tabular-nums',
+      ...style
+    }
+  }, children);
+}
+
+/** Card / Crypto payment affordances, shown on shop, product and cart screens. */
+function PaymentBadges({
+  cryptoEnabled = false
+}) {
+  const base = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    font: 'var(--type-label)',
+    padding: '4px 10px',
+    borderRadius: 'var(--radius-xs)',
+    background: 'var(--surface-sunken)',
+    border: '1px solid var(--line-hairline)',
+    color: 'var(--forest-700)'
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap',
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: base
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "credit-card",
+    size: 14
+  }), "Card"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      ...base,
+      color: cryptoEnabled ? 'var(--forest-700)' : 'var(--text-muted)',
+      borderStyle: cryptoEnabled ? 'solid' : 'dashed'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "box",
+    size: 14
+  }), "Crypto", !cryptoEnabled && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)'
+    }
+  }, "(coming soon)")));
+}
 function SiteHeader({
   page,
   go
 }) {
+  const active = page === 'product' ? 'shop' : page;
   return /*#__PURE__*/React.createElement(NavBar, {
     assetBase: A,
-    active: page,
+    active: active,
     onNavigate: go,
     links: [{
-      label: 'Work',
-      value: 'work'
+      label: 'Home',
+      value: 'home'
     }, {
-      label: 'Services',
-      value: 'services'
+      label: 'Shop',
+      value: 'shop'
     }, {
-      label: 'Process',
-      value: 'process'
-    }, {
-      label: 'About',
-      value: 'about'
+      label: 'Cart',
+      value: 'cart'
     }],
     action: /*#__PURE__*/React.createElement(Button, {
       variant: "accent",
@@ -3291,11 +3494,24 @@ function SiteHeader({
 function SiteFooter({
   go
 }) {
+  const link = (label, target) => /*#__PURE__*/React.createElement("button", {
+    key: label,
+    onClick: () => target && go(target),
+    style: {
+      background: 'none',
+      border: 'none',
+      padding: 0,
+      textAlign: 'left',
+      cursor: target ? 'pointer' : 'default',
+      font: 'var(--type-body-sm)',
+      color: 'var(--forest-300)'
+    }
+  }, label);
   const col = (title, items) => /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 10
+      gap: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -3304,13 +3520,14 @@ function SiteFooter({
       textTransform: 'uppercase',
       color: 'var(--copper-500)'
     }
-  }, title), items.map(i => /*#__PURE__*/React.createElement("span", {
-    key: i,
+  }, title), items);
+  const plain = s => /*#__PURE__*/React.createElement("span", {
+    key: s,
     style: {
       font: 'var(--type-body-sm)',
-      color: 'var(--forest-200)'
+      color: 'var(--forest-300)'
     }
-  }, i)));
+  }, s);
   return /*#__PURE__*/React.createElement("footer", {
     style: {
       background: 'var(--surface-inverse-deep)',
@@ -3326,16 +3543,16 @@ function SiteFooter({
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Logo, {
     variant: "knockout",
-    height: 64,
+    height: 32,
     assetBase: A
   }), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body-sm)',
       color: 'var(--forest-300)',
-      marginTop: 18,
+      marginTop: 16,
       maxWidth: '32ch'
     }
-  }, "Custom cabinetry, furniture and millwork. One shop, one crew, start to finish.")), col('Work', ['Kitchens', 'Built-ins', 'Furniture', 'Stairs & railings']), col('Shop', ['Process', 'Timber & finishes', 'Lead times', 'Careers']), col('Visit', ['1140 Mill Road', 'Ontario, Canada', '(613) 555-0188', 'shop@mckayswoodshop.ca'])), /*#__PURE__*/React.createElement("div", {
+  }, "Custom carpentry and woodworking. Measured, milled, assembled and finished in one shop.")), col('Site', [link('Home', 'home'), link('Shop', 'shop'), link('Cart', 'cart'), link('Request a quote', 'quote')]), col('Visit', ['1140 Mill Road', 'Ontario, Canada', '(613) 555-0188', 'shop@mckayswoodshop.ca'].map(plain)), col('Shop hours', ['Monday to Friday, 7 to 4', 'Saturday by appointment'].map(plain))), /*#__PURE__*/React.createElement("div", {
     style: {
       maxWidth: 'var(--container)',
       margin: '40px auto 0',
@@ -3347,12 +3564,10 @@ function SiteFooter({
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-wide)',
+      font: 'var(--type-body-sm)',
       color: 'var(--forest-300)'
     }
-  }, "\xA9 2026 MCKAY'S WOODSHOP"), /*#__PURE__*/React.createElement("span", {
+  }, "\xA9 2026 McKay's Woodshop. All rights reserved."), /*#__PURE__*/React.createElement("span", {
     style: {
       marginLeft: 'auto',
       display: 'flex',
@@ -3387,6 +3602,8 @@ Object.assign(window, {
   Photo,
   Eyebrow,
   SectionHead,
+  Price,
+  PaymentBadges,
   SiteHeader,
   SiteFooter,
   Shell,
@@ -3400,39 +3617,53 @@ const {
   Button,
   Card,
   Badge,
-  Divider,
-  SpecList,
   Icon,
-  Mark,
-  ProgressSteps
+  Mark
 } = window.McKaySWoodshopDesignSystem_ff08a8;
-const SERVICES = [{
-  icon: 'chef-hat',
-  title: 'Kitchens',
-  copy: 'Face-frame and frameless cabinetry, drawn around how you actually cook.'
+const WHAT_I_BUILD = [{
+  icon: 'armchair',
+  title: 'Furniture',
+  copy: 'Tables, chairs, cabinets and other freestanding pieces built to order.'
 }, {
   icon: 'library',
   title: 'Built-ins',
-  copy: 'Bookcases, mudrooms, window seats — scribed to the walls you have.'
+  copy: 'Shelving, closets and benches built to fit a specific room.'
 }, {
-  icon: 'armchair',
-  title: 'Furniture',
-  copy: 'Tables, beds and casework in solid hardwood, joined to last generations.'
+  icon: 'trees',
+  title: 'Outdoor',
+  copy: 'Decks, pergolas and planters built to hold up outside.'
 }, {
-  icon: 'move-up-right',
-  title: 'Stairs & railings',
-  copy: 'Treads, stringers and handrails milled and fitted on site.'
+  icon: 'hammer',
+  title: 'Restoration',
+  copy: 'Repair and refinishing for an existing piece worth saving.'
 }];
-const PROJECTS = [{
-  name: 'Glenora kitchen',
-  meta: 'White oak · 2026',
-  tall: true
+const HOW_IT_WORKS = [{
+  n: '01',
+  title: 'Reach out',
+  copy: 'Send a quote request with the rough idea, size and timeline.'
 }, {
-  name: 'Mill Road library',
-  meta: 'Black walnut · 2025'
+  n: '02',
+  title: 'Get a quote',
+  copy: 'A follow-up call or message to firm up details, then a price and timeline.'
 }, {
-  name: 'Harbour table',
-  meta: 'Hard maple · 2025'
+  n: '03',
+  title: 'Built to order',
+  copy: 'The piece gets built in the shop, with updates along the way.'
+}, {
+  n: '04',
+  title: 'Delivery or pickup',
+  copy: 'Finished pieces are delivered locally or ready for pickup at the shop.'
+}];
+const POSTS = [{
+  title: 'Flattening a slab without a CNC',
+  summary: 'A router sled, two rails and an afternoon. What worked and what I would change.',
+  date: '2026-08-14',
+  tags: 'jigs, walnut'
+}, {
+  title: 'Why I stopped buying pre-milled lumber',
+  summary: 'Rough stock costs less and gives you a say in grain, but it needs somewhere to sit.',
+  date: '2026-07-02',
+  tags: 'materials'
 }];
 function Home({
   go
@@ -3453,66 +3684,45 @@ function Home({
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Eyebrow, {
     tone: "inverse"
-  }, "Custom woodworking \xB7 Est. 1998"), /*#__PURE__*/React.createElement("h1", {
+  }, "Custom Woodworking \xB7 Simcoe County, ON"), /*#__PURE__*/React.createElement("div", {
     style: {
-      font: 'var(--weight-regular) var(--text-6xl)/1.02 var(--font-display)',
-      letterSpacing: 'var(--tracking-tight)',
-      color: 'var(--text-on-forest)',
-      marginTop: 20
+      width: 48,
+      height: 3,
+      background: 'var(--line-accent)',
+      margin: '14px 0 12px'
     }
-  }, "Cabinetry milled a mile from your kitchen."), /*#__PURE__*/React.createElement("p", {
+  }), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      font: 'var(--weight-regular) var(--text-5xl)/1.05 var(--font-display)',
+      letterSpacing: 'var(--tracking-tight)',
+      color: 'var(--text-on-forest)'
+    }
+  }, "Hi, I'm Eric McKay."), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body)',
       color: 'var(--text-on-forest-muted)',
       maxWidth: '46ch',
       marginTop: 20
     }
-  }, "We measure the room, draw the piece, mill the boards and finish it by hand. Nothing is subcontracted and nothing leaves the shop unfinished."), /*#__PURE__*/React.createElement("div", {
+  }, "I build furniture, built-ins and small wood goods out of a one-person shop north of Barrie."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body)',
+      color: 'var(--text-on-forest-muted)',
+      maxWidth: '46ch',
+      marginTop: 14
+    }
+  }, "Most local woodworkers make you wait on a quote before you can buy anything. Here, finished pieces are ready to shop online today \u2014 shipped across Canada, or pick up nearby."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      gap: 12,
-      marginTop: 32
+      gap: 8,
+      flexWrap: 'wrap',
+      marginTop: 24
     }
-  }, /*#__PURE__*/React.createElement(Button, {
-    variant: "accent",
-    size: "lg",
-    onClick: () => go('quote'),
-    iconRight: /*#__PURE__*/React.createElement(Icon, {
-      name: "arrow-right",
-      size: 17
-    })
-  }, "Request a quote"), /*#__PURE__*/React.createElement(Button, {
-    variant: "secondary",
-    size: "lg",
-    onClick: () => go('work'),
-    style: {
-      color: 'var(--copper-200)',
-      borderColor: 'var(--forest-400)'
-    }
-  }, "See the work")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 40,
-      marginTop: 44
-    }
-  }, [['28', 'years in the shop'], ['410', 'rooms delivered'], ['9–11', 'week lead time']].map(([n, l]) => /*#__PURE__*/React.createElement("div", {
-    key: l
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--weight-regular) var(--text-3xl)/1 var(--font-display)',
-      color: 'var(--copper-500)'
-    }
-  }, n), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-label)',
-      textTransform: 'uppercase',
-      color: 'var(--forest-300)',
-      marginTop: 6
-    }
-  }, l))))), /*#__PURE__*/React.createElement(Photo, {
-    label: "Hero photography \xB7 shop interior",
+  }, ['Secure online checkout', 'Ships across Canada', 'Ontario-made'].map(b => /*#__PURE__*/React.createElement(Badge, {
+    key: b,
+    tone: "copper"
+  }, b)))), /*#__PURE__*/React.createElement(Photo, {
+    label: "Shop interior",
     ratio: "5 / 6",
     style: {
       background: 'var(--forest-600)',
@@ -3525,123 +3735,59 @@ function Home({
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       maxWidth: 'var(--container)',
-      margin: '0 auto'
+      margin: '0 auto',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 56,
+      alignItems: 'start'
     }
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    eyebrow: "What we build",
-    title: "Four things, done properly",
-    lede: "Every job runs through the same six stages, whether it's one table or a whole floor of millwork."
-  }), /*#__PURE__*/React.createElement("div", {
+    eyebrow: "About",
+    title: "Every piece starts with a board, not a blueprint."
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
     style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(4, minmax(0,1fr))',
-      gap: 20,
-      marginTop: 40
-    }
-  }, SERVICES.map(s => /*#__PURE__*/React.createElement(Card, {
-    key: s.title,
-    padding: "lg",
-    interactive: true
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: 'var(--copper-700)',
-      display: 'flex'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: s.icon,
-    size: 26
-  })), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      font: 'var(--type-h3)',
-      color: 'var(--text-heading)',
-      marginTop: 18
-    }
-  }, s.title), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: 'var(--type-body-sm)',
+      font: 'var(--type-body)',
       color: 'var(--text-body)',
-      marginTop: 8
+      maxWidth: '52ch'
     }
-  }, s.copy)))))), /*#__PURE__*/React.createElement("section", {
+  }, "I spent six years in a production cabinetry shop before setting up on my own. That is where I learned to work to a drawing, hold a tolerance, and finish a piece so it still looks right in ten years."), /*#__PURE__*/React.createElement("p", {
     style: {
-      padding: '0 40px var(--section-y)'
+      font: 'var(--type-body)',
+      color: 'var(--text-body)',
+      maxWidth: '52ch',
+      marginTop: 14
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, "The shop is small and solid wood only. Most pieces are oak, maple or walnut, finished with a hand-rubbed oil rather than a sprayed film, because it wears in instead of peeling off."), /*#__PURE__*/React.createElement("p", {
     style: {
-      maxWidth: 'var(--container)',
-      margin: '0 auto'
+      font: 'var(--type-body)',
+      color: 'var(--text-body)',
+      maxWidth: '52ch',
+      marginTop: 14
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'flex-end',
-      justifyContent: 'space-between',
-      gap: 24
-    }
-  }, /*#__PURE__*/React.createElement(SectionHead, {
-    eyebrow: "Selected work",
-    title: "Recent rooms"
-  }), /*#__PURE__*/React.createElement(Button, {
-    variant: "ghost",
-    onClick: () => go('work'),
-    iconRight: /*#__PURE__*/React.createElement(Icon, {
-      name: "arrow-right",
-      size: 15
-    })
-  }, "All projects")), /*#__PURE__*/React.createElement("div", {
+  }, "Everything I build is guaranteed against defects in workmanship for as long as you own it. You can also find me most Saturdays at the Barrie farmers' market."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
-      gridTemplateColumns: '1.6fr 1fr 1fr',
+      gridTemplateColumns: 'repeat(3, minmax(0,1fr))',
       gap: 20,
-      marginTop: 36
+      marginTop: 32,
+      paddingTop: 32,
+      borderTop: '1px solid var(--line-hairline)'
     }
-  }, PROJECTS.map(p => /*#__PURE__*/React.createElement(Card, {
-    key: p.name,
-    padding: "none",
-    interactive: true,
+  }, [['09', 'Years in the shop'], ['240', 'Pieces built'], ['Solid wood', 'Materials, always']].map(([n, l]) => /*#__PURE__*/React.createElement("div", {
+    key: l
+  }, /*#__PURE__*/React.createElement(Price, {
     style: {
-      overflow: 'hidden',
-      cursor: 'pointer'
-    },
-    onClick: () => go('project')
-  }, /*#__PURE__*/React.createElement(Photo, {
-    label: "Project photography",
-    ratio: p.tall ? '5 / 4' : '4 / 3',
-    style: {
-      border: 'none',
-      borderRadius: 0
-    }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: 'var(--card-pad)',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-h4)',
+      fontSize: 'var(--text-lg)',
+      fontWeight: 600,
       color: 'var(--text-heading)'
     }
-  }, p.name), /*#__PURE__*/React.createElement("div", {
+  }, n), /*#__PURE__*/React.createElement("div", {
     style: {
-      font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-wide)',
-      textTransform: 'uppercase',
+      font: 'var(--type-body-sm)',
       color: 'var(--text-muted)',
-      marginTop: 5
+      marginTop: 4
     }
-  }, p.meta)), /*#__PURE__*/React.createElement("span", {
-    style: {
-      marginLeft: 'auto',
-      color: 'var(--copper-700)',
-      display: 'flex'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "arrow-up-right",
-    size: 17
-  })))))))), /*#__PURE__*/React.createElement("section", {
+  }, l))))))), /*#__PURE__*/React.createElement("section", {
     style: {
       background: 'var(--surface-sunken)',
       padding: 'var(--section-y) 40px',
@@ -3654,113 +3800,115 @@ function Home({
       margin: '0 auto'
     }
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    eyebrow: "How a job runs",
-    title: "Six stages, one shop",
-    align: "center"
+    eyebrow: "What I build",
+    title: "Four kinds of projects, one shop.",
+    lede: "From small commissions to full built-ins. Custom furniture is quoted individually, but as a rough guide dining tables typically start around $2,500."
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 44
-    }
-  }, /*#__PURE__*/React.createElement(ProgressSteps, {
-    current: 5,
-    steps: [{
-      label: 'Measure',
-      meta: 'Week 1'
-    }, {
-      label: 'Design',
-      meta: 'Weeks 2–3'
-    }, {
-      label: 'Mill',
-      meta: 'Weeks 4–6'
-    }, {
-      label: 'Assemble',
-      meta: 'Weeks 7–8'
-    }, {
-      label: 'Finish',
-      meta: 'Weeks 9–10'
-    }, {
-      label: 'Install',
-      meta: 'Week 11'
-    }]
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(3, minmax(0,1fr))',
+      gridTemplateColumns: '1fr 1fr',
       gap: 20,
-      marginTop: 48
+      marginTop: 40
     }
-  }, /*#__PURE__*/React.createElement(Card, {
-    variant: "inverse",
-    padding: "lg"
-  }, /*#__PURE__*/React.createElement(Mark, {
-    glyph: "lumber",
-    tone: "copper",
-    size: 28,
-    assetBase: A
-  }), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      font: 'var(--type-h3)',
-      color: 'var(--text-on-forest)',
-      marginTop: 16
-    }
-  }, "We buy the log, not the board"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: 'var(--type-body-sm)',
-      color: 'var(--text-on-forest-muted)',
-      marginTop: 8
-    }
-  }, "Grain is matched across a whole run because it came off the same tree.")), /*#__PURE__*/React.createElement(Card, {
-    padding: "lg"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-label)',
-      letterSpacing: 'var(--tracking-label)',
-      textTransform: 'uppercase',
-      color: 'var(--text-muted)'
-    }
-  }, "Typical kitchen"), /*#__PURE__*/React.createElement(SpecList, {
-    style: {
-      marginTop: 14
-    },
-    items: [{
-      label: 'Lead time',
-      value: '9–11 weeks'
-    }, {
-      label: 'Species',
-      value: 'Oak, walnut, maple'
-    }, {
-      label: 'Finish',
-      value: 'Hand-rubbed oil'
-    }, {
-      label: 'Warranty',
-      value: '10 years'
-    }]
-  })), /*#__PURE__*/React.createElement(Card, {
+  }, WHAT_I_BUILD.map(s => /*#__PURE__*/React.createElement(Card, {
+    key: s.title,
     padding: "lg",
-    variant: "accent"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    tone: "copper"
-  }, "Booking now"), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      display: 'flex',
+      gap: 16,
+      alignItems: 'flex-start'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--forest-700)',
+      display: 'flex'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: s.icon,
+    size: 30
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
     style: {
       font: 'var(--type-h3)',
-      color: 'var(--text-heading)',
-      marginTop: 16
+      color: 'var(--text-heading)'
     }
-  }, "Spring 2027 slots"), /*#__PURE__*/React.createElement("p", {
+  }, s.title), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body-sm)',
       color: 'var(--text-body)',
-      marginTop: 8
+      marginTop: 6
     }
-  }, "Four kitchen slots left. Site visits are free within 90 minutes of the shop."), /*#__PURE__*/React.createElement(Button, {
-    variant: "primary",
-    block: true,
+  }, s.copy))))), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 20
+      marginTop: 'var(--section-y-tight)'
+    }
+  }, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "How it works",
+    title: "From first message to finished piece."
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '32px 56px',
+      marginTop: 36
+    }
+  }, HOW_IT_WORKS.map(s => /*#__PURE__*/React.createElement("div", {
+    key: s.n
+  }, /*#__PURE__*/React.createElement(Price, {
+    style: {
+      color: 'var(--text-muted)'
+    }
+  }, s.n), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      font: 'var(--type-h3)',
+      color: 'var(--text-heading)',
+      marginTop: 6
+    }
+  }, s.title), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-body)',
+      marginTop: 6,
+      maxWidth: '44ch'
+    }
+  }, s.copy))))))), /*#__PURE__*/React.createElement("section", {
+    style: {
+      padding: 'var(--section-y) 40px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 'var(--container)',
+      margin: '0 auto',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 56,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "Shop",
+    title: "Take a look at what I'm making.",
+    lede: "Small runs of finished pieces, priced openly and ready to ship \u2014 no quote request needed. Every price is listed up front; shipping is calculated at checkout based on your address, with local pickup available near Barrie."
+  }), /*#__PURE__*/React.createElement(Button, {
+    variant: "accent",
+    size: "lg",
+    style: {
+      marginTop: 24
     },
-    onClick: () => go('quote')
-  }, "Book a site visit"))))), /*#__PURE__*/React.createElement("section", {
+    onClick: () => go('shop')
+  }, "Visit the shop")), /*#__PURE__*/React.createElement("div", {
     style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement(Photo, {
+    label: "Walnut cutting board",
+    ratio: "1 / 1"
+  }), /*#__PURE__*/React.createElement(Photo, {
+    label: "Butter knife",
+    ratio: "1 / 1"
+  })))), /*#__PURE__*/React.createElement("section", {
+    style: {
+      background: 'var(--surface-inverse)',
       padding: 'var(--section-y) 40px'
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -3769,184 +3917,20 @@ function Home({
       margin: '0 auto',
       textAlign: 'center'
     }
-  }, /*#__PURE__*/React.createElement(Mark, {
-    glyph: "buck",
-    size: 40,
-    assetBase: A,
-    style: {
-      margin: '0 auto'
-    }
-  }), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: 'var(--weight-light) var(--text-2xl)/1.35 var(--font-display)',
-      color: 'var(--text-heading)',
-      marginTop: 24
-    }
-  }, "\"They found a knot I'd have hidden, and built the drawer front around it so you'd see it every morning.\""), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-label)',
-      textTransform: 'uppercase',
-      color: 'var(--text-muted)',
-      marginTop: 20
-    }
-  }, "Helen A. \xB7 Glenora kitchen"))));
-}
-window.Home = Home;
-})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Home.jsx", error: String((e && e.message) || e) }); }
-
-// ui_kits/website/ProjectDetail.jsx
-try { (() => {
-const {
-  Card,
-  SpecList,
-  Badge,
-  Button,
-  Divider,
-  Icon,
-  Tag,
-  Mark
-} = window.McKaySWoodshopDesignSystem_ff08a8;
-function ProjectDetail({
-  go
-}) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("section", {
-    style: {
-      padding: '40px 40px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 'var(--container)',
-      margin: '0 auto'
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => go('work'),
-    style: {
-      background: 'none',
-      border: 'none',
-      padding: 0,
-      cursor: 'pointer',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      color: 'var(--text-muted)',
-      font: 'var(--weight-semibold) var(--text-2xs)/1 var(--font-ui)',
-      letterSpacing: 'var(--tracking-label)',
-      textTransform: 'uppercase'
-    }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "arrow-left",
-    size: 14
-  }), " All work"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1.1fr .9fr',
-      gap: 48,
-      marginTop: 28,
-      alignItems: 'start'
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Photo, {
-    label: "Project photography \xB7 hero",
-    ratio: "4 / 3"
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3,1fr)',
-      gap: 12,
-      marginTop: 12
-    }
-  }, /*#__PURE__*/React.createElement(Photo, {
-    label: "Detail",
-    ratio: "1 / 1"
-  }), /*#__PURE__*/React.createElement(Photo, {
-    label: "Detail",
-    ratio: "1 / 1"
-  }), /*#__PURE__*/React.createElement(Photo, {
-    label: "In the shop",
-    ratio: "1 / 1"
-  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Badge, {
-    tone: "copper"
-  }, "Kitchens"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      font: 'var(--type-h1)',
-      letterSpacing: 'var(--tracking-tight)',
-      color: 'var(--text-heading)',
-      marginTop: 16
-    }
-  }, "Glenora kitchen"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: 'var(--type-body)',
-      color: 'var(--text-body)',
-      marginTop: 16
-    }
-  }, "Nineteen feet of frameless cabinetry in rift-sawn white oak, all of it cut from three logs bought at a mill outside Perth. The island top is a single 12-foot slab, book-matched at the seam so the grain runs unbroken past the sink."), /*#__PURE__*/React.createElement(Divider, {
-    weight: "heavy",
-    tone: "accent",
-    style: {
-      margin: '28px 0 20px'
-    }
-  }), /*#__PURE__*/React.createElement(SpecList, {
-    items: [{
-      label: 'Job no.',
-      value: 'MW-2246'
-    }, {
-      label: 'Dimensions',
-      value: '228 × 40 × 36 in'
-    }, {
-      label: 'Species',
-      value: 'White oak, rift sawn'
-    }, {
-      label: 'Finish',
-      value: 'Hand-rubbed oil'
-    }, {
-      label: 'Hardware',
-      value: 'Blum, soft close'
-    }, {
-      label: 'Built',
-      value: '2026-04-18'
-    }]
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 8,
-      flexWrap: 'wrap',
-      marginTop: 24
-    }
-  }, /*#__PURE__*/React.createElement(Tag, null, "Frameless"), /*#__PURE__*/React.createElement(Tag, null, "Book-matched"), /*#__PURE__*/React.createElement(Tag, null, "Integrated lighting")), /*#__PURE__*/React.createElement(Card, {
-    variant: "sunken",
-    padding: "lg",
+  }, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "Have something in mind?",
+    title: "Let's build it together.",
+    inverse: true,
+    align: "center",
+    lede: "Tell me about the project, whatever stage it's at. A quote request costs nothing and comes with no obligation."
+  }), /*#__PURE__*/React.createElement(Button, {
+    variant: "accent",
+    size: "lg",
     style: {
       marginTop: 28
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 14
-    }
-  }, /*#__PURE__*/React.createElement(Mark, {
-    glyph: "pine",
-    size: 30,
-    assetBase: A
-  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-h4)',
-      color: 'var(--text-heading)'
-    }
-  }, "Want something like this?"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-body-sm)',
-      color: 'var(--text-muted)',
-      marginTop: 3
-    }
-  }, "Site visits are free within 90 minutes of the shop."))), /*#__PURE__*/React.createElement(Button, {
-    block: true,
-    style: {
-      marginTop: 18
     },
     onClick: () => go('quote')
-  }, "Request a quote")))))), /*#__PURE__*/React.createElement("section", {
+  }, "Request a quote"))), /*#__PURE__*/React.createElement("section", {
     style: {
       padding: 'var(--section-y) 40px'
     }
@@ -3955,483 +3939,936 @@ function ProjectDetail({
       maxWidth: 'var(--container)',
       margin: '0 auto'
     }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'space-between',
+      gap: 24,
+      flexWrap: 'wrap'
+    }
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    eyebrow: "Notes from the shop",
-    title: "What made this one hard"
-  }), /*#__PURE__*/React.createElement("div", {
+    eyebrow: "Benchside Journal",
+    title: "Posts"
+  }), /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    size: "sm",
+    onClick: () => go('journal')
+  }, "All posts")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+      gridTemplateColumns: '1fr 1fr',
       gap: 20,
       marginTop: 36
     }
-  }, [['Out-of-square walls', 'The back wall ran 11/16 in out over nineteen feet. Every scribe was cut on site rather than in the shop.'], ['One seam, twelve feet', 'The island slab was resawn and book-matched so the seam reads as a grain line, not a joint.'], ['Matching an old floor', 'The existing oak floor was forty years amber. We aged sample doors for three weeks before settling on the oil.']].map(([t, c]) => /*#__PURE__*/React.createElement(Card, {
-    key: t,
-    padding: "lg"
+  }, POSTS.map(p => /*#__PURE__*/React.createElement(PostCard, {
+    key: p.title,
+    post: p,
+    go: go
+  }))))));
+}
+function PostCard({
+  post,
+  go
+}) {
+  return /*#__PURE__*/React.createElement(Card, {
+    padding: "lg",
+    interactive: true,
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
+      cursor: 'pointer'
+    },
+    onClick: () => go && go('journal')
   }, /*#__PURE__*/React.createElement("h3", {
     style: {
       font: 'var(--type-h3)',
       color: 'var(--text-heading)'
     }
-  }, t), /*#__PURE__*/React.createElement("p", {
+  }, post.title), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body-sm)',
       color: 'var(--text-body)',
-      marginTop: 10
+      flex: '1 1 auto'
     }
-  }, c)))))));
+  }, post.summary), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      paddingTop: 12,
+      borderTop: '1px solid var(--line-hairline)',
+      font: 'var(--type-spec)',
+      color: 'var(--text-muted)'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, post.date), /*#__PURE__*/React.createElement("span", null, "\xB7"), /*#__PURE__*/React.createElement("span", null, post.tags), /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 'auto',
+      color: 'var(--copper-700)'
+    }
+  }, "\u2192")));
 }
-window.ProjectDetail = ProjectDetail;
-})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/ProjectDetail.jsx", error: String((e && e.message) || e) }); }
+Object.assign(window, {
+  Home,
+  PostCard
+});
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Home.jsx", error: String((e && e.message) || e) }); }
 
-// ui_kits/website/QuoteRequest.jsx
+// ui_kits/website/Journal.jsx
 try { (() => {
 const {
-  Card,
-  Field,
-  Input,
-  Textarea,
-  Select,
-  Checkbox,
-  Radio,
-  Button,
-  Icon,
-  Badge,
-  Toast,
-  Dialog,
-  SpecList
+  Button
 } = window.McKaySWoodshopDesignSystem_ff08a8;
-function QuoteRequest() {
-  const [scope, setScope] = React.useState('kitchen');
-  const [install, setInstall] = React.useState(true);
-  const [sent, setSent] = React.useState(false);
-  const [confirm, setConfirm] = React.useState(false);
+const POSTS = [{
+  title: 'Flattening a slab without a CNC',
+  summary: 'A router sled, two rails and an afternoon. What worked and what I would change.',
+  date: '2026-08-14',
+  tags: 'jigs, walnut'
+}, {
+  title: 'Why I stopped buying pre-milled lumber',
+  summary: 'Rough stock costs less and gives you a say in grain, but it needs somewhere to sit.',
+  date: '2026-07-02',
+  tags: 'materials'
+}, {
+  title: 'Oil finish, six months on',
+  summary: 'A side-by-side on two boards used daily since February, one oiled and one left bare.',
+  date: '2026-06-11',
+  tags: 'finishing'
+}, {
+  title: 'Setting up a one-person shop',
+  summary: 'The three machines worth the money and the two I could have skipped.',
+  date: '2026-05-23',
+  tags: 'shop'
+}, {
+  title: 'Reading a board before you cut it',
+  summary: 'Where the movement is going to come from, and how to leave room for it.',
+  date: '2026-04-30',
+  tags: 'materials'
+}, {
+  title: 'A bench hook is a ten-minute jig',
+  summary: 'Scrap plywood, three screws, and crosscuts stop wandering.',
+  date: '2026-04-02',
+  tags: 'jigs'
+}];
+function Journal({
+  go
+}) {
   return /*#__PURE__*/React.createElement("section", {
     style: {
-      padding: '56px 40px var(--section-y)'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 940,
+      maxWidth: 'var(--container)',
       margin: '0 auto',
-      display: 'grid',
-      gridTemplateColumns: '1.35fr .8fr',
-      gap: 40,
-      alignItems: 'start'
+      padding: 'var(--section-y-tight) 40px var(--section-y)'
     }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Eyebrow, null, "Request a quote"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      font: 'var(--type-h1)',
-      letterSpacing: 'var(--tracking-tight)',
-      color: 'var(--text-heading)',
-      marginTop: 14
-    }
-  }, "Tell us about the room"), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "From the bench",
+    title: "All posts",
+    level: 1
+  }), /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body)',
       color: 'var(--text-body)',
-      marginTop: 14,
-      maxWidth: '54ch'
+      maxWidth: '56ch',
+      marginTop: 16
     }
-  }, "Rough measurements are fine. We'll read this before we call, and we'll bring a tape when we visit."), /*#__PURE__*/React.createElement(Card, {
-    padding: "lg",
-    style: {
-      marginTop: 32
-    }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, "Notes from the shop \u2014 builds, techniques and what's on the bench."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 20
+      gridTemplateColumns: 'repeat(3, minmax(0,1fr))',
+      gap: 20,
+      marginTop: 36
     }
-  }, /*#__PURE__*/React.createElement(Field, {
-    label: "Full name",
-    required: true,
-    htmlFor: "q-name"
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-name",
-    placeholder: "Jordan McKay"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Phone",
-    required: true,
-    htmlFor: "q-phone"
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-phone",
-    prefix: /*#__PURE__*/React.createElement(Icon, {
-      name: "phone",
-      size: 15
-    }),
-    placeholder: "(613) 555-0188"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Email",
-    htmlFor: "q-email",
-    style: {
-      gridColumn: '1 / -1'
-    }
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-email",
-    placeholder: "you@example.ca"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Town",
-    htmlFor: "q-town"
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-town",
-    prefix: /*#__PURE__*/React.createElement(Icon, {
-      name: "map-pin",
-      size: 15
-    }),
-    placeholder: "Perth, ON"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Species",
-    hint: "We'll advise if you're unsure."
-  }, /*#__PURE__*/React.createElement(Select, {
-    placeholder: "No preference",
-    options: ['White oak', 'Black walnut', 'Hard maple', 'Ash', 'Douglas fir']
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      gridColumn: '1 / -1'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      font: 'var(--type-label)',
-      letterSpacing: 'var(--tracking-label)',
-      textTransform: 'uppercase',
-      color: 'var(--text-heading)',
-      marginBottom: 10
-    }
-  }, "Scope"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 9
-    }
-  }, [['kitchen', 'A kitchen or pantry'], ['built-in', 'Built-in cabinetry'], ['furniture', 'A piece of furniture'], ['other', 'Something else']].map(([v, l]) => /*#__PURE__*/React.createElement(Radio, {
-    key: v,
-    name: "scope",
-    label: l,
-    checked: scope === v,
-    onChange: () => setScope(v)
-  })))), /*#__PURE__*/React.createElement(Field, {
-    label: "Rough dimensions",
-    htmlFor: "q-dim"
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-dim",
-    placeholder: "e.g. 12 ft \xD7 9 ft, 8 ft ceiling"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Target month",
-    htmlFor: "q-when"
-  }, /*#__PURE__*/React.createElement(Input, {
-    id: "q-when",
-    prefix: /*#__PURE__*/React.createElement(Icon, {
-      name: "calendar-days",
-      size: 15
-    }),
-    placeholder: "Spring 2027"
-  })), /*#__PURE__*/React.createElement(Field, {
-    label: "Anything we should know",
-    style: {
-      gridColumn: '1 / -1'
-    }
-  }, /*#__PURE__*/React.createElement(Textarea, {
-    rows: 4,
-    placeholder: "Existing millwork, appliance sizes, a photo you keep coming back to."
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      gridColumn: '1 / -1',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement(Checkbox, {
-    label: "Include installation",
-    checked: install,
-    onChange: e => setInstall(e.target.checked)
-  }), /*#__PURE__*/React.createElement(Checkbox, {
-    label: "Send me the shop newsletter (four a year, no more)",
-    checked: false,
-    onChange: () => {}
+  }, POSTS.map(p => /*#__PURE__*/React.createElement(PostCard, {
+    key: p.title,
+    post: p
   }))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
       gap: 16,
-      marginTop: 28,
-      paddingTop: 22,
-      borderTop: '1px solid var(--line-hairline)'
+      marginTop: 40
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      font: 'var(--type-body-sm)',
-      color: 'var(--text-muted)'
-    }
-  }, "We reply within two business days."), /*#__PURE__*/React.createElement(Button, {
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    size: "sm"
+  }, "\u2190 Previous"), /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    size: "sm",
     style: {
       marginLeft: 'auto'
-    },
-    onClick: () => setConfirm(true),
-    iconRight: /*#__PURE__*/React.createElement(Icon, {
-      name: "arrow-right",
-      size: 15
-    })
-  }, "Send the request")))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 20,
-      position: 'sticky',
-      top: 24
     }
-  }, /*#__PURE__*/React.createElement(Card, {
-    variant: "inverse",
-    padding: "lg"
-  }, /*#__PURE__*/React.createElement(Badge, {
-    tone: "copper"
-  }, "Booking now"), /*#__PURE__*/React.createElement("div", {
+  }, "More posts \u2192")));
+}
+window.Journal = Journal;
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Journal.jsx", error: String((e && e.message) || e) }); }
+
+// ui_kits/website/ProductDetail.jsx
+try { (() => {
+const {
+  Button,
+  Field,
+  Select,
+  Input
+} = window.McKaySWoodshopDesignSystem_ff08a8;
+function ProductDetail({
+  go
+}) {
+  return /*#__PURE__*/React.createElement("section", {
     style: {
-      font: 'var(--type-h3)',
-      color: 'var(--text-on-forest)',
-      marginTop: 14
+      maxWidth: 'var(--container)',
+      margin: '0 auto',
+      padding: 'var(--section-y-tight) 40px var(--section-y)'
     }
-  }, "Spring 2027"), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => go('shop'),
     style: {
-      font: 'var(--type-body-sm)',
-      color: 'var(--text-on-forest-muted)',
-      marginTop: 8
-    }
-  }, "Four kitchen slots left. Furniture is booking eleven weeks out.")), /*#__PURE__*/React.createElement(Card, {
-    padding: "lg"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
+      background: 'none',
+      border: 'none',
+      padding: 0,
+      cursor: 'pointer',
       font: 'var(--type-label)',
       letterSpacing: 'var(--tracking-label)',
       textTransform: 'uppercase',
       color: 'var(--text-muted)'
     }
-  }, "What happens next"), /*#__PURE__*/React.createElement(SpecList, {
+  }, "\u2190 Back to shop"), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 14
-    },
-    items: [{
-      label: 'Step 1',
-      value: 'We call'
-    }, {
-      label: 'Step 2',
-      value: 'Site visit'
-    }, {
-      label: 'Step 3',
-      value: 'Drawings'
-    }, {
-      label: 'Step 4',
-      value: 'Fixed quote'
-    }]
-  })), /*#__PURE__*/React.createElement(Card, {
-    variant: "sunken",
-    padding: "lg"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: 12,
-      alignItems: 'flex-start'
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 56,
+      alignItems: 'start',
+      marginTop: 28
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement(Photo, {
+    label: "Product photo",
+    ratio: "1 / 1",
     style: {
-      color: 'var(--copper-700)',
-      display: 'flex',
-      marginTop: 2
+      borderRadius: 'var(--radius-card)'
     }
-  }, /*#__PURE__*/React.createElement(Icon, {
-    name: "phone",
-    size: 18
-  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", {
     style: {
-      font: 'var(--type-h4)',
+      font: 'var(--type-h1)',
+      letterSpacing: 'var(--tracking-tight)',
       color: 'var(--text-heading)'
     }
-  }, "Rather talk?"), /*#__PURE__*/React.createElement("div", {
+  }, "Walnut cutting board"), /*#__PURE__*/React.createElement(Price, {
     style: {
-      font: 'var(--type-spec)',
+      fontSize: 'var(--text-lg)',
+      color: 'var(--text-heading)',
+      display: 'block',
+      marginTop: 6
+    }
+  }, "$120.00"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body)',
       color: 'var(--text-body)',
+      maxWidth: '56ch',
+      marginTop: 16
+    }
+  }, "Edge-grain black walnut, 16 by 11 inches and an inch and a half thick, with a chamfered lip for lifting. Finished with a food-safe oil and beeswax blend."), /*#__PURE__*/React.createElement(PaymentBadges, null), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 96px',
+      gap: 16,
+      alignItems: 'end',
+      marginTop: 32
+    }
+  }, /*#__PURE__*/React.createElement(Field, {
+    label: "Variant",
+    htmlFor: "variant"
+  }, /*#__PURE__*/React.createElement(Select, {
+    id: "variant",
+    options: [{
+      value: 'standard',
+      label: 'Standard — $120.00'
+    }, {
+      value: 'large',
+      label: 'Large — $165.00'
+    }, {
+      value: 'juice-groove',
+      label: 'With juice groove — $138.00'
+    }]
+  })), /*#__PURE__*/React.createElement(Field, {
+    label: "Qty",
+    htmlFor: "qty"
+  }, /*#__PURE__*/React.createElement(Input, {
+    id: "qty",
+    type: "number",
+    defaultValue: "1",
+    min: "1",
+    max: "99"
+  }))), /*#__PURE__*/React.createElement(Button, {
+    variant: "primary",
+    style: {
+      marginTop: 20
+    },
+    onClick: () => go('cart')
+  }, "Add to cart"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)',
+      marginTop: 12
+    }
+  }, "Added items stay in your cart for two weeks."))));
+}
+window.ProductDetail = ProductDetail;
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/ProductDetail.jsx", error: String((e && e.message) || e) }); }
+
+// ui_kits/website/QuoteRequest.jsx
+try { (() => {
+const {
+  Button,
+  Card,
+  Field,
+  Input,
+  Select,
+  Textarea,
+  Icon
+} = window.McKaySWoodshopDesignSystem_ff08a8;
+const CATEGORIES = [{
+  id: 'furniture',
+  label: 'Furniture',
+  desc: 'Tables, chairs, cabinets',
+  icon: 'armchair'
+}, {
+  id: 'builtins',
+  label: 'Built-ins',
+  desc: 'Shelving, closets, benches',
+  icon: 'library'
+}, {
+  id: 'outdoor',
+  label: 'Outdoor',
+  desc: 'Decks, pergolas, planters',
+  icon: 'trees'
+}, {
+  id: 'restoration',
+  label: 'Restoration',
+  desc: 'Repair an existing piece',
+  icon: 'hammer'
+}, {
+  id: 'other',
+  label: 'Not sure yet / something else',
+  desc: "Tell me a bit and we'll figure it out together",
+  icon: 'circle-help',
+  wide: true
+}];
+const CAT_LABELS = {
+  furniture: 'Furniture',
+  builtins: 'Built-ins',
+  outdoor: 'Outdoor',
+  restoration: 'Restoration',
+  other: 'Not sure yet'
+};
+function formatLength(inches) {
+  if (inches <= 12) return inches + ' in';
+  const ft = Math.floor(inches / 12),
+    rem = inches % 12;
+  return rem === 0 ? ft + ' ft' : ft + ' ft ' + rem + ' in';
+}
+function Chip({
+  selected,
+  onClick,
+  children,
+  style
+}) {
+  return /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: onClick,
+    style: {
+      flex: '1 1 auto',
+      minWidth: '6.5em',
+      padding: '9px 12px',
+      cursor: 'pointer',
+      border: `1px solid ${selected ? 'var(--forest-700)' : 'var(--line-default)'}`,
+      borderRadius: 'var(--radius-field)',
+      background: selected ? 'var(--surface-inverse)' : 'var(--surface-card)',
+      color: selected ? 'var(--text-on-forest)' : 'var(--text-body)',
+      font: 'var(--type-body-sm)',
+      textAlign: 'center',
+      transition: 'var(--transition-color)',
+      ...style
+    }
+  }, children);
+}
+function Slider({
+  min,
+  max,
+  value,
+  onChange,
+  scale
+}) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "range",
+    min: min,
+    max: max,
+    step: "1",
+    value: value,
+    onChange: e => onChange(+e.target.value),
+    style: {
+      flex: 1,
+      accentColor: 'var(--copper-600)'
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      minWidth: '4.5em',
+      textAlign: 'right',
+      font: 'var(--type-spec)',
+      fontWeight: 600,
+      color: 'var(--text-heading)'
+    }
+  }, formatLength(value))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      font: 'var(--type-spec)',
+      color: 'var(--text-faint)',
       marginTop: 4
     }
-  }, "(613) 555-0188"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, scale[0]), /*#__PURE__*/React.createElement("span", null, scale[1])));
+}
+function QuoteRequest({
+  go
+}) {
+  const [step, setStep] = React.useState(1);
+  const [cat, setCat] = React.useState(null);
+  const [size, setSize] = React.useState(36);
+  const [wall, setWall] = React.useState(60);
+  const [exposure, setExposure] = React.useState(null);
+  const [timeline, setTimeline] = React.useState(null);
+  const [photos, setPhotos] = React.useState(0);
+  const [method, setMethod] = React.useState(null);
+  const [c, setC] = React.useState({
+    name: '',
+    city: '',
+    email: '',
+    phone: ''
+  });
+  const pick = id => {
+    setCat(id);
+    setStep(2);
+  };
+  const isRestoration = cat === 'restoration';
+  let step2Ok = !!cat && !!timeline;
+  if (cat === 'outdoor') step2Ok = step2Ok && !!exposure;
+  if (isRestoration) step2Ok = step2Ok && photos > 0;
+  const step3Ok = c.name.trim() && c.city.trim() && (c.email.trim() || c.phone.trim());
+  const label = t => /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-label)',
+      letterSpacing: 'var(--tracking-label)',
+      textTransform: 'uppercase',
+      color: 'var(--text-heading)',
+      marginBottom: 6
+    }
+  }, t);
+  const hint = t => /*#__PURE__*/React.createElement("p", {
     style: {
       font: 'var(--type-body-sm)',
       color: 'var(--text-muted)',
       marginTop: 6
     }
-  }, "Shop hours, 7:30\u20134:30, Monday to Friday.")))))), /*#__PURE__*/React.createElement(Dialog, {
-    open: confirm,
-    title: "Send this to the shop?",
-    description: "We'll read it before we call. You can add photos in the reply.",
-    onClose: () => setConfirm(false),
-    footer: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Button, {
-      variant: "ghost",
-      onClick: () => setConfirm(false)
-    }, "Keep editing"), /*#__PURE__*/React.createElement(Button, {
-      onClick: () => {
-        setConfirm(false);
-        setSent(true);
-      }
-    }, "Send it"))
-  }), sent && /*#__PURE__*/React.createElement("div", {
+  }, t);
+  return /*#__PURE__*/React.createElement("section", {
     style: {
-      position: 'fixed',
-      right: 24,
-      bottom: 24,
-      zIndex: 60
+      padding: 'var(--section-y-tight) 40px var(--section-y)',
+      display: 'grid',
+      placeItems: 'start center'
     }
-  }, /*#__PURE__*/React.createElement(Toast, {
-    tone: "success",
-    title: "Request sent",
-    message: "We'll be in touch within two business days.",
-    icon: /*#__PURE__*/React.createElement(Icon, {
-      name: "check",
-      size: 16
-    }),
-    onDismiss: () => setSent(false)
-  })));
-}
-window.QuoteRequest = QuoteRequest;
-})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/QuoteRequest.jsx", error: String((e && e.message) || e) }); }
-
-// ui_kits/website/Work.jsx
-try { (() => {
-const {
-  Card,
-  Tag,
-  Button,
-  Icon,
-  Badge
-} = window.McKaySWoodshopDesignSystem_ff08a8;
-const FILTERS = ['Kitchens', 'Built-ins', 'Furniture', 'Stairs', 'White oak', 'Walnut', 'Maple'];
-const ITEMS = [{
-  name: 'Glenora kitchen',
-  meta: 'White oak · 2026',
-  tag: 'Kitchens'
-}, {
-  name: 'Mill Road library',
-  meta: 'Black walnut · 2025',
-  tag: 'Built-ins'
-}, {
-  name: 'Harbour table',
-  meta: 'Hard maple · 2025',
-  tag: 'Furniture'
-}, {
-  name: 'Cedar Lane stair',
-  meta: 'White oak · 2025',
-  tag: 'Stairs'
-}, {
-  name: 'Ferry Street mudroom',
-  meta: 'Ash · 2024',
-  tag: 'Built-ins'
-}, {
-  name: 'Bayfield pantry',
-  meta: 'Black walnut · 2024',
-  tag: 'Kitchens'
-}];
-function Work({
-  go
-}) {
-  const [active, setActive] = React.useState([]);
-  const toggle = t => setActive(a => a.includes(t) ? a.filter(x => x !== t) : [...a, t]);
-  const shown = active.length ? ITEMS.filter(i => active.includes(i.tag)) : ITEMS;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("section", {
+  }, /*#__PURE__*/React.createElement(Card, {
+    padding: "lg",
     style: {
-      background: 'var(--surface-inverse)',
-      padding: '56px 40px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 'var(--container)',
-      margin: '0 auto'
-    }
-  }, /*#__PURE__*/React.createElement(Eyebrow, {
-    tone: "inverse"
-  }, "Selected work"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      font: 'var(--type-h1)',
-      letterSpacing: 'var(--tracking-tight)',
-      color: 'var(--text-on-forest)',
-      marginTop: 14
-    }
-  }, "410 rooms, and counting"))), /*#__PURE__*/React.createElement("section", {
-    style: {
-      padding: '32px 40px var(--section-y)'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 'var(--container)',
-      margin: '0 auto'
+      width: '100%',
+      maxWidth: 480,
+      boxShadow: 'var(--shadow-md)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
-      gap: 8,
-      flexWrap: 'wrap',
-      paddingBottom: 24,
-      borderBottom: '1px solid var(--line-hairline)'
+      justifyContent: 'space-between',
+      gap: 16
     }
-  }, FILTERS.map(t => /*#__PURE__*/React.createElement(Tag, {
-    key: t,
-    selected: active.includes(t),
-    onClick: () => toggle(t)
-  }, t)), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h3", {
     style: {
-      marginLeft: 'auto',
+      font: 'var(--type-h3)',
+      color: 'var(--text-heading)'
+    }
+  }, "Request a quote"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => go('home'),
+    "aria-label": "Close",
+    style: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      font: 'var(--text-xl)/1 var(--font-ui)',
+      color: 'var(--forest-700)'
+    }
+  }, "\xD7")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      margin: '20px 0 24px'
+    }
+  }, [1, 2, 3].map(i => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      flex: 1,
+      height: 4,
+      borderRadius: 'var(--radius-xs)',
+      background: i <= step ? 'var(--copper-600)' : 'var(--line-hairline)'
+    }
+  }))), step === 1 && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
       font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-wide)',
-      textTransform: 'uppercase',
+      color: 'var(--text-muted)',
+      marginBottom: 6
+    }
+  }, "Step 1 of 3"), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, "What are you looking to build?"), hint('Pick the closest match — you can add detail next.'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 16,
+      marginTop: 20
+    }
+  }, CATEGORIES.map(t => /*#__PURE__*/React.createElement("button", {
+    key: t.id,
+    type: "button",
+    onClick: () => pick(t.id),
+    style: {
+      gridColumn: t.wide ? '1 / -1' : 'auto',
+      display: 'flex',
+      gap: 12,
+      flexDirection: t.wide ? 'row' : 'column',
+      alignItems: t.wide ? 'center' : 'flex-start',
+      padding: 16,
+      background: 'var(--surface-sunken)',
+      border: `1px solid ${cat === t.id ? 'var(--line-accent)' : 'var(--line-hairline)'}`,
+      borderRadius: 'var(--radius-field)',
+      textAlign: 'left',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--forest-700)',
+      display: 'flex'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: t.icon,
+    size: 24
+  })), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'block',
+      font: 'var(--type-h4)',
+      color: 'var(--forest-700)'
+    }
+  }, t.label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'block',
+      font: 'var(--type-body-sm)',
       color: 'var(--text-muted)'
     }
-  }, shown.length, " projects")), /*#__PURE__*/React.createElement("div", {
+  }, t.desc)))))), step === 2 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-spec)',
+      color: 'var(--text-muted)',
+      marginBottom: 6
+    }
+  }, "Step 2 of 3 \u2014 ", CAT_LABELS[cat]), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, "Project details"), hint('Drag, tap and choose — no need to type here.')), /*#__PURE__*/React.createElement("div", null, label('Approximate size'), /*#__PURE__*/React.createElement(Slider, {
+    min: 6,
+    max: 240,
+    value: size,
+    onChange: setSize,
+    scale: ['6 in', '20 ft']
+  })), cat === 'builtins' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderLeft: '2px solid var(--line-accent)',
+      paddingLeft: 16
+    }
+  }, label('Available wall width'), /*#__PURE__*/React.createElement(Slider, {
+    min: 12,
+    max: 240,
+    value: wall,
+    onChange: setWall,
+    scale: ['1 ft', '20 ft']
+  })), /*#__PURE__*/React.createElement(Field, {
+    label: "Room / setting"
+  }, /*#__PURE__*/React.createElement(Select, {
+    options: ['Living Room', 'Kitchen', 'Dining', 'Bedroom', 'Office', 'Outdoor', 'Other']
+  })), /*#__PURE__*/React.createElement(Field, {
+    label: "Wood / material preference"
+  }, /*#__PURE__*/React.createElement(Select, {
+    options: ['Oak', 'Walnut', 'Maple', 'Cherry', 'Pine', 'Reclaimed', "Not sure — let's discuss"]
+  })), cat === 'outdoor' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderLeft: '2px solid var(--line-accent)',
+      paddingLeft: 16
+    }
+  }, label('Exposure'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Chip, {
+    selected: exposure === 'uncovered',
+    onClick: () => setExposure('uncovered')
+  }, "Uncovered"), /*#__PURE__*/React.createElement(Chip, {
+    selected: exposure === 'covered',
+    onClick: () => setExposure('covered')
+  }, "Covered"))), /*#__PURE__*/React.createElement("div", null, label('Timeline'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, ['No rush', '3 months', '1 month', 'ASAP'].map(t => /*#__PURE__*/React.createElement(Chip, {
+    key: t,
+    selected: timeline === t,
+    onClick: () => setTimeline(t)
+  }, t)))), /*#__PURE__*/React.createElement("div", null, label(isRestoration ? 'Photos of the piece' : 'Reference photos'), isRestoration && /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--type-label)',
+      color: 'var(--copper-700)',
+      marginLeft: 6
+    }
+  }, "Required"), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    onClick: () => setPhotos(Math.min(photos + 1, 3)),
+    style: {
+      display: 'block',
+      width: '100%',
+      padding: 24,
+      cursor: 'pointer',
+      background: 'var(--surface-card)',
+      border: `1.5px dashed ${isRestoration && photos === 0 ? 'var(--copper-700)' : 'var(--line-default)'}`,
+      borderRadius: 'var(--radius-field)',
+      textAlign: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--text-muted)',
+      display: 'flex',
+      justifyContent: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "upload",
+    size: 20
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)'
+    }
+  }, /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: 'var(--forest-700)'
+    }
+  }, "Tap to add photos"), /*#__PURE__*/React.createElement("br", null), "or choose up to 3 images")), photos > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      marginTop: 12
+    }
+  }, Array.from({
+    length: photos
+  }).map((_, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      width: 48,
+      height: 48,
+      borderRadius: 'var(--radius-field)',
+      background: 'var(--surface-sunken)',
+      border: '1px solid var(--line-hairline)',
+      display: 'grid',
+      placeItems: 'center',
+      font: 'var(--type-spec)',
+      fontSize: 9,
+      color: 'var(--text-muted)'
+    }
+  }, "IMG"))), hint(isRestoration ? 'Show me the piece and any damage — at least one photo.' : 'Optional — helps me understand what you have in mind.')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    onClick: () => setStep(1)
+  }, "Back"), /*#__PURE__*/React.createElement(Button, {
+    variant: "accent",
+    disabled: !step2Ok,
+    onClick: () => setStep(3)
+  }, "Continue"))), step === 3 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      font: 'var(--type-spec)',
+      color: 'var(--text-muted)',
+      marginBottom: 6
+    }
+  }, "Step 3 of 3"), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, "How should I reach you?"), hint('Just enough to send your quote — no account needed.')), /*#__PURE__*/React.createElement(Field, {
+    label: "Name"
+  }, /*#__PURE__*/React.createElement(Input, {
+    placeholder: "Full name",
+    value: c.name,
+    onChange: e => setC({
+      ...c,
+      name: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement(Field, {
+    label: "City"
+  }, /*#__PURE__*/React.createElement(Input, {
+    placeholder: "Where's the project?",
+    value: c.city,
+    onChange: e => setC({
+      ...c,
+      city: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement(Field, {
+    label: "Email"
+  }, /*#__PURE__*/React.createElement(Input, {
+    type: "email",
+    placeholder: "you@example.com",
+    value: c.email,
+    onChange: e => setC({
+      ...c,
+      email: e.target.value
+    })
+  })), /*#__PURE__*/React.createElement(Field, {
+    label: "Phone",
+    hint: "Optional if email given"
+  }, /*#__PURE__*/React.createElement(Input, {
+    type: "tel",
+    placeholder: "(555) 555-5555",
+    value: c.phone,
+    onChange: e => setC({
+      ...c,
+      phone: e.target.value
+    })
+  }))), /*#__PURE__*/React.createElement("div", null, label('Preferred contact method'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Chip, {
+    selected: method === 'Call',
+    onClick: () => setMethod('Call')
+  }, "Call me"), /*#__PURE__*/React.createElement(Chip, {
+    selected: method === 'Email',
+    onClick: () => setMethod('Email')
+  }, "Email me"))), /*#__PURE__*/React.createElement(Field, {
+    label: "Anything else I should know?",
+    hint: "Optional"
+  }, /*#__PURE__*/React.createElement(Textarea, {
+    rows: 3
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    onClick: () => setStep(2)
+  }, "Back"), /*#__PURE__*/React.createElement(Button, {
+    variant: "accent",
+    disabled: !step3Ok,
+    onClick: () => setStep(4)
+  }, "Send request"))), step === 4 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      gap: 10,
+      padding: '16px 0'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--copper-600)',
+      display: 'flex'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "circle-check",
+    size: 40
+  })), /*#__PURE__*/React.createElement("h4", {
+    style: {
+      font: 'var(--type-h4)',
+      color: 'var(--text-heading)'
+    }
+  }, "Request sent"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)',
+      maxWidth: '34ch'
+    }
+  }, "I'll read it and get back to you within two business days, usually sooner."), /*#__PURE__*/React.createElement(Button, {
+    variant: "ghost",
+    onClick: () => go('home')
+  }, "Back to the site"))));
+}
+window.QuoteRequest = QuoteRequest;
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/QuoteRequest.jsx", error: String((e && e.message) || e) }); }
+
+// ui_kits/website/Shop.jsx
+try { (() => {
+const {
+  Button,
+  Card,
+  Badge
+} = window.McKaySWoodshopDesignSystem_ff08a8;
+const PRODUCTS = [{
+  slug: 'walnut-cutting-board',
+  name: 'Walnut cutting board',
+  price: '$120.00',
+  photo: 'Product photo'
+}, {
+  slug: 'maple-end-grain-board',
+  name: 'Maple end-grain board',
+  price: '$165.00',
+  photo: 'Product photo'
+}, {
+  slug: 'wood-butter-knife',
+  name: 'Hand-carved butter knife',
+  price: '$28.00',
+  photo: 'Product photo'
+}, {
+  slug: 'oak-serving-tray',
+  name: 'White oak serving tray',
+  price: '$145.00',
+  photo: 'Product photo'
+}, {
+  slug: 'cherry-spoon-set',
+  name: 'Cherry spoon set',
+  price: '$62.00',
+  photo: 'Product photo',
+  out: true
+}, {
+  slug: 'shop-stool',
+  name: 'Shop stool',
+  price: '$310.00',
+  photo: 'Product photo'
+}];
+function Shop({
+  go
+}) {
+  return /*#__PURE__*/React.createElement("section", {
+    style: {
+      maxWidth: 'var(--container)',
+      margin: '0 auto',
+      padding: 'var(--section-y-tight) 40px var(--section-y)'
+    }
+  }, /*#__PURE__*/React.createElement(SectionHead, {
+    eyebrow: "Ready to ship",
+    title: "Shop",
+    level: 1
+  }), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body)',
+      color: 'var(--text-body)',
+      maxWidth: '56ch',
+      marginTop: 16
+    }
+  }, "Finished pieces built in small runs, priced openly \u2014 no quote request needed. Shipping is calculated at checkout based on your address, with local pickup available near Barrie."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body)',
+      color: 'var(--text-body)',
+      maxWidth: '56ch',
+      marginTop: 14
+    }
+  }, "These are the smaller, simpler pieces I keep in stock and ready to go. Anything made to order \u2014 tables, built-ins, restoration work \u2014 runs through a quote request instead."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      font: 'var(--type-body-sm)',
+      color: 'var(--text-muted)',
+      maxWidth: '56ch',
+      marginTop: 14
+    }
+  }, "Mostly walnut, hard maple, cherry and white oak, finished with food-safe oil. Wash by hand and re-oil once or twice a year."), /*#__PURE__*/React.createElement(PaymentBadges, null), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, minmax(0,1fr))',
       gap: 20,
-      marginTop: 28
+      marginTop: 36
     }
-  }, shown.map(i => /*#__PURE__*/React.createElement(Card, {
-    key: i.name,
+  }, PRODUCTS.map(p => /*#__PURE__*/React.createElement(Card, {
+    key: p.slug,
     padding: "none",
     interactive: true,
     style: {
       overflow: 'hidden',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column'
     },
-    onClick: () => go('project')
+    onClick: () => go('product')
   }, /*#__PURE__*/React.createElement(Photo, {
-    label: "Project photography"
+    label: p.photo,
+    ratio: "4 / 3",
+    style: {
+      border: 'none',
+      borderRadius: 0,
+      borderBottom: '1px solid var(--line-hairline)'
+    }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
-      padding: 'var(--card-pad)'
+      padding: 'var(--card-pad)',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6,
+      alignItems: 'flex-start'
     }
-  }, /*#__PURE__*/React.createElement(Badge, null, i.tag), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h3", {
     style: {
-      font: 'var(--type-h4)',
-      color: 'var(--text-heading)',
-      marginTop: 12
+      font: 'var(--type-h3)',
+      color: 'var(--text-heading)'
     }
-  }, i.name), /*#__PURE__*/React.createElement("div", {
+  }, p.name), /*#__PURE__*/React.createElement(Price, {
     style: {
-      font: 'var(--type-spec)',
-      fontSize: 'var(--text-3xs)',
-      letterSpacing: 'var(--tracking-wide)',
-      textTransform: 'uppercase',
-      color: 'var(--text-muted)',
-      marginTop: 5
+      fontWeight: 600,
+      color: 'var(--text-heading)'
     }
-  }, i.meta))))), !shown.length && /*#__PURE__*/React.createElement("p", {
-    style: {
-      font: 'var(--type-body)',
-      color: 'var(--text-muted)',
-      marginTop: 32
-    }
-  }, "Nothing in that combination yet."))));
+  }, p.price), p.out && /*#__PURE__*/React.createElement(Badge, null, "Out of stock"))))));
 }
-window.Work = Work;
-})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Work.jsx", error: String((e && e.message) || e) }); }
+window.Shop = Shop;
+})(); } catch (e) { __ds_ns.__errors.push({ path: "ui_kits/website/Shop.jsx", error: String((e && e.message) || e) }); }
 
 __ds_ns.Icon = __ds_scope.Icon;
 

@@ -24,7 +24,7 @@
             <div class="field" style="flex: 2 1 200px; margin-bottom: 0">
               <label for="variant_id">Variant</label>
               <select name="variant_id" id="variant_id">
-                {% for v in product.variants %}
+                {% for v in product.variants if v.active %}
                   <option value="{{ v.id }}" {% if v.stock_count == 0 %}disabled{% endif %}>
                     {{ v.label }} — ${{ "%.2f"|format(v.price_cents() / 100) }}
                     {% if v.stock_count == 0 %}(out of stock){% endif %}

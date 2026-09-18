@@ -19,6 +19,7 @@
 
   <input type="hidden" name="category" id="quote-category">
   <input type="hidden" name="exposure" id="quote-exposure">
+  <input type="hidden" name="repair_type" id="quote-repair-type">
   <input type="hidden" name="timeline" id="quote-timeline">
   <input type="hidden" name="contact_method" id="quote-contact-method">
 
@@ -82,7 +83,7 @@
       <div class="quote-slider-scale"><span>1 ft</span><span>20 ft</span></div>
     </div>
 
-    <div class="field">
+    <div class="field" id="quote-room-field">
       <label for="quote-room">Room / setting</label>
       <select name="room" id="quote-room">
         <option>Living Room</option>
@@ -95,17 +96,9 @@
       </select>
     </div>
 
-    <div class="field">
+    <div class="field" id="quote-material-field">
       <label for="quote-material">Wood / material preference</label>
-      <select name="material" id="quote-material">
-        <option>Oak</option>
-        <option>Walnut</option>
-        <option>Maple</option>
-        <option>Cherry</option>
-        <option>Pine</option>
-        <option>Reclaimed</option>
-        <option>Not sure — let's discuss</option>
-      </select>
+      <select name="material" id="quote-material"></select>
     </div>
 
     <div class="field quote-conditional" id="quote-exposure-field" hidden>
@@ -114,6 +107,21 @@
         <button type="button" class="quote-chip" data-exposure="uncovered">Uncovered</button>
         <button type="button" class="quote-chip" data-exposure="covered">Covered</button>
       </div>
+    </div>
+
+    <div class="field quote-conditional" id="quote-repair-type-field" hidden>
+      <label>What kind of repair does it need?</label>
+      <div class="quote-chip-group">
+        <button type="button" class="quote-chip" data-repair="Structural">Structural</button>
+        <button type="button" class="quote-chip" data-repair="Cosmetic / refinish">Cosmetic / refinish</button>
+        <button type="button" class="quote-chip" data-repair="Missing or broken parts">Missing or broken parts</button>
+        <button type="button" class="quote-chip" data-repair="Other">Other</button>
+      </div>
+    </div>
+
+    <div class="field quote-conditional" id="quote-wood-type-field" hidden>
+      <label for="quote-wood-type">Wood type <span class="hint">If known — helps with matching stain/finish</span></label>
+      <input type="text" name="wood_type" id="quote-wood-type" placeholder="e.g. oak, walnut, veneer, not sure">
     </div>
 
     <div class="field">
@@ -195,7 +203,28 @@
     var form = document.getElementById("quote-form");
     if (!form) return;
 
-    var state = { category: null, exposure: null, timeline: null, method: null, photoCount: 0 };
+    var state = { category: null, exposure: null, repairType: null, timeline: null, method: null, photoCount: 0 };
+
+    // Interior furniture-grade species vs. weather-resistant outdoor
+    // species — Oak/Walnut/Maple/Cherry aren't suitable outdoors, so Outdoor
+    // gets its own list rather than reusing the indoor one. Built-ins also
+    // gets its own list: shelving/cabinet carcasses commonly use sheet
+    // goods, not just solid species — trade-standard names (Plywood, MDF,
+    // Particleboard), not shorthand like "ply".
+    var MATERIAL_OPTIONS = {
+      indoor: ["Oak", "Walnut", "Maple", "Cherry", "Pine", "Reclaimed", "Not sure — let's discuss"],
+      builtins: ["Oak", "Walnut", "Maple", "Cherry", "Pine", "Plywood", "MDF", "Particleboard", "Reclaimed", "Not sure — let's discuss"],
+      outdoor: ["Cedar", "Teak", "Pressure-treated Pine", "Redwood", "Reclaimed", "Not sure — let's discuss"]
+    };
+
+    function setMaterialOptions(category) {
+      var list = MATERIAL_OPTIONS[category] || MATERIAL_OPTIONS.indoor;
+      var select = document.getElementById("quote-material");
+      var previous = select.value;
+      select.innerHTML = list.map(function (name) { return '<option>' + name + '</option>'; }).join("");
+      if (list.indexOf(previous) !== -1) select.value = previous;
+    }
+    setMaterialOptions(null);
 
     function formatLength(inches) {
       if (inches <= 12) return inches + " in";
@@ -226,8 +255,27 @@
         document.getElementById("quote-category").value = state.category;
         document.getElementById("quote-cat-echo").textContent = catLabels[state.category];
 
-        document.getElementById("quote-wall-field").hidden = state.category !== "builtins";
+        // A hidden field's <select>/<input> still submits its last (often
+        // default) value — `hidden` only affects rendering, not form
+        // participation — so each conditional field's real input is also
+        // disabled while hidden, which drops it from the submission
+        // entirely (server-side Form(...) defaults then apply cleanly).
+        function setFieldHidden(fieldId, input, hidden) {
+          document.getElementById(fieldId).hidden = hidden;
+          input.disabled = hidden;
+        }
+
+        setFieldHidden("quote-wall-field", wallSlider, state.category !== "builtins");
         document.getElementById("quote-exposure-field").hidden = state.category !== "outdoor";
+        // Room/setting doesn't add anything once you've already said the
+        // project itself is Outdoor; material doesn't apply to Restoration
+        // (that's an existing piece, not a new wood choice) — see
+        // schemas.QuoteRequestIn for the matching server-side validation.
+        setFieldHidden("quote-room-field", document.getElementById("quote-room"), state.category === "outdoor");
+        setFieldHidden("quote-material-field", document.getElementById("quote-material"), state.category === "restoration");
+        document.getElementById("quote-repair-type-field").hidden = state.category !== "restoration";
+        setFieldHidden("quote-wood-type-field", document.getElementById("quote-wood-type"), state.category !== "restoration");
+        setMaterialOptions(state.category);
 
         var isRestoration = state.category === "restoration";
         var uploadBox = document.getElementById("quote-upload-box");
@@ -268,6 +316,17 @@
         btn.classList.add("is-selected");
         state.exposure = btn.dataset.exposure;
         document.getElementById("quote-exposure").value = state.exposure;
+        checkStep2();
+      });
+    });
+
+    // REPAIR TYPE (Restoration only)
+    form.querySelectorAll("[data-repair]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        form.querySelectorAll("[data-repair]").forEach(function (b) { b.classList.remove("is-selected"); });
+        btn.classList.add("is-selected");
+        state.repairType = btn.dataset.repair;
+        document.getElementById("quote-repair-type").value = state.repairType;
         checkStep2();
       });
     });
@@ -314,7 +373,7 @@
     function checkStep2() {
       var ok = !!state.category && !!state.timeline;
       if (state.category === "outdoor") ok = ok && !!state.exposure;
-      if (state.category === "restoration") ok = ok && state.photoCount > 0;
+      if (state.category === "restoration") ok = ok && state.photoCount > 0 && !!state.repairType;
       document.getElementById("quote-to-3").disabled = !ok;
     }
 

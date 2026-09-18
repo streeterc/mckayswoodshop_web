@@ -50,7 +50,7 @@ def checkout_form(request: Request, db: Session = Depends(get_db)):
             "crypto_enabled": settings.enable_crypto_checkout,
             "rows": rows,
             "subtotal_cents": subtotal,
-            "google_maps_api_key": settings.google_maps_api_key,
+            "country_groups": shipping_api.country_choices(),
         },
     )
 
@@ -64,7 +64,7 @@ def checkout_rates(
     address_line1: str = Form(...),
     address_line2: str = Form(""),
     city: str = Form(...),
-    state: str = Form(""),
+    state: str = Form(...),
     postal_code: str = Form(...),
     country: str = Form(...),
 ):
@@ -78,6 +78,33 @@ def checkout_rates(
     rates = []
     error = None
     field_errors: dict[str, str] = {}
+    # Only populated once a Shippo validation call actually completes — left
+    # empty (no check/x shown) when Shippo is unconfigured or unreachable,
+    # since we have no basis to claim a field is valid in that case.
+    field_status: dict[str, str] = {}
+    validated_fields = ["address_line1", "city", "state", "postal_code", "country"]
+    # Every address field must be filled in before we even ask Shippo, let
+    # alone quote a rate.
+    required_fields = {
+        "address_line1": address_line1,
+        "city": city,
+        "state": state,
+        "postal_code": postal_code,
+        "country": country_code,
+    }
+    missing_fields = [field for field, value in required_fields.items() if not value.strip()]
+    if missing_fields:
+        return templates.TemplateResponse(
+            "store/_rates_response.html",
+            {
+                "request": request,
+                "rates": [],
+                "error": "Please fill in the highlighted fields before calculating shipping.",
+                "field_errors": {field: "Required" for field in missing_fields},
+                "field_status": {field: "invalid" for field in missing_fields},
+            },
+        )
+
     if not settings.shippo_api_key:
         error = "Shipping is not configured for this store yet — please contact us to place an order."
     else:
@@ -92,18 +119,42 @@ def checkout_rates(
             "email": email,
         }
 
+        # Cheap syntax checks (zip/postal format, 2-letter state, a street
+        # with a number) run before spending a Shippo call — malformed input
+        # never reaches Shippo, and the customer gets a specific message.
+        format_errors = shipping_api.format_errors(address)
+        if format_errors:
+            return templates.TemplateResponse(
+                "store/_rates_response.html",
+                {
+                    "request": request,
+                    "rates": [],
+                    "error": "Please fix the highlighted fields before calculating shipping.",
+                    "field_errors": format_errors,
+                    "field_status": {field: "invalid" for field in format_errors},
+                },
+            )
+
         # Validate before quoting — a bad address should be caught here,
         # not discovered when the rate call fails or a label can't print
         # later. A validation-call failure (Shippo down, etc.) is treated
         # as "unavailable", not "invalid" — fall through with raw input
-        # rather than stranding the customer.
+        # rather than stranding the customer. Shippo can also return a
+        # 200 with an *empty* validation_results (no is_valid at all) —
+        # observed for Canadian addresses on this account — which is the
+        # same "unavailable" case, not a silent pass; see
+        # shipping.validation_state().
         try:
             validated = shipping_api.validate_address(address)
         except shipping_api.ShippoError:
             validated = None
 
-        if validated is not None:
+        if validated is not None and shipping_api.validation_state(validated) != "unavailable":
             field_errors = shipping_api.field_errors_from_validation(validated)
+            field_status = {
+                field: "invalid" if field in field_errors else "valid"
+                for field in validated_fields
+            }
             if field_errors:
                 return templates.TemplateResponse(
                     "store/_rates_response.html",
@@ -112,6 +163,7 @@ def checkout_rates(
                         "rates": [],
                         "error": "We couldn't verify this address — check the highlighted fields.",
                         "field_errors": field_errors,
+                        "field_status": field_status,
                     },
                 )
             # Use Shippo's standardized address for the rate quote, not
@@ -158,7 +210,13 @@ def checkout_rates(
 
     return templates.TemplateResponse(
         "store/_rates_response.html",
-        {"request": request, "rates": rates, "error": error, "field_errors": field_errors},
+        {
+            "request": request,
+            "rates": rates,
+            "error": error,
+            "field_errors": field_errors,
+            "field_status": field_status,
+        },
     )
 
 
@@ -172,7 +230,7 @@ def checkout_submit(
     address_line1: str = Form(...),
     address_line2: str = Form(""),
     city: str = Form(...),
-    state: str = Form(""),
+    state: str = Form(...),
     postal_code: str = Form(...),
     country: str = Form(...),
     payment_method: str = Form(...),  # "stripe" | "coinbase"

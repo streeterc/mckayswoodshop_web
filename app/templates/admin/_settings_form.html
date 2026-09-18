@@ -1,0 +1,32 @@
+<form
+  method="post"
+  action="/admin/settings"
+  hx-post="/admin/settings"
+  hx-target="this"
+  hx-swap="outerHTML"
+  class="card"
+  style="max-width: 28rem"
+>
+  {% if saved %}
+    <p class="hint" role="status" style="color: var(--forest)">Saved.</p>
+  {% endif %}
+
+  <div class="field">
+    <label for="domestic_country_code">Domestic country code <span class="hint">2-letter, e.g. US</span></label>
+    <input type="text" name="domestic_country_code" id="domestic_country_code" maxlength="2" value="{{ settings.domestic_country_code }}">
+  </div>
+
+  <div class="field">
+    <label for="domestic_shipping_cents">Domestic flat shipping rate <span class="hint">In cents</span></label>
+    <input type="number" name="domestic_shipping_cents" id="domestic_shipping_cents" value="{{ settings.domestic_shipping_cents }}">
+  </div>
+
+  <div class="field">
+    <label for="intl_shipping_cents">International flat shipping rate <span class="hint">In cents</span></label>
+    <input type="number" name="intl_shipping_cents" id="intl_shipping_cents" value="{{ settings.intl_shipping_cents }}">
+  </div>
+
+  <div class="form-actions">
+    <button class="btn" type="submit">Save</button>
+  </div>
+</form>

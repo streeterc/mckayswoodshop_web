@@ -1,0 +1,36 @@
+{% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+<table>
+  <thead>
+    <tr><th>Variant</th><th>Price</th><th>Stock</th><th>Dimensions (oz / L×W×H in)</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    {% for variant in product.variants %}
+      {% include "admin/_variant_row.html" %}
+    {% else %}
+      <tr><td colspan="5">No variants yet — add one below.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3 style="margin-top: var(--sp-4)">Add a variant</h3>
+<form hx-post="/admin/products/{{ product.id }}/variants" hx-target="#variants-table" hx-swap="innerHTML" class="grid grid-2-up" style="max-width: 40rem">
+  <div class="field">
+    <label for="new-label">Label <span class="hint">e.g. "Size: M / Color: Black"</span></label>
+    <input type="text" name="label" id="new-label" required>
+  </div>
+  <div class="field">
+    <label for="new-sku">SKU</label>
+    <input type="text" name="sku" id="new-sku" required>
+  </div>
+  <div class="field">
+    <label for="new-price">Price override <span class="hint">Cents, optional — blank uses base price</span></label>
+    <input type="number" name="price_override_cents" id="new-price" min="0">
+  </div>
+  <div class="field">
+    <label for="new-stock">Initial stock</label>
+    <input type="number" name="stock_count" id="new-stock" min="0" value="0">
+  </div>
+  <div class="form-actions" style="grid-column: 1 / -1">
+    <button class="btn" type="submit">Add variant</button>
+  </div>
+</form>

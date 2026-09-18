@@ -1,0 +1,7 @@
+{% extends "admin/_base.html" %}
+{% block title %}Add product — Admin{% endblock %}
+{% block content %}
+  <p><a href="/admin/products" class="label" style="text-decoration: none">&larr; All products</a></p>
+  <h1>Add a product</h1>
+  {% include "admin/_product_form.html" %}
+{% endblock %}

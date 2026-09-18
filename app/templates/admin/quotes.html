@@ -23,9 +23,13 @@
           <td>
             <strong>{{ category_labels.get(quote.category, quote.category) }}</strong><br>
             <small>
-              {{ quote.size_in }}" &middot; {{ quote.room }} &middot; {{ quote.material }}
+              {{ quote.size_in }}"
+              {%- if quote.room %} &middot; {{ quote.room }}{% endif -%}
+              {%- if quote.material %} &middot; {{ quote.material }}{% endif -%}
               {%- if quote.category == "builtins" and quote.wall_in %} &middot; wall {{ quote.wall_in }}"{% endif -%}
               {%- if quote.category == "outdoor" and quote.exposure %} &middot; {{ quote.exposure }}{% endif -%}
+              {%- if quote.category == "restoration" and quote.repair_type %} &middot; {{ quote.repair_type }}{% endif -%}
+              {%- if quote.category == "restoration" and quote.wood_type %} &middot; {{ quote.wood_type }}{% endif -%}
             </small>
           </td>
           <td>{{ quote.timeline or "—" }}</td>

@@ -1,3 +1,4 @@
 /* Webfonts. No vendor font binaries were supplied with the brand assets, so these are
-   Google Fonts substitutions chosen for the refined/precise direction. See readme.md > Typography. */
+   Google Fonts substitutions. Display face is Fraunces, matching the shipped site
+   (app/static/css/base.css in streeterc/mckayswoodshop_web). See readme.md > Typography. */
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,SOFT,wght@0,9..144,0..100,300..700;1,9..144,0..100,300..600&family=Work+Sans:ital,wght@0,300..700;1,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
