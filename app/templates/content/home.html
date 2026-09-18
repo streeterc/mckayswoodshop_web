@@ -1,18 +1,30 @@
-{% extends "base.html" %} {% import "_macros.html" as m %} {% block title %}Eric
-McKay — Home{% endblock %} {% block main_class %}site-main--bleed-ready{%
-endblock %} {% block content %}
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}McKay's Woodshop — Custom Furniture & Handmade Wood Goods in Simcoe County, ON{% endblock %}
+{% block meta_description %}Custom furniture, built-ins, and handmade wood goods from McKay's Woodshop in Simcoe County, Ontario. Shop finished pieces online with checkout and shipping across Canada, or request a custom quote — no waiting on a contact form.{% endblock %}
+{% block main_class %}site-main--bleed-ready{% endblock %}
+{% block content %}
 <section class="bleed bleed--inverse">
   <div class="shell grid grid-2-up" style="align-items: center">
     <div>
       <div class="eyebrow">
-        Carpenter &middot; Woodworker &middot; New Lowell, ON
+        Custom Woodworking &middot; Simcoe County, ON
       </div>
       <div class="accent-line"></div>
       <h1 style="color: var(--on-forest)">Hi, I'm Eric McKay.</h1>
       <p style="max-width: 46ch">
-        A short intro about you and what you do goes here. Keep it brief — the
-        content below does the talking.
+        Placeholder — a short line on who you are and what you build.
       </p>
+      <p style="max-width: 46ch">
+        Most local woodworkers make you wait on a quote before you can buy
+        anything. Here, finished pieces are ready to shop online today —
+        shipped across Canada, or pick up nearby.
+      </p>
+      <div style="display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-3)">
+        <span class="badge">Secure online checkout</span>
+        <span class="badge">Ships across Canada</span>
+        <span class="badge">Ontario-made</span>
+      </div>
     </div>
     <img
       src="/static/img/shop-interior.jpg"
@@ -31,13 +43,21 @@ endblock %} {% block content %}
       <div>
         <p style="max-width: 52ch">
           Placeholder — a paragraph on how you got into woodworking, your
-          background or training, and what led to opening the shop in New
-          Lowell. Two or three sentences is plenty.
+          background or training (the cabinetry-shop experience is worth
+          naming here — it's a credibility marker most solo makers don't
+          have), and what led to opening the shop in Simcoe County.
         </p>
         <p style="max-width: 52ch">
-          Placeholder — a second paragraph on your approach: the kind of wood
-          you favor, how you finish pieces, and anything about the process
-          that makes the work distinctly yours.
+          Placeholder — a second paragraph on your approach: the kind of
+          wood you favor, how you finish pieces, and anything about the
+          process that makes the work distinctly yours. Honesty about being
+          early-stage reads as more trustworthy than a polished corporate
+          bio — it's fine to say so directly.
+        </p>
+        <p style="max-width: 52ch">
+          Placeholder — mention a workmanship guarantee here if you're
+          offering one, and where else people can find you in person (e.g.
+          a weekly farmers' market stall or seasonal craft show).
         </p>
         <div
           class="grid grid-3-up"
@@ -66,7 +86,8 @@ endblock %} {% block content %}
     {{ m.section_heading('What I build', 'Four kinds of projects, one shop.') }}
     <p style="max-width: 56ch">
       Placeholder — a sentence on the range of work you take on, from small
-      commissions to full built-ins.
+      commissions to full built-ins. Custom furniture is quoted individually,
+      but as a rough guide dining tables typically start around $2,500.
     </p>
 
     <div class="grid grid-2-up" style="margin-top: var(--sp-4)">
@@ -133,8 +154,10 @@ endblock %} {% block content %}
     <div>
       {{ m.section_heading('Shop', "Take a look at what I'm making.") }}
       <p style="max-width: 52ch">
-        Small runs of finished pieces, priced and ready to ship. Shipping is
-        calculated at checkout based on your address.
+        Small runs of finished pieces, priced openly and ready to ship —
+        no quote request needed. Every price is listed up front; shipping
+        is calculated at checkout based on your address, with local pickup
+        available near Barrie.
       </p>
       <a
         class="btn btn-accent btn-lg"
@@ -167,7 +190,8 @@ endblock %} {% block content %}
     <h2 style="color: var(--on-forest)">Let's build it together.</h2>
     <p style="max-width: 46ch; margin-inline: auto">
       Placeholder — a closing sentence inviting visitors to reach out with
-      their project, whatever stage it's at.
+      their project, whatever stage it's at. A quote request costs nothing
+      and comes with no obligation.
     </p>
     <button type="button" class="btn btn-accent btn-lg" data-quote-open style="margin-top: var(--sp-3)">
       Request a quote

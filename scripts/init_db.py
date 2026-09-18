@@ -40,7 +40,7 @@ def seed_sample_products(db):
             "food-safe oil. Every board is a little different — grain and "
             "color vary piece to piece."
         ),
-        base_price_cents=4500,
+        base_price_cents=6500,  # C$65 — accessible-premium band per MARKET.md (C$55-95)
         image_path="/static/img/products/walnut-cutting-board.jpg",
         active=True,
     )

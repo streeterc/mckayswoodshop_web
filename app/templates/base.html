@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Your Name{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Custom furniture and handmade wood goods from McKay's Woodshop in Simcoe County, Ontario. Shop online with checkout and shipping across Canada, or request a custom quote.{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}" />
+    <meta property="og:type" content="website" />
     <link rel="stylesheet" href="/static/css/base.css" />
     <link rel="stylesheet" href="/static/css/typography.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
