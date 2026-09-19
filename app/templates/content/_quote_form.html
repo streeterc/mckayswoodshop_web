@@ -30,31 +30,24 @@
     <p class="hint">Pick the closest match — you can add detail next.</p>
     <div class="quote-tiles">
       <button type="button" class="quote-tile" data-cat="furniture">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10h16M4 10v9M20 10v9M6 19v2M18 19v2M4 10l1.5-5h13L20 10"/></svg>
+        <span class="icon" style="--icon: url(/static/img/icons/armchair.svg)" aria-hidden="true"></span>
         <span class="quote-tile-label">Furniture</span>
         <span class="quote-tile-desc">Tables, chairs, cabinets</span>
       </button>
       <button type="button" class="quote-tile" data-cat="builtins">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="0.5"/><path d="M4 9h16M4 15h16M12 3v18"/></svg>
+        <span class="icon" style="--icon: url(/static/img/icons/library.svg)" aria-hidden="true"></span>
         <span class="quote-tile-label">Built-ins</span>
         <span class="quote-tile-desc">Shelving, closets, benches</span>
       </button>
       <button type="button" class="quote-tile" data-cat="outdoor">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l7 8h-4v12h-6V10H5l7-8z"/></svg>
+        <span class="icon" style="--icon: url(/static/img/icons/trees.svg)" aria-hidden="true"></span>
         <span class="quote-tile-label">Outdoor</span>
         <span class="quote-tile-desc">Decks, pergolas, planters</span>
       </button>
       <button type="button" class="quote-tile" data-cat="restoration">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14.5 3.5l6 6-9 9L3 21l2.5-8.5 9-9z"/><path d="M12.5 5.5l6 6"/></svg>
+        <span class="icon" style="--icon: url(/static/img/icons/hammer.svg)" aria-hidden="true"></span>
         <span class="quote-tile-label">Restoration</span>
         <span class="quote-tile-desc">Repair an existing piece</span>
-      </button>
-      <button type="button" class="quote-tile quote-tile--wide" data-cat="other">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1-1.5 2.2M12 17h.01"/></svg>
-        <div>
-          <span class="quote-tile-label">Not sure yet / something else</span>
-          <span class="quote-tile-desc">Tell us a bit and we'll figure it out together</span>
-        </div>
       </button>
     </div>
   </section>
@@ -71,7 +64,7 @@
         <input type="range" name="size_in" id="quote-size-slider" min="6" max="240" value="36" step="1">
         <div class="quote-slider-readout" id="quote-size-readout">3 ft</div>
       </div>
-      <div class="quote-slider-scale"><span>6 in</span><span>20 ft</span></div>
+      <div class="quote-slider-scale"><span>6 in</span><span>A lot</span></div>
     </div>
 
     <div class="field quote-conditional" id="quote-wall-field" hidden>
@@ -80,7 +73,7 @@
         <input type="range" name="wall_in" id="quote-wall-slider" min="12" max="240" value="60" step="1">
         <div class="quote-slider-readout" id="quote-wall-readout">5 ft</div>
       </div>
-      <div class="quote-slider-scale"><span>1 ft</span><span>20 ft</span></div>
+      <div class="quote-slider-scale"><span>1 ft</span><span>A lot</span></div>
     </div>
 
     <div class="field" id="quote-room-field">
@@ -137,12 +130,12 @@
     <div class="field">
       <label id="quote-photo-label">Reference photos</label>
       <label class="quote-upload" id="quote-upload-box" for="quote-file-input">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
-        <span class="quote-upload-text"><strong>Tap to add photos</strong><br>or choose up to 3 images</span>
+        <span class="icon" style="--icon: url(/static/img/icons/upload.svg)" aria-hidden="true"></span>
+        <span class="quote-upload-text"><strong>Tap to add photos</strong><br>JPG, HEIC, WebP, or AVIF — up to 3</span>
       </label>
       <div class="quote-thumbs" id="quote-thumbs" hidden></div>
       <p class="hint" id="quote-photo-hint">Optional — helps us understand what you have in mind.</p>
-      <input type="file" name="photos" id="quote-file-input" accept="image/*" multiple hidden>
+      <input type="file" name="photos" id="quote-file-input" accept="image/jpeg,image/webp,image/avif,image/heic,image/heif" multiple hidden>
     </div>
 
     <div class="quote-nav-row">
@@ -226,7 +219,11 @@
     }
     setMaterialOptions(null);
 
-    function formatLength(inches) {
+    function formatLength(inches, slider) {
+      // "A lot" is an alias for the slider's own max, not a fixed inch
+      // value — so it stays correct if a slider's range ever changes,
+      // and matches the "1 ft — A lot" scale label under each slider.
+      if (slider && inches >= parseInt(slider.max, 10)) return "A lot";
       if (inches <= 12) return inches + " in";
       var ft = Math.floor(inches / 12);
       var rem = inches % 12;
@@ -245,7 +242,7 @@
 
     var catLabels = {
       furniture: "Furniture", builtins: "Built-ins", outdoor: "Outdoor",
-      restoration: "Restoration", other: "Not sure yet"
+      restoration: "Restoration"
     };
 
     // STEP 1 — category tiles
@@ -298,16 +295,16 @@
     var sizeSlider = document.getElementById("quote-size-slider");
     var sizeReadout = document.getElementById("quote-size-readout");
     sizeSlider.addEventListener("input", function () {
-      sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10));
+      sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10), sizeSlider);
     });
-    sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10));
+    sizeReadout.textContent = formatLength(parseInt(sizeSlider.value, 10), sizeSlider);
 
     var wallSlider = document.getElementById("quote-wall-slider");
     var wallReadout = document.getElementById("quote-wall-readout");
     wallSlider.addEventListener("input", function () {
-      wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10));
+      wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10), wallSlider);
     });
-    wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10));
+    wallReadout.textContent = formatLength(parseInt(wallSlider.value, 10), wallSlider);
 
     // EXPOSURE TOGGLE
     form.querySelectorAll("[data-exposure]").forEach(function (btn) {
@@ -356,15 +353,35 @@
     var uploadBox = document.getElementById("quote-upload-box");
     var fileInput = document.getElementById("quote-file-input");
     var thumbs = document.getElementById("quote-thumbs");
+    // Matches the `accept` attribute below and content.py's server-side
+    // check — all genuinely compressed photo formats (unlike PNG/BMP/TIFF,
+    // wasteful for photos), which matters since photos get attached
+    // directly to the admin's email, not just stored (see content.py's
+    // MAX_PHOTO_BYTES). HEIC/HEIF is included because it's the default
+    // format iPhones save camera roll photos in.
+    var FORMAT_LABELS = {
+      "image/jpeg": "JPG", "image/webp": "WEBP", "image/avif": "AVIF",
+      "image/heic": "HEIC", "image/heif": "HEIF"
+    };
+    // Some mobile browsers leave `file.type` empty for HEIC files picked
+    // straight from the photo app — fall back to the filename extension so
+    // the thumbnail still shows a real format instead of generic "IMG".
+    var EXTENSION_LABELS = { jpg: "JPG", jpeg: "JPG", webp: "WEBP", avif: "AVIF", heic: "HEIC", heif: "HEIF" };
+    function formatLabel(file) {
+      if (FORMAT_LABELS[file.type]) return FORMAT_LABELS[file.type];
+      var ext = file.name.split(".").pop().toLowerCase();
+      return EXTENSION_LABELS[ext] || "IMG";
+    }
     fileInput.addEventListener("change", function () {
       var count = Math.min(fileInput.files.length, 3);
       state.photoCount = count;
       thumbs.hidden = count === 0;
       thumbs.innerHTML = "";
       for (var i = 0; i < count; i++) {
+        var file = fileInput.files[i];
         var t = document.createElement("div");
         t.className = "quote-thumb";
-        t.textContent = "IMG";
+        t.textContent = formatLabel(file);
         thumbs.appendChild(t);
       }
       checkStep2();

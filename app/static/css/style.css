@@ -97,7 +97,7 @@
   background: var(--clay-dark);
 }
 
-.quote-btn-icon svg {
+.quote-btn-icon .icon {
   width: 18px;
   height: 18px;
 }
@@ -391,7 +391,7 @@
 .quote-success-check {
   width: 40px;
   height: 40px;
-  stroke: var(--clay);
+  background: var(--clay);
   margin-bottom: var(--sp-1);
 }
 
@@ -461,10 +461,10 @@
   align-items: center;
 }
 
-.quote-tile svg {
+.quote-tile .icon {
   width: 26px;
   height: 26px;
-  stroke: var(--forest);
+  background: var(--forest);
   flex-shrink: 0;
 }
 
@@ -587,10 +587,10 @@
   border-color: var(--clay-dark);
 }
 
-.quote-upload svg {
+.quote-upload .icon {
   width: 22px;
   height: 22px;
-  stroke: var(--muted);
+  background: var(--muted);
   margin-bottom: var(--sp-2);
 }
 

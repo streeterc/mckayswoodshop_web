@@ -15,7 +15,7 @@
     {% if variant.active %}
       <span class="badge">Active</span>
     {% else %}
-      <span class="badge" style="opacity: 0.6">Inactive</span>
+      <span class="badge opacity-60">Inactive</span>
     {% endif %}
     <form
       hx-post="/admin/variants/{{ variant.id }}/delete"
@@ -24,7 +24,7 @@
       hx-confirm="Remove this variant? If it's never been ordered this deletes it permanently — otherwise it will just be marked inactive."
       style="margin-top: 0.3em"
     >
-      <button class="btn btn-ghost btn-sm" type="submit" style="color: var(--clay-darker)">Remove</button>
+      <button class="btn btn-ghost btn-sm text-danger" type="submit">Remove</button>
     </form>
   </td>
 </tr>

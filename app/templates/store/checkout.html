@@ -3,12 +3,12 @@
 {% block content %}
   <section class="shell">
     <h1>Checkout</h1>
-    <p style="max-width: 56ch">Guest checkout — no account needed. You'll get an order confirmation email with a lookup link.</p>
+    <p class="measure-56">Guest checkout — no account needed. You'll get an order confirmation email with a lookup link.</p>
 
-    <form method="post" action="/checkout" id="checkout-form" class="grid grid-2-up" style="align-items: start; margin-top: var(--sp-3)">
+    <form method="post" action="/checkout" id="checkout-form" class="grid grid-2-up items-start mt-3">
       <div>
         <span class="label">Contact</span>
-        <div class="grid grid-2-up" style="margin-top: var(--sp-2)">
+        <div class="grid grid-2-up mt-2">
           <div class="field">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" required>
@@ -20,7 +20,7 @@
         </div>
 
         <span class="label" style="display: block; margin-top: var(--sp-4)">Shipping address</span>
-        <div id="address-fields" style="margin-top: var(--sp-2)">
+        <div id="address-fields" class="mt-2">
           <div class="field">
             <label for="address_line1" class="field-label-row">
               <span>Address line 1</span>
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div class="field" style="margin-top: var(--sp-2)">
+        <div class="field mt-2">
           <button
             type="button"
             class="btn"
@@ -104,23 +104,23 @@
         <div style="display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2)">
           <label class="payment-method-option">
             <input type="radio" name="payment_method" value="stripe" checked>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            <span class="icon" style="--icon: url(/static/img/icons/credit-card.svg)" aria-hidden="true"></span>
             <span>
               <span class="payment-method-name">Card</span>
               <span class="hint">Visa, Mastercard, and more via Stripe.</span>
             </span>
           </label>
           <label class="payment-method-option {% if not crypto_enabled %}payment-method-option--soon{% endif %}">
-            <input type="radio" name="payment_method" value="coinbase" {% if not crypto_enabled %}disabled{% endif %}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4.5v11L12 22l-8-4.5v-11z"/></svg>
+            <input type="radio" name="payment_method" value="btcpay" {% if not crypto_enabled %}disabled{% endif %}>
+            <span class="icon" style="--icon: url(/static/img/icons/bitcoin.svg)" aria-hidden="true"></span>
             <span>
-              <span class="payment-method-name">Crypto {% if not crypto_enabled %}<span class="hint">(coming soon)</span>{% endif %}</span>
-              <span class="hint">BTC, ETH, USDC and more, via Coinbase Commerce. You'll be redirected to complete payment.</span>
+              <span class="payment-method-name">Bitcoin {% if not crypto_enabled %}<span class="hint">(coming soon)</span>{% endif %}</span>
+              <span class="hint">Pay with BTC via our self-hosted BTCPay Server. You'll be redirected to complete payment.</span>
             </span>
           </label>
         </div>
 
-        <div style="margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line)">
+        <div class="mt-3 divider-top">
           <div class="summary-row">
             <span>Subtotal</span>
             <span class="value price">${{ "%.2f"|format(subtotal_cents / 100) }}</span>
@@ -135,8 +135,8 @@
           </div>
         </div>
 
-        <button class="btn btn-accent btn-lg btn-block" type="submit" id="pay-button" disabled style="margin-top: var(--sp-3)">Pay</button>
-        <p style="margin-top: var(--sp-3)"><small>Shipping is quoted live from your address — calculate it to unlock payment. Taxes are added on the payment page.</small></p>
+        <button class="btn btn-accent btn-lg btn-block mt-3" type="submit" id="pay-button" disabled>Pay</button>
+        <p class="mt-3"><small>Shipping is quoted live from your address — calculate it to unlock payment. Taxes are added on the payment page.</small></p>
       </div>
     </form>
   </section>

@@ -1,12 +1,12 @@
 {% macro payment_badges(crypto_enabled) %}
   <div class="payment-badges">
     <span class="payment-badge">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      <span class="icon" style="--icon: url(/static/img/icons/credit-card.svg)" aria-hidden="true"></span>
       Card
     </span>
     <span class="payment-badge {% if not crypto_enabled %}payment-badge--soon{% endif %}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4.5v11L12 22l-8-4.5v-11z"/></svg>
-      Crypto{% if not crypto_enabled %} <span class="hint">(coming soon)</span>{% endif %}
+      <span class="icon" style="--icon: url(/static/img/icons/bitcoin.svg)" aria-hidden="true"></span>
+      Bitcoin{% if not crypto_enabled %} <span class="hint">(coming soon)</span>{% endif %}
     </span>
   </div>
 {% endmacro %}
@@ -22,22 +22,22 @@
 {% endmacro %}
 
 {% macro post_card(post) %}
-  <a class="card card--interactive" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.6em; text-decoration: none; color: inherit">
-    <h3 style="margin: 0">{{ post.title }}</h3>
-    <p style="margin: 0; flex: 1 1 auto">{{ post.summary }}</p>
+  <a class="card card--interactive link-reset" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.6em">
+    <h3 class="m-0">{{ post.title }}</h3>
+    <p class="m-0" style="flex: 1 1 auto">{{ post.summary }}</p>
     <div class="meta" style="display: flex; align-items: center; gap: 0.5em; padding-top: var(--sp-2); border-top: 1px solid var(--line)">
       <span>{{ post.date }}</span>
       {% if post.tags %}
         <span>&middot;</span>
         <span>{{ post.tags | join(', ') }}</span>
       {% endif %}
-      <span style="margin-left: auto; color: var(--clay-dark)">&rarr;</span>
+      <span class="ml-auto" style="color: var(--clay-dark)">&rarr;</span>
     </div>
   </a>
 {% endmacro %}
 
 {% macro featured_post_card(post) %}
-  <a class="card card--interactive" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.75em; max-width: 42rem; text-decoration: none; color: inherit; padding: var(--sp-4)">
+  <a class="card card--interactive link-reset" href="/blog/{{ post.slug }}" style="display: flex; flex-direction: column; gap: 0.75em; max-width: 42rem; padding: var(--sp-4)">
     <div class="meta">
       <span>{{ post.date }}</span>
       {% if post.tags %}
@@ -45,10 +45,10 @@
         <span>{{ post.tags | join(', ') }}</span>
       {% endif %}
     </div>
-    <h3 style="margin: 0">{{ post.title }}</h3>
-    <p style="margin: 0; color: var(--text-heading)">{{ post.summary }}</p>
+    <h3 class="m-0">{{ post.title }}</h3>
+    <p class="m-0" style="color: var(--text-heading)">{{ post.summary }}</p>
     {% if post.snippet %}
-      <p style="margin: 0; color: var(--muted)">{{ post.snippet }}</p>
+      <p class="m-0" style="color: var(--muted)">{{ post.snippet }}</p>
     {% endif %}
     <div style="padding-top: var(--sp-2); border-top: 1px solid var(--line); font-family: var(--font-body); font-weight: 600; font-size: var(--step-1); color: var(--clay-dark)">
       Read the full post &rarr;

@@ -5,32 +5,43 @@
 {% block content %}
   <section class="shell">
     {{ m.section_heading('Ready to ship', 'Shop', level=1) }}
-    <p style="max-width: 56ch">Finished pieces built in small runs, priced openly — no quote request needed. Shipping is calculated at checkout based on your address, with local pickup available near Barrie.</p>
-    <p style="max-width: 56ch">
-      Placeholder — a sentence or two on how this catalog differs from
-      custom commissions: smaller, simpler pieces kept in stock and ready
-      to go, versus the made-to-order work covered by a quote request.
+    <p class="measure-56">Finished pieces built in small runs, priced openly — no quote request needed. Shipping is calculated at checkout based on your address, with local pickup available near Barrie.</p>
+    <p class="measure-56">
+      These are smaller, simpler pieces kept in stock and ready to go. Larger or made-to-order work, like a dining table or built-in, is handled through a quote request instead.
     </p>
-    <p class="hint" style="max-width: 56ch">
-      Placeholder — a short note on materials and care, e.g. wood species
-      used across the catalog and how to care for a finished piece.
+    <p class="hint measure-56">
+      Cutting boards are solid walnut, maple or cherry, finished with food-safe mineral oil. Wash by hand and re-oil every few weeks.
     </p>
     {{ m.payment_badges(crypto_enabled) }}
 
-    <div class="grid grid-3-up" style="margin-top: var(--sp-4)">
+    <div class="grid grid-3-up mt-4">
       {% for product in products %}
-        <a class="card card--interactive" href="/shop/{{ product.slug }}" style="padding: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; overflow: hidden">
-          {% if product.image_path %}
-            <img src="{{ product.image_path }}" alt="{{ product.name }}" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block">
-          {% else %}
-            <div class="photo-placeholder" style="border-radius: 0; border-width: 0 0 1px">Product photo</div>
-          {% endif %}
-          <div style="padding: var(--sp-3); display: flex; flex-direction: column; gap: 0.4em">
-            <h3 style="margin: 0">{{ product.name }}</h3>
-            <span class="price" style="font-weight: 600">${{ "%.2f"|format(product.base_price_cents / 100) }}</span>
-            {% if not product.in_stock %}<span class="badge" style="margin-top: 0.2em">Out of stock</span>{% endif %}
+        {% set default_variant = product.variants|selectattr('active')|selectattr('stock_count', 'gt', 0)|first %}
+        <div class="card card--interactive card-flush" style="display: flex; flex-direction: column">
+          <a href="/shop/{{ product.slug }}" class="link-reset" style="display: flex; flex-direction: column; flex: 1">
+            {% if product.image_path %}
+              <img src="{{ product.image_path }}" alt="{{ product.name }}" class="img-cover aspect-4-3">
+            {% else %}
+              <div class="photo-placeholder" style="border-radius: 0; border-width: 0 0 1px">Product photo</div>
+            {% endif %}
+            <div style="padding: var(--sp-3) var(--sp-3) 0; display: flex; flex-direction: column; gap: 0.4em; flex: 1">
+              <h3 class="m-0">{{ product.name }}</h3>
+              <span class="price" style="font-weight: 600">${{ "%.2f"|format(product.base_price_cents / 100) }}</span>
+              {% if not product.in_stock %}<span class="badge" style="margin-top: 0.2em">Out of stock</span>{% endif %}
+            </div>
+          </a>
+          <div style="padding: var(--sp-3)">
+            {% if default_variant %}
+              <form method="post" action="/shop/buy-now">
+                <input type="hidden" name="variant_id" value="{{ default_variant.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button class="btn btn-accent btn-block btn-sm" type="submit">Buy Now</button>
+              </form>
+            {% else %}
+              <button class="btn btn-block btn-sm" type="button" disabled>Out of stock</button>
+            {% endif %}
           </div>
-        </a>
+        </div>
       {% else %}
         <p>No products yet.</p>
       {% endfor %}

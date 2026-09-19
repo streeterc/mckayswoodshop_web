@@ -91,6 +91,13 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Smooth in-page scrolling (anchor links, scrollTo) — CSS only, so there's
+   no scroll-hijacking JS to cost frames, and wheel/touch scrolling stays
+   native. Skipped entirely for visitors who ask for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 body {
   margin: 0;
   background: var(--paper);
@@ -147,6 +154,11 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: var(--step3); }
 h2 { font-size: var(--step2); }
 h3 { font-size: var(--step1); }
+
+/* Tighter/looser heading margin than the default — e.g. a heading sitting
+   directly above its own one-line body copy in a compact card/step list. */
+.heading-tight { margin-bottom: 0.2em; }
+.heading-loose { margin: 0.2em 0; }
 
 p {
   margin: 0 0 var(--sp-3);
@@ -307,7 +319,7 @@ small {
 .card {
   background: var(--surface-card);
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xs);
   padding: var(--sp-3);
 }
 
@@ -319,6 +331,75 @@ small {
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
+
+/* Icon + text side-by-side card, e.g. the homepage "What I build" grid. */
+.feature-card {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: flex-start;
+}
+
+/* Two equal columns with a 56px gutter (design system: About and Shop
+   sections). Stacks below 900px. */
+.split { display: flex; flex-direction: column; gap: var(--sp-4); }
+@media (min-width: 900px) {
+  .split { flex-direction: row; align-items: flex-start; gap: 3.5rem; }
+  .split--center { align-items: center; }
+  .split > * { flex: 1 1 0; min-width: 0; }
+}
+
+/* Spec list (design system SpecList): hairline-ruled rows, an uppercase
+   micro-cap label on the left and the description right-aligned in the mono
+   face. Used for "What I build" and "How it works". Rows collapse to a stacked
+   label-over-value below 640px. */
+.spec-list { margin: 0; }
+.spec-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+.spec-row:first-child { border-top: 1px solid var(--line); }
+.spec-row dt {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted, var(--muted));
+}
+.spec-row dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 640px) {
+  .spec-row { flex-direction: row; align-items: center; gap: var(--sp-4); }
+  .spec-row dt { flex: 0 0 9.5rem; }
+  .spec-row dd { margin-left: auto; text-align: right; }
+}
+.spec-row .icon { color: var(--forest); }
+.spec-num { font-family: var(--font-mono); color: var(--forest); letter-spacing: 0.02em; min-width: 1.5rem; }
+
+/* Lucide glyph (self-hosted SVG in /static/img/icons, ISC-licensed) tinted
+   with currentColor via CSS mask — set --icon: url(...) inline. */
+.icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.section-tight { margin-top: 6rem; }
 
 .badge {
   display: inline-flex;
@@ -356,7 +437,8 @@ small {
   border: 1px solid var(--line);
 }
 
-.payment-badge svg {
+.payment-badge .icon {
+  background: currentColor;
   width: 14px;
   height: 14px;
   flex-shrink: 0;
@@ -450,10 +532,10 @@ textarea {
   margin-top: 0.3em;
 }
 
-.payment-method-option svg {
+.payment-method-option .icon {
   width: 20px;
   height: 20px;
-  color: var(--forest);
+  background: var(--forest);
   flex-shrink: 0;
   margin-top: 0.1em;
 }
@@ -474,8 +556,10 @@ textarea {
   border-style: dashed;
 }
 
-.payment-method-option--soon .payment-method-name,
-.payment-method-option--soon svg {
+.payment-method-option--soon .icon {
+  background: var(--muted);
+}
+.payment-method-option--soon .payment-method-name {
   color: var(--muted);
 }
 
@@ -646,7 +730,7 @@ input.input-narrower {
    scrollbars (100vw includes the scrollbar; the layout it's centered
    against doesn't, leaving a stray gap on one side). */
 .bleed {
-  padding-block: var(--sp-6);
+  padding-block: 6rem; /* design system --section-y: 96px */
 }
 
 /* Opt a page's <main> out of .site-main's max-width/inline-padding so a
@@ -667,7 +751,7 @@ input.input-narrower {
    padding-block — without this, site-main's flex `gap` stacks a third
    helping of spacing between them (triple, not double, the intended gap). */
 .bleed + .bleed {
-  margin-top: calc(-1 * var(--sp-6));
+  margin-top: -6rem;
 }
 
 .bleed--inverse {
@@ -682,6 +766,57 @@ input.input-narrower {
   background: var(--sand);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Hero (full-bleed photo, flat forest text panel) ---------- */
+/* The photo runs edge to edge, undimmed. The text sits on a flat forest
+   panel — a single flat, semi-transparent forest field (no gradient, no blur,
+   no border) — so the photo stays visible through it while the copy keeps
+   its contrast. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 360px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-content { position: relative; }
+
+.hero-panel {
+  max-width: 38rem;
+  padding: var(--sp-4);
+  background: rgba(11, 33, 23, 0.72);
+  border-radius: var(--radius-xs);
+}
+
+.hero-social {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+}
+
+.hero-social a {
+  display: inline-flex;
+  color: var(--on-forest);
+  transition: color 0.15s ease;
+}
+
+.hero-social a:hover {
+  color: var(--clay);
+}
+
+.hero-social svg {
+  width: 22px;
+  height: 22px;
 }
 
 /* ---------- Summary rows (order totals) ---------- */
@@ -727,6 +862,87 @@ th {
 }
 
 .text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-danger { color: var(--clay-darker); }
+.no-underline { text-decoration: none; }
+
+/* Muted small text, used sitewide (form field hints, card captions, stat
+   labels, etc.) — pulled up from what used to be several scoped-only
+   copies (.field .hint, .payment-method-option .hint, ...) with no plain
+   `.hint` fallback, silently leaving any `class="hint"` used outside one
+   of those specific containers completely unstyled. Those scoped rules
+   are now redundant overrides but harmless to leave as-is. */
+.hint {
+  font-size: var(--step-1);
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ---------- Spacing utilities ---------- */
+/* Covers the repeated `style="margin-top: var(--sp-N)"` one-offs scattered
+   across templates — introduced once several of the exact same inline
+   value showed up across different files, not preemptively. */
+.mt-1 { margin-top: var(--sp-1); }
+.mt-2 { margin-top: var(--sp-2); }
+.mt-3 { margin-top: var(--sp-3); }
+.mt-4 { margin-top: var(--sp-4); }
+.mt-5 { margin-top: var(--sp-5); }
+.mt-6 { margin-top: var(--sp-6); }
+.divider-top { border-top: 1px solid var(--line); padding-top: var(--sp-3); }
+.card-flush { padding: 0; overflow: hidden; }
+.link-reset { text-decoration: none; color: inherit; }
+.opacity-60 { opacity: 0.6; }
+.text-success { color: var(--forest); }
+.m-0 { margin: 0; }
+.ml-auto { margin-left: auto; }
+.mx-auto { margin-inline: auto; }
+
+/* ---------- Flex utilities ---------- */
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+/* ---------- Readable paragraph widths ---------- */
+/* Named after the exact character-count measures already in use (hero
+   copy vs. body copy vs. longer intro paragraphs) rather than collapsed
+   into one value, so existing layouts don't shift. */
+.measure-46 { max-width: 46ch; }
+.measure-52 { max-width: 52ch; }
+.measure-56 { max-width: 56ch; }
+
+/* ---------- Feature icon (e.g. home page's "What I build" cards) ---------- */
+.icon-md {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--forest);
+}
+
+/* ---------- Responsive cropped image ---------- */
+/* Aspect ratio is separate from the base rule since it varies by context
+   (square product shots vs. a taller hero photo) — combine with one of
+   the .aspect-* classes below. */
+.img-cover {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.img-bordered {
+  border: 1px solid var(--line);
+}
+
+.aspect-square { aspect-ratio: 1 / 1; }
+.aspect-4-3 { aspect-ratio: 4 / 3; }
+.aspect-5-6 { aspect-ratio: 5 / 6; }
 
 /* ---------- Grid utilities (flexbox-based) ---------- */
 .grid {
@@ -745,6 +961,10 @@ th {
 @media (min-width: 640px) {
   .grid-2-up > * {
     flex: 1 1 calc(50% - var(--sp-4) / 2);
+  }
+
+  .hero {
+    min-height: 480px;
   }
 }
 

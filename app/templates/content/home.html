@@ -4,75 +4,90 @@
 {% block meta_description %}Custom furniture, built-ins, and handmade wood goods from McKay's Woodshop in Simcoe County, Ontario. Shop finished pieces online with checkout and shipping across Canada, or request a custom quote — no waiting on a contact form.{% endblock %}
 {% block main_class %}site-main--bleed-ready{% endblock %}
 {% block content %}
-<section class="bleed bleed--inverse">
-  <div class="shell grid grid-2-up" style="align-items: center">
-    <div>
-      <div class="eyebrow">
-        Custom Woodworking &middot; Simcoe County, ON
-      </div>
-      <div class="accent-line"></div>
-      <h1 style="color: var(--on-forest)">Hi, I'm Eric McKay.</h1>
-      <p style="max-width: 46ch">
-        Placeholder — a short line on who you are and what you build.
-      </p>
-      <p style="max-width: 46ch">
-        Most local woodworkers make you wait on a quote before you can buy
-        anything. Here, finished pieces are ready to shop online today —
-        shipped across Canada, or pick up nearby.
-      </p>
-      <div style="display: flex; gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-3)">
-        <span class="badge">Secure online checkout</span>
-        <span class="badge" id="ships-badge">Ships across Canada, US and Worldwide</span>
-        <span class="badge">Ontario-made</span>
-      </div>
+<section class="hero bleed bleed--inverse">
+  <img
+    src="/static/img/shop-interior.jpg"
+    alt="Carpenter working on a wood board in the shop"
+    class="hero-bg"
+  />
+  <div class="shell hero-content">
+    <div class="hero-panel">
+    <div class="eyebrow">
+      Custom Woodworking &middot; Simcoe County, ON
     </div>
-    <img
-      src="/static/img/shop-interior.jpg"
-      alt="Carpenter working on a wood board in the shop"
-      style="display: block; width: 100%; min-width: 0; aspect-ratio: 5 / 6; object-fit: cover; border-radius: var(--radius-sm)"
-    />
+    <div class="accent-line"></div>
+    <h1>Hi, I'm Eric McKay.</h1>
+    <div class="hero-social">
+      <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 6.4a2.8 2.8 0 0 0-2-2C18.9 4 12 4 12 4s-6.9 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1 11.8a29 29 0 0 0 .5 5.3 2.8 2.8 0 0 0 2 2c1.6.4 8.5.4 8.5.4s6.9 0 8.5-.4a2.8 2.8 0 0 0 2-2 29 29 0 0 0 .5-5.3 29 29 0 0 0-.5-5.4z"/><polygon points="9.8 15 15.5 11.8 9.8 8.5 9.8 15"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 3a5 5 0 0 0 5 5"/></svg>
+      </a>
+      <a href="#" aria-label="Pinterest" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 17c1-3 1.5-6 1.5-8a2.5 2.5 0 1 1 5 0c0 2-1 4-2.5 4"/><path d="M10.5 9v1"/></svg>
+      </a>
+    </div>
+    <p class="measure-46 mt-2">
+      I build furniture, built-ins and small wood goods out of a one-person shop north of Barrie.
+    </p>
+    <div class="mt-3" style="display: flex; gap: var(--sp-2); flex-wrap: wrap">
+      <span class="badge">Secure online checkout</span>
+      <span class="badge" id="ships-badge">Ships across Canada, US and Worldwide</span>
+      <span class="badge">Made in Ontario</span>
+    </div>
+    </div>
   </div>
 </section>
 
 <section class="bleed">
   <div class="shell">
-    <div class="grid grid-2-up" style="align-items: start">
+    <div class="split">
       <div>
         {{ m.section_heading('About', "Every piece starts with a board, not a blueprint.") }}
       </div>
       <div>
-        <p style="max-width: 52ch">
-          Placeholder — a paragraph on how you got into woodworking, your
-          background or training (the cabinetry-shop experience is worth
-          naming here — it's a credibility marker most solo makers don't
-          have), and what led to opening the shop in Simcoe County.
+        <p class="measure-52">
+          Most local woodworkers make you wait on a quote before you can buy
+          anything. Here, finished pieces are ready to shop online today —
+          shipped across Canada, or pick up nearby.
         </p>
-        <p style="max-width: 52ch">
-          Placeholder — a second paragraph on your approach: the kind of
-          wood you favor, how you finish pieces, and anything about the
-          process that makes the work distinctly yours. Honesty about being
-          early-stage reads as more trustworthy than a polished corporate
-          bio — it's fine to say so directly.
+        <p class="measure-52">
+          I spent six years in a production cabinetry shop before setting up on
+          my own. That is where I learned to work to a drawing, hold a
+          tolerance, and finish a piece so it still looks right in ten years.
         </p>
-        <p style="max-width: 52ch">
-          Placeholder — mention a workmanship guarantee here if you're
-          offering one, and where else people can find you in person (e.g.
-          a weekly farmers' market stall or seasonal craft show).
+        <p class="measure-52">
+          The shop is small and solid wood only. Most pieces are oak, maple or
+          walnut, finished with a hand-rubbed oil rather than a sprayed film,
+          because it wears in instead of peeling off. I am early in this, and
+          I would rather say so than pretend otherwise.
+        </p>
+        <p class="measure-52">
+          Everything I build is guaranteed against defects in workmanship for
+          as long as you own it. You can also find me most Saturdays at the
+          Barrie Farmers' Market, 9am to 1pm.
         </p>
         <div
-          class="grid grid-3-up"
-          style="margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--line)"
+          class="grid grid-3-up mt-4"
+          style="padding-top: var(--sp-4); border-top: 1px solid var(--line)"
         >
           <div>
-            <div class="price" style="font-size: var(--step1); font-weight: 600">00</div>
+            <div class="price price--stat">6</div>
             <div class="hint">Years in the shop</div>
           </div>
           <div>
-            <div class="price" style="font-size: var(--step1); font-weight: 600">00</div>
+            <div class="price price--stat">240</div>
             <div class="hint">Pieces built</div>
           </div>
           <div>
-            <div class="price" style="font-size: var(--step1); font-weight: 600">Solid wood</div>
+            <div class="price price--stat">Solid wood</div>
             <div class="hint">Materials, always</div>
           </div>
         </div>
@@ -83,88 +98,71 @@
 
 <section class="bleed bleed--sunken">
   <div class="shell">
+    <div class="split">
+    <div>
     {{ m.section_heading('What I build', 'Four kinds of projects, one shop.') }}
-    <p style="max-width: 56ch">
-      Placeholder — a sentence on the range of work you take on, from small
-      commissions to full built-ins. Custom furniture is quoted individually,
-      but as a rough guide dining tables typically start around $2,500.
+    <p class="measure-56">
+      From small commissions to full built-ins. Custom furniture is quoted individually, but as a rough guide dining tables typically start around $2,500.
     </p>
-
-    <div class="grid grid-2-up" style="margin-top: var(--sp-4)">
-      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M4 10h16M4 10v9M20 10v9M6 19v2M18 19v2M4 10l1.5-5h13L20 10"/></svg>
-        <div>
-          <h3 style="margin-bottom: 0.2em">Furniture</h3>
-          <p style="margin: 0">Placeholder — tables, chairs, cabinets, and other freestanding pieces built to order.</p>
-        </div>
-      </div>
-      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><rect x="4" y="3" width="16" height="18" rx="0.5"/><path d="M4 9h16M4 15h16M12 3v18"/></svg>
-        <div>
-          <h3 style="margin-bottom: 0.2em">Built-ins</h3>
-          <p style="margin: 0">Placeholder — shelving, closets, and benches built to fit a specific room.</p>
-        </div>
-      </div>
-      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M12 2l7 8h-4v12h-6V10H5l7-8z"/></svg>
-        <div>
-          <h3 style="margin-bottom: 0.2em">Outdoor</h3>
-          <p style="margin: 0">Placeholder — decks, pergolas, and planters built to hold up outside.</p>
-        </div>
-      </div>
-      <div class="card" style="display: flex; gap: var(--sp-3); align-items: flex-start">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width: 32px; height: 32px; flex-shrink: 0; color: var(--forest)"><path d="M14.5 3.5l6 6-9 9L3 21l2.5-8.5 9-9z"/><path d="M12.5 5.5l6 6"/></svg>
-        <div>
-          <h3 style="margin-bottom: 0.2em">Restoration</h3>
-          <p style="margin: 0">Placeholder — repair and refinishing for an existing piece worth saving.</p>
-        </div>
-      </div>
     </div>
 
-    <div style="margin-top: var(--sp-6)">
+    <dl class="spec-list">
+        <div class="spec-row">
+          <dt><span class="icon" style="--icon: url(/static/img/icons/armchair.svg)" aria-hidden="true"></span>Furniture</dt>
+          <dd>Tables, chairs and cabinets, built to order.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="icon" style="--icon: url(/static/img/icons/library.svg)" aria-hidden="true"></span>Built-ins</dt>
+          <dd>Shelving, closets and benches, scribed to the room.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="icon" style="--icon: url(/static/img/icons/trees.svg)" aria-hidden="true"></span>Outdoor</dt>
+          <dd>Decks, pergolas and planters in cedar or teak.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="icon" style="--icon: url(/static/img/icons/hammer.svg)" aria-hidden="true"></span>Restoration</dt>
+          <dd>Repair and refinishing for a piece worth saving.</dd>
+        </div>
+    </dl>
+    </div>
+
+    <div class="section-tight split">
+      <div>
       {{ m.section_heading('How it works', 'From first message to finished piece.') }}
-      <div class="grid grid-2-up" style="margin-top: var(--sp-4)">
-        <div>
-          <div class="hint" style="font-family: var(--font-mono)">01</div>
-          <h3 style="margin: 0.2em 0">Reach out</h3>
-          <p>Placeholder — send a quote request with the rough idea, size, and timeline.</p>
-        </div>
-        <div>
-          <div class="hint" style="font-family: var(--font-mono)">02</div>
-          <h3 style="margin: 0.2em 0">Get a quote</h3>
-          <p>Placeholder — a follow-up call or message to firm up details, then a price and timeline.</p>
-        </div>
-        <div>
-          <div class="hint" style="font-family: var(--font-mono)">03</div>
-          <h3 style="margin: 0.2em 0">Built to order</h3>
-          <p>Placeholder — the piece gets built in the shop, with updates along the way.</p>
-        </div>
-        <div>
-          <div class="hint" style="font-family: var(--font-mono)">04</div>
-          <h3 style="margin: 0.2em 0">Delivery or pickup</h3>
-          <p>Placeholder — finished pieces are delivered locally or ready for pickup at the shop.</p>
-        </div>
       </div>
+      <dl class="spec-list">
+        <div class="spec-row">
+          <dt><span class="spec-num">01</span>Reach out</dt>
+          <dd>Send a quote request with the idea, rough size and timeline.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="spec-num">02</span>Get a quote</dt>
+          <dd>A call to firm up details, then a price and lead time.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="spec-num">03</span>Built to order</dt>
+          <dd>Built in the shop, with photo updates along the way.</dd>
+        </div>
+        <div class="spec-row">
+          <dt><span class="spec-num">04</span>Delivery or pickup</dt>
+          <dd>Delivered locally, or ready for pickup near Barrie.</dd>
+        </div>
+      </dl>
     </div>
   </div>
 </section>
 
 <section class="bleed">
-  <div class="shell grid grid-2-up" style="align-items: center">
+  <div class="shell split split--center">
     <div>
       {{ m.section_heading('Shop', "Take a look at what I'm making.") }}
-      <p style="max-width: 52ch">
+      <p class="measure-52">
         Small runs of finished pieces, priced openly and ready to ship —
         no quote request needed. Every price is listed up front; shipping
         is calculated at checkout based on your address, with local pickup
         available near Barrie.
       </p>
-      <a
-        class="btn btn-accent btn-lg"
-        href="/shop"
-        style="margin-top: var(--sp-3)"
-        >Visit the shop</a
-      >
+      <a class="btn btn-accent btn-lg mt-3" href="/shop">Visit the shop</a>
     </div>
     <div
       style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3)"
@@ -172,48 +170,38 @@
       <img
         src="/static/img/products/walnut-cutting-board.jpg"
         alt="Walnut cutting board"
-        style="display: block; width: 100%; min-width: 0; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line)"
+        class="img-cover aspect-square img-bordered"
       />
       <img
         src="/static/img/products/wood-butter-knife.jpg"
         alt="Hand-carved wood butter knife"
-        style="display: block; width: 100%; min-width: 0; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--line)"
+        class="img-cover aspect-square img-bordered"
       />
     </div>
   </div>
 </section>
 
 <section class="bleed bleed--inverse">
-  <div class="shell" style="text-align: center; max-width: 46rem; margin-inline: auto">
+  <div class="shell text-center mx-auto" style="max-width: 46rem">
     <div class="eyebrow" style="justify-content: center; display: flex">Have something in mind?</div>
-    <div class="accent-line" style="margin-inline: auto"></div>
-    <h2 style="color: var(--on-forest)">Let's build it together.</h2>
-    <p style="max-width: 46ch; margin-inline: auto">
-      Placeholder — a closing sentence inviting visitors to reach out with
-      their project, whatever stage it's at. A quote request costs nothing
-      and comes with no obligation.
+    <div class="accent-line mx-auto"></div>
+    <h2>Let's build it together.</h2>
+    <p class="measure-46 mx-auto">
+      Tell me about the project, whatever stage it is at. A quote request costs nothing and comes with no obligation.
     </p>
-    <button type="button" class="btn btn-accent btn-lg" data-quote-open style="margin-top: var(--sp-3)">
+    <button type="button" class="btn btn-accent btn-lg mt-3" data-quote-open>
       Request a quote
     </button>
   </div>
 </section>
 
 <section class="shell">
-  <div
-    style="
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: var(--sp-3);
-      flex-wrap: wrap;
-    "
-  >
+  <div class="flex-between" style="align-items: flex-end">
     <div>{{ m.section_heading('Benchside Journal', 'Posts') }}</div>
     <a class="btn btn-ghost btn-sm" href="/blog">All posts</a>
   </div>
 
-  <div style="margin-top: var(--sp-4)">
+  <div class="mt-4">
     {% if posts %}
     <div class="grid grid-2-up">
       {% for post in posts[:2] %} {{ m.post_card(post) }} {% endfor %}

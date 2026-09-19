@@ -1,27 +1,44 @@
+{% macro rate_option(rate, checked) %}
+  <label class="shipping-rate-option">
+    <input type="radio" name="shippo_rate_id" value="{{ rate.id }}" data-amount-cents="{{ rate.amount_cents }}"
+           onchange="updateShippingCost(this)" {% if checked %}checked{% endif %}>
+    {% if rate.logo %}
+      <img src="{{ rate.logo }}" alt="{{ rate.provider }}" class="shipping-rate-logo">
+    {% else %}
+      <span class="shipping-rate-logo shipping-rate-logo--text">{{ rate.provider }}</span>
+    {% endif %}
+    <span class="shipping-rate-info">
+      <span class="shipping-rate-service">
+        {{ rate.service }}
+        {% if rate.is_cheapest %}<span class="badge shipping-rate-tag">Cheapest</span>{% endif %}
+        {% if rate.is_fastest %}<span class="badge shipping-rate-tag">Fastest</span>{% endif %}
+      </span>
+      {% if rate.days %}<span class="hint">{{ rate.days }} business days</span>{% endif %}
+    </span>
+    <span class="shipping-rate-price price">${{ "%.2f"|format(rate.amount_cents / 100) }}</span>
+  </label>
+{% endmacro %}
 {% if error %}<p class="hint">{{ error }}</p>{% endif %}
 {% if rates %}
+  {% set primary_rates = rates|selectattr('is_primary')|list %}
+  {% set secondary_rates = rates|rejectattr('is_primary')|list %}
   <div class="shipping-options">
-    {% for rate in rates %}
-      <label class="shipping-rate-option">
-        <input type="radio" name="shippo_rate_id" value="{{ rate.id }}" data-amount-cents="{{ rate.amount_cents }}"
-               onchange="updateShippingCost(this)" {% if loop.first %}checked{% endif %}>
-        {% if rate.logo %}
-          <img src="{{ rate.logo }}" alt="{{ rate.provider }}" class="shipping-rate-logo">
-        {% else %}
-          <span class="shipping-rate-logo shipping-rate-logo--text">{{ rate.provider }}</span>
-        {% endif %}
-        <span class="shipping-rate-info">
-          <span class="shipping-rate-service">
-            {{ rate.service }}
-            {% if rate.is_cheapest %}<span class="badge shipping-rate-tag">Cheapest</span>{% endif %}
-            {% if rate.is_fastest %}<span class="badge shipping-rate-tag">Fastest</span>{% endif %}
-          </span>
-          {% if rate.days %}<span class="hint">{{ rate.days }} business days</span>{% endif %}
-        </span>
-        <span class="shipping-rate-price price">${{ "%.2f"|format(rate.amount_cents / 100) }}</span>
-      </label>
+    {% for rate in primary_rates %}
+      {{ rate_option(rate, loop.first) }}
     {% endfor %}
   </div>
+  {% if secondary_rates %}
+    {% set more_label = "Show " ~ secondary_rates|length ~ " more option" ~ ("" if secondary_rates|length == 1 else "s") %}
+    <div class="shipping-options mt-2" id="more-shipping-options" hidden>
+      {% for rate in secondary_rates %}
+        {{ rate_option(rate, false) }}
+      {% endfor %}
+    </div>
+    <button type="button" class="btn btn-ghost btn-sm mt-2" data-more-label="{{ more_label }}"
+            onclick="var d = document.getElementById('more-shipping-options'); d.hidden = !d.hidden; this.textContent = d.hidden ? this.dataset.moreLabel : 'Hide extra options';">
+      {{ more_label }}
+    </button>
+  {% endif %}
 {% endif %}
 <script>
   updateShippingCost(document.querySelector('input[name="shippo_rate_id"]:checked'));

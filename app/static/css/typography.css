@@ -26,6 +26,13 @@ p {
   font-variant-numeric: tabular-nums;
 }
 
+/* Bigger stat-style display of a .price value, e.g. a homepage "years in
+   business" / "pieces built" callout row. */
+.price--stat {
+  font-size: var(--step1);
+  font-weight: 600;
+}
+
 ::selection {
   background: var(--clay);
   color: var(--paper);

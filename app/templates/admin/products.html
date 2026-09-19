@@ -1,19 +1,19 @@
 {% extends "admin/_base.html" %}
 {% block title %}Products — Admin{% endblock %}
 {% block content %}
-  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap">
+  <div class="flex-between">
     <h1>Products</h1>
     <a class="btn" href="/admin/products/new">+ Add product</a>
   </div>
 
   {% for product in products %}
-    <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap">
+    <div class="card flex-between">
       <div>
         <strong>{{ product.name }}</strong> <small>({{ product.slug }})</small>
         {% if product.active %}
           <span class="badge">Active</span>
         {% else %}
-          <span class="badge" style="opacity: 0.6">Inactive</span>
+          <span class="badge opacity-60">Inactive</span>
         {% endif %}
         <p class="hint" style="margin: 0.3em 0 0">
           {{ product.variants|length }} variant{{ '' if product.variants|length == 1 else 's' }}
