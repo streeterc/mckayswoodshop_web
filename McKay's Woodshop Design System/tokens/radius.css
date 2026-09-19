@@ -1,0 +1,6 @@
+:root{
+--radius-none:0;--radius-xs:2px;--radius-sm:3px;--radius-md:5px;--radius-lg:8px;--radius-xl:14px;--radius-pill:999px;
+/* composed: the brand favours tight, machined corners */
+--radius-card:5px;--radius-field:3px;--radius-button:3px;--radius-tile:2px;--radius-image:3px;
+--border-hair:1px;--border-thick:2px;--rule-heavy:3px;
+}

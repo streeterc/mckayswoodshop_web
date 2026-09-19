@@ -1,0 +1,28 @@
+<!-- @dsCard group="Components" viewport="700x380" name="Feedback" subtitle="Dialog, toasts, tooltip, and the build-stage tracker" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:18px;background:var(--surface-page)}.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:16px}.cap{font:var(--type-eyebrow);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--text-faint)}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const DS=window.McKaySWoodshopDesignSystem_ff08a8;
+const {Toast,Tooltip,ProgressSteps,Button,Icon,Card}=DS;
+function Demo(){return <div className="stack" style={{gap:20}}>
+ <ProgressSteps current={2} steps={[{label:'Measure',meta:'Apr 2'},{label:'Design',meta:'Apr 11'},{label:'Mill',meta:'in progress'},{label:'Assemble'},{label:'Finish'},{label:'Install'}]}/>
+ <div className="row" style={{alignItems:'flex-start'}}>
+  <Toast tone="success" title="Measurements saved" message="We'll bring them to the site visit." icon={<Icon name="check" size={16}/>} onDismiss={()=>{}}/>
+  <Toast tone="warning" title="Drawings need approval" message="Milling starts once you approve." icon={<Icon name="clock" size={16}/>}/>
+ </div>
+ <div className="row">
+  <Card variant="raised" padding="sm" style={{width:300}}>
+   <div style={{font:'var(--type-h4)',color:'var(--text-heading)'}}>Approve the drawings?</div>
+   <p style={{font:'var(--type-body-sm)',color:'var(--text-muted)',margin:'6px 0 14px'}}>We'll start milling once you approve.</p>
+   <div className="row" style={{justifyContent:'flex-end',gap:10}}><Button variant="ghost" size="sm">Not yet</Button><Button size="sm">Approve</Button></div>
+  </Card>
+  <div style={{paddingTop:40}}><Tooltip label="Rift sawn: straight, even grain"><span style={{display:'inline-flex',gap:6,alignItems:'center',font:'var(--type-body-sm)',color:'var(--text-body)'}}>Rift sawn <Icon name="info" size={14}/></span></Tooltip></div>
+ </div>
+</div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

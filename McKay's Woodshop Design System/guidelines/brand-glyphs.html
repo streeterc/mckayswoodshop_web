@@ -1,0 +1,82 @@
+<!-- @dsCard group="Brand" viewport="700x170" name="The four glyphs" subtitle="Cross, pine, buck, stacked lumber — stamps, not UI icons." -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>html,body{margin:0}body{background:var(--surface-page);padding:16px;font:var(--type-body)}.gl-cap{font:500 10px/2 var(--font-mono);color:var(--text-muted)}.gl-dim{font:500 9px/1.5 var(--font-mono);color:var(--text-faint);font-variant-numeric:tabular-nums}</style>
+</head><body><div id="root"></div>
+<script type="text/babel" data-presets="react">
+const GLYPH_TWEAKS = /*EDITMODE-BEGIN*/{
+  "sizing": "equal area",
+  "base": 62,
+  "gap": 26,
+  "align": "centre",
+  "tone": "green",
+  "showDims": false
+}/*EDITMODE-END*/;
+
+// Native artwork dimensions — the four glyphs were cut from equal tiles in the logo,
+// so their aspect ratios are the source of truth for any proportioning.
+const GLYPHS = [
+  { name: 'cross', w: 143, h: 201 },
+  { name: 'pine', w: 134, h: 200 },
+  { name: 'buck', w: 151, h: 208 },
+  { name: 'lumber', w: 293, h: 199 },
+];
+
+// Geometric mean of the four aspect ratios: keeps equal-area sizes centred on `base`
+// so switching modes does not change the group's overall weight.
+const MEAN_RATIO = Math.pow(GLYPHS.reduce((a, g) => a * (g.w / g.h), 1), 1 / GLYPHS.length);
+
+function sizeOf(g, sizing, base) {
+  const ratio = g.w / g.h;
+  if (sizing === 'equal width') return { h: base / ratio, w: base };
+  if (sizing === 'equal area') { const h = base * Math.sqrt(MEAN_RATIO / ratio); return { h, w: h * ratio }; }
+  return { h: base, w: base * ratio };
+}
+
+function Row({ t, tone, ground }) {
+  return (
+    <div style={{
+      display: 'flex', gap: t.gap, alignItems: t.align === 'baseline' ? 'flex-end' : 'center',
+      ...(ground ? { background: 'var(--forest-700)', padding: '12px 16px', borderRadius: 'var(--radius-sm)' } : null),
+    }}>
+      {GLYPHS.map((g) => {
+        const { h, w } = sizeOf(g, t.sizing, ground ? t.base * 0.62 : t.base);
+        return (
+          <div key={g.name} style={{ textAlign: 'center' }}>
+            <img src={`../assets/icon-${g.name}-${tone}.png`} alt={ground ? '' : g.name} style={{ height: h, width: w, display: 'block', margin: '0 auto' }} />
+            {!ground && <div className="gl-cap">{g.name}</div>}
+            {!ground && t.showDims && <div className="gl-dim">{Math.round(w)} × {Math.round(h)}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Specimen() {
+  const [t, setTweak] = useTweaks(GLYPH_TWEAKS);
+  const tone = t.tone === 'copper' ? 'copper' : 'green';
+  return (
+    <div style={{ display: 'flex', gap: 34, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+      <Row t={t} tone={tone} />
+      <Row t={t} tone="copper" ground />
+      <TweaksPanel>
+        <TweakSection label="Proportioning" />
+        <TweakSelect label="Match by" value={t.sizing} options={['equal height', 'equal area', 'equal width']} onChange={(v) => setTweak('sizing', v)} />
+        <TweakSlider label="Base size" value={t.base} min={24} max={110} step={1} unit="px" onChange={(v) => setTweak('base', v)} />
+        <TweakSlider label="Gap" value={t.gap} min={8} max={56} step={2} unit="px" onChange={(v) => setTweak('gap', v)} />
+        <TweakRadio label="Align" value={t.align} options={['baseline', 'centre']} onChange={(v) => setTweak('align', v)} />
+        <TweakSection label="Display" />
+        <TweakRadio label="Tone" value={t.tone} options={['green', 'copper']} onChange={(v) => setTweak('tone', v)} />
+        <TweakToggle label="Show dimensions" value={t.showDims} onChange={(v) => setTweak('showDims', v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Specimen />);
+</script>
+</body></html>

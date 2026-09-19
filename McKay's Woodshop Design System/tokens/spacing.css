@@ -1,0 +1,6 @@
+:root{
+--space-0:0;--space-1:2px;--space-2:4px;--space-3:6px;--space-4:8px;--space-5:12px;--space-6:16px;--space-7:20px;--space-8:24px;--space-9:32px;--space-10:40px;--space-11:56px;--space-12:72px;--space-13:96px;--space-14:128px;
+/* composed */
+--gutter:24px;--section-y:96px;--section-y-tight:56px;--card-pad:20px;--card-pad-lg:28px;--field-pad-y:9px;--field-pad-x:12px;
+--measure-prose:64ch;--measure-narrow:46ch;--container:1200px;--container-narrow:760px;
+}
