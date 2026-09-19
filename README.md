@@ -34,8 +34,8 @@ mckayswoodshop-web/
 │   ├── routers/
 │   │   ├── content.py                # Home, paginated post list (/blog), post detail, quote-request wizard
 │   │   ├── store.py                   # Product listing/detail, cart (session-based)
-│   │   ├── checkout.py                 # Address validation → rate quote → tax → Stripe/Coinbase
-│   │   ├── webhooks.py                  # Stripe + Coinbase webhook receivers (signature-verified)
+│   │   ├── checkout.py                 # Address validation → rate quote → tax → Stripe/BTCPay
+│   │   ├── webhooks.py                  # Stripe + BTCPay webhook receivers (signature-verified)
 │   │   └── admin.py                      # Password-protected admin dashboard (orders, stock, quotes, variant dims)
 │   ├── templates/                          # Jinja2 + HTMX templates, no build step
 │   │   ├── base.html                        # Header/nav/footer shell + sitewide quote-request modal
@@ -150,7 +150,7 @@ has a default (usually empty/disabled) except where noted.
 | `SHIPPO_API_KEY` | Live carrier rates + address validation ([app/shipping.py](app/shipping.py)) | Checkout **blocks** if this is unset or Shippo errors — no flat-rate fallback |
 | `SHOP_ADDRESS_NAME/STREET1/STREET2/CITY/STATE/ZIP/COUNTRY/PHONE` | Ship-from address for rate quotes/labels | Must be a real address Shippo can validate |
 | `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Card checkout + webhook verification | Also powers Stripe Tax ([app/tax.py](app/tax.py)) — **must be activated in the Stripe Dashboard (Settings → Tax) with an origin address**, or checkout blocks with a 502 |
-| `COINBASE_COMMERCE_API_KEY`, `COINBASE_WEBHOOK_SHARED_SECRET`, `ENABLE_CRYPTO_CHECKOUT` | Crypto checkout | The UI (payment badges, checkout radio) always renders — shown disabled/"coming soon" until `ENABLE_CRYPTO_CHECKOUT=true` with valid keys |
+| `BTCPAY_URL`, `BTCPAY_API_KEY`, `BTCPAY_STORE_ID`, `BTCPAY_WEBHOOK_SECRET`, `ENABLE_CRYPTO_CHECKOUT` | Crypto checkout — BTC only, via a self-hosted BTCPay Server ([app/btcpay.py](app/btcpay.py), [docker-compose.btcpay.yml](docker-compose.btcpay.yml)) | The UI (payment badges, checkout radio) always renders — shown disabled/"coming soon" until `ENABLE_CRYPTO_CHECKOUT=true` with valid keys |
 | `EMAIL_PROVIDER` | `console` \| `postmark` \| `sendgrid` \| `brevo` \| `ses` | `console` just logs — nothing is actually sent. `ses` needs boto3 wired up (not implemented) |
 | `EMAIL_FROM`, `NOTIFY_ADMIN_EMAIL` | Sender + where order/quote notifications go | `EMAIL_FROM` accepts `"Name <email>"` or a bare address |
 | `POSTMARK_SERVER_TOKEN` / `SENDGRID_API_KEY` / `BREVO_API_KEY` | Provider credentials, matching `EMAIL_PROVIDER` | Brevo also requires the sender address be verified in your Brevo account, and (on some accounts) the calling IP be authorized under Security → Authorised IPs |
@@ -190,14 +190,19 @@ has a default (usually empty/disabled) except where noted.
   one row overall is tagged "Cheapest" and one "Fastest". Carrier logos
   render next to each option.
 - **Sales tax**: computed via the Stripe Tax Calculation API against the
-  validated address, added as its own Stripe Checkout line item (Coinbase
-  gets it folded into the total). Requires Stripe Tax to be activated in
+  validated address, added as its own Stripe Checkout line item (BTCPay
+  gets it folded into the invoice total). Requires Stripe Tax to be activated in
   the Stripe Dashboard; if it's not, checkout blocks with a clear error
   rather than silently charging $0 tax.
-- **Payment methods**: Stripe (card) and Coinbase Commerce (crypto). The
+- **Payment methods**: Stripe (card) and a self-hosted BTCPay Server (Bitcoin
+  only, see [app/btcpay.py](app/btcpay.py) — the code requests on-chain +
+  Lightning on every invoice, but Lightning only actually shows up if the
+  BTCPay store also has a Lightning node configured, which neither compose
+  file here sets up; on-chain-only is what you'll see in practice). The
   crypto option is always visible in the UI (payment badges + checkout
   radio) but disabled with a "coming soon" label until `ENABLE_CRYPTO_CHECKOUT`
-  is turned on with real keys.
+  is turned on with real keys and the BTCPay stack (see
+  [docker-compose.btcpay.yml](docker-compose.btcpay.yml)) is actually running.
 - Shipping label purchase (`app/shipping.py:buy_label`) from the admin order
   detail page, once an order carries a live `shippo_rate_id`.
 
@@ -232,7 +237,30 @@ for sourcing/licensing notes on both).
 - **Stripe**: `stripe listen --forward-to localhost:8000/webhooks/stripe`, test card `4242 4242 4242 4242`.
 - **Stripe Tax**: activate it in the Dashboard's test mode (Settings → Tax) before expecting a non-zero tax line.
 - **Shippo**: get a free test API key at shippo.com; test-mode rates only return from carrier accounts you've activated under Settings → Carriers in your Shippo dashboard.
-- **Coinbase Commerce**: sandbox is limited — easiest path is testing end-to-end against production with a $0.01–1.00 test product before launch, or manually mocking the webhook payload against `/webhooks/coinbase`.
+- **BTCPay Server**: `docker-compose.btcpay.yml` (mainnet) is prod-only, but `docker-compose.btcpay.regtest.yml` brings up a full regtest stack (bitcoind + NBXplorer + BTCPay Server + its own Postgres) alongside the plain dev stack for actually testing checkout -> invoice -> paid -> webhook -> order-marked-paid start to finish, with fake money and no real domain:
+  ```bash
+  docker compose -f docker-compose.yml -f docker-compose.btcpay.regtest.yml up -d
+  ```
+  One-time setup (same idea as prod's, see §6, but everything's local — no SSH tunnel needed, port 49392 is published straight to `localhost`):
+  1. Visit `http://localhost:49392`, register the first account, create a store.
+  2. Store -> **Bitcoin -> Create a new wallet -> Hot wallet** (default settings) — required before the store can create invoices at all.
+  3. **Account -> API Keys -> Generate Key** with `btcpay.store.cancreateinvoice` -> this is `BTCPAY_API_KEY`; note the store ID from the URL -> `BTCPAY_STORE_ID`.
+  4. Create the webhook via the Greenfield API (the store's own Webhooks *page* 403'd in testing even as Owner — see §6's note): generate a second key with `btcpay.store.webhooks.canmodifywebhooks`, then
+     ```bash
+     curl -X POST "http://localhost:49392/api/v1/stores/<BTCPAY_STORE_ID>/webhooks" \
+       -H "Authorization: token <temporary-key>" -H "Content-Type: application/json" \
+       -d '{"url": "http://web:8000/webhooks/btcpay", "authorizedEvents": {"everything": true}, "secret": "<make one up>", "enabled": true}'
+     ```
+     that `secret` is `BTCPAY_WEBHOOK_SECRET`.
+  5. Set `.env.dev`'s `BTCPAY_URL=http://btcpayserver:49392`, the three values above, and `ENABLE_CRYPTO_CHECKOUT=true`; recreate the `web` container.
+
+  There's no working "fake pay" button on this BTCPay version's checkout page (despite older docs mentioning one) — instead, pay an invoice for real with free regtest coins, using the invoice's own on-chain address (shown on its checkout page, or via `GET /api/v1/stores/<id>/invoices/<invoiceId>`):
+  ```bash
+  docker exec <bitcoind-container> bitcoin-cli -regtest -rpccookiefile=/data/regtest/.cookie -rpcconnect=127.0.0.1 -rpcport=43782 -rpcwallet=default \
+    -named sendtoaddress address=<invoice-address> amount=<btc-amount> fee_rate=10
+  docker exec <bitcoind-container> bitcoin-cli -regtest -rpccookiefile=/data/regtest/.cookie -rpcconnect=127.0.0.1 -rpcport=43782 -rpcwallet=default -generate 1
+  ```
+  The second command mines a confirmation block (regtest has no real miners) — BTCPay settles the invoice and fires the webhook within a few seconds after that.
 - **Email**: `EMAIL_PROVIDER=console` prints to the terminal; switching to a real provider needs that provider's API key and (for Brevo) a verified sender + authorized IP.
 
 ---
@@ -267,7 +295,7 @@ already factored out there.
 4. Create `.env.prod` (see §3 above) and fill in:
    - `ENVIRONMENT=production`
    - **Live** Stripe keys, with **Stripe Tax activated in live mode**
-   - Live Coinbase Commerce API key + webhook shared secret (if enabling crypto)
+   - `BTCPAY_URL`/`BTCPAY_API_KEY`/`BTCPAY_STORE_ID`/`BTCPAY_WEBHOOK_SECRET` (if enabling crypto — see step 6a below, which brings up the actual BTCPay stack these point at)
    - A **live** Shippo API key and your real ship-from address
    - Real transactional email provider credentials
    - A strong `ADMIN_SESSION_SECRET` (random 32+ byte string — `openssl rand -hex 32`)
@@ -278,17 +306,70 @@ already factored out there.
    make prod-up
    make prod-migrate
    ```
-6. Obtain the certificate and switch Nginx over to HTTPS:
+6. **(Optional) Bring up the self-hosted BTCPay Server stack**, if enabling
+   crypto checkout. Point a subdomain (e.g. `pay.yourdomain.com`) at this
+   droplet first, then:
    ```bash
-   ./scripts/init_certbot.sh yourdomain.com you@yourdomain.com
+   make prod-up-btcpay
    ```
-7. Seed your admin user (and sample catalog, if wanted) on the droplet:
+   No RPC credentials to generate — NBXplorer authenticates to bitcoind via
+   a shared cookie-auth-file volume, not a password (see
+   `docker-compose.btcpay.yml`'s comments). `bitcoind` then needs to fully
+   sync (pruned — hours, not days, but not instant either; `make
+   prod-logs-btcpay` to watch progress).
+
+   Once synced, since `docker-compose.btcpay.yml` deliberately doesn't
+   publish BTCPay's port to the host (only reachable internally, by `web`
+   and by Nginx's `pay.${DOMAIN}` block once that's uncommented), reach it
+   for this one-time setup via an SSH tunnel instead of opening the port:
+   ```bash
+   ssh -L 49392:localhost:49392 user@your-droplet-ip
+   ```
+   Then, with that tunnel open, visit `http://localhost:49392` in your own
+   browser and:
+   1. Register the first account (this becomes the BTCPay server admin) and
+      create a store.
+   2. Under the store, **Bitcoin -> Create a new wallet -> Hot wallet**
+      (default Segwit settings are fine) — a store can't create invoices at
+      all until it has a payment method configured, this is not optional.
+   3. **Account -> API Keys -> Generate Key**, with at least the
+      `btcpay.store.cancreateinvoice` permission (Store Mode: All Stores is
+      fine for a single-store setup) — this is `BTCPAY_API_KEY`. Note the
+      store ID from the store's URL (`/stores/<this-part>/...`) — this is
+      `BTCPAY_STORE_ID`.
+   4. Create the webhook **via the Greenfield API directly, not the store's
+      Webhooks page** — that page 403'd with "missing
+      btcpay.store.canmodifystoresettings" even when logged in as the
+      store's Owner in testing (BTCPay v2.4.4), while the equivalent API
+      call worked fine. Generate a second, temporary API key with the
+      `btcpay.store.webhooks.canmodifywebhooks` permission, then:
+      ```bash
+      curl -X POST "http://localhost:49392/api/v1/stores/<BTCPAY_STORE_ID>/webhooks" \
+        -H "Authorization: token <temporary-key>" \
+        -H "Content-Type: application/json" \
+        -d '{"url": "http://web:8000/webhooks/btcpay", "authorizedEvents": {"everything": true}, "secret": "<make one up>", "enabled": true}'
+      ```
+      That `secret` is `BTCPAY_WEBHOOK_SECRET`. Note the URL is the
+      internal Docker address (`http://web:8000/...`), not the public
+      domain — BTCPay delivers the webhook itself over the internal network,
+      it doesn't need to leave the droplet.
+   5. Put all four (`BTCPAY_API_KEY`, `BTCPAY_STORE_ID`, `BTCPAY_WEBHOOK_SECRET`,
+      and `BTCPAY_URL=http://btcpayserver:49392` — also internal, `web`
+      reaches it directly) in `.env.prod`, then close the SSH tunnel.
+7. Obtain the certificate and switch Nginx over to HTTPS — add the BTCPay
+   subdomain as a 3rd argument if you brought that stack up in step 6 (and
+   uncomment its block in `nginx/nginx.prod.conf.template` first):
+   ```bash
+   ./scripts/init_certbot.sh yourdomain.com you@yourdomain.com [pay.yourdomain.com]
+   ```
+8. Seed your admin user (and sample catalog, if wanted) on the droplet:
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml exec web python scripts/init_db.py
    ```
-8. Confirm `https://yourdomain.com` loads, then register **live** webhook
-   endpoints in the Stripe and Coinbase Commerce dashboards pointing at
-   `https://yourdomain.com/webhooks/stripe` and `/webhooks/coinbase`.
+9. Confirm `https://yourdomain.com` loads, then register a **live** Stripe
+   webhook endpoint pointing at `https://yourdomain.com/webhooks/stripe`.
+   (BTCPay's webhook was already registered against BTCPay itself in step 6,
+   not Stripe's dashboard.)
 
 For future deploys (code changes only, cert already issued), use
 `./scripts/deploy.sh user@droplet-ip /path/on/droplet` to rsync and restart,
@@ -303,7 +384,7 @@ or just `git pull && make prod-up && make prod-migrate` directly on the droplet.
 | Real product/hero photography | Currently Unsplash stock photos (`app/static/img/products/`, `shop-interior.jpg`) — swap before launch, see the READMEs in those directories for licensing notes |
 | Homepage/shop copy | Mostly placeholder text (`Placeholder — ...`) — needs Eric's actual bio, process details, etc. |
 | Stripe Tax activation | Not yet active on the configured Stripe account as of this writing — checkout will 502 on the tax step until it is (Dashboard → Settings → Tax) |
-| Coinbase Commerce | UI is built and always visible but disabled ("coming soon") — needs `COINBASE_COMMERCE_API_KEY` + `COINBASE_WEBHOOK_SHARED_SECRET` + `ENABLE_CRYPTO_CHECKOUT=true` to go live |
+| BTCPay Server (Bitcoin) | UI is built and always visible but disabled ("coming soon") — needs the `docker-compose.btcpay.yml` stack actually deployed (§6) plus `BTCPAY_URL`/`BTCPAY_API_KEY`/`BTCPAY_STORE_ID`/`BTCPAY_WEBHOOK_SECRET` + `ENABLE_CRYPTO_CHECKOUT=true` to go live |
 | Shippo carrier accounts | Only whichever carriers are activated under Settings → Carriers in the Shippo dashboard will actually return rates, even though 5 are allow-listed in code |
 | Stripe country/payout support | Check https://stripe.com/global before going live |
 | Domain + DNS | `DOMAIN` env var, used by Nginx/Certbot config |
@@ -314,7 +395,8 @@ or just `git pull && make prod-up && make prod-migrate` directly on the droplet.
 
 - [ ] Admin password is strong and unique; consider adding IP allowlisting in `nginx.prod.conf` (`allow`/`deny` directives — see comments in that file)
 - [ ] `ADMIN_SESSION_SECRET` is a real random value, not the placeholder
-- [ ] Stripe and Coinbase webhook signature verification is on (`STRIPE_WEBHOOK_SECRET`, `COINBASE_WEBHOOK_SHARED_SECRET` set — the app refuses to start in production without them, see `config.py`)
+- [ ] Stripe and BTCPay webhook signature verification is on (`STRIPE_WEBHOOK_SECRET` always required; `BTCPAY_WEBHOOK_SECRET`/`BTCPAY_URL` required if `ENABLE_CRYPTO_CHECKOUT=true` — the app refuses to start in production without them, see `config.py`)
+- [ ] BTCPay Server's temporary setup port (49392) is not left open to the public internet after initial store setup (§6) — Nginx's `pay.${DOMAIN}` block is the only path that should reach it
 - [ ] Stripe Tax is activated in **live** mode, not just test mode
 - [ ] `.env.prod` is **not** committed to git (already in `.gitignore`)
 - [ ] HTTPS is enforced (Nginx redirects HTTP→HTTPS in `nginx.prod.conf`)

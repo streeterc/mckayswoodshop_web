@@ -1,6 +1,3 @@
-import hashlib
-import hmac
-
 import stripe
 from fastapi import APIRouter, Request, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -11,6 +8,7 @@ from app.database import get_db
 from app.models import Order, OrderStatus
 from app.email import send_email
 from app import tax as tax_module
+from app import btcpay as btcpay_module
 
 router = APIRouter()
 settings = get_settings()
@@ -65,25 +63,23 @@ async def stripe_webhook(request: Request, db: Session = Depends(get_db)):
     return {"received": True}
 
 
-@router.post("/webhooks/coinbase")
-async def coinbase_webhook(request: Request, db: Session = Depends(get_db)):
+@router.post("/webhooks/btcpay")
+async def btcpay_webhook(request: Request, db: Session = Depends(get_db)):
     payload = await request.body()
-    sig = request.headers.get("x-cc-webhook-signature", "")
+    sig = request.headers.get("btcpay-sig", "")
 
-    expected_sig = hmac.new(
-        settings.coinbase_webhook_shared_secret.encode(), payload, hashlib.sha256
-    ).hexdigest()
-    if not hmac.compare_digest(sig, expected_sig):
-        raise HTTPException(status_code=400, detail="Invalid Coinbase webhook signature")
+    if not btcpay_module.verify_webhook_signature(payload, sig):
+        raise HTTPException(status_code=400, detail="Invalid BTCPay webhook signature")
 
     body = await request.json()
-    event = body.get("event", {})
-    event_type = event.get("type", "")
 
-    if event_type == "charge:confirmed":
-        charge = event.get("data", {})
-        public_id = charge.get("metadata", {}).get("order_public_id")
-        order = db.scalar(select(Order).where(Order.public_id == public_id))
+    # "InvoiceSettled" is BTCPay's final, fully-confirmed state — matches
+    # the same "only act on the definitively-paid event" policy as the
+    # Stripe handler above (checkout.session.completed), not an earlier
+    # "processing"/unconfirmed event.
+    if body.get("type") == "InvoiceSettled":
+        invoice_id = body.get("invoiceId", "")
+        order = db.scalar(select(Order).where(Order.payment_reference == invoice_id))
         if order:
             _mark_paid_and_notify(db, order)
 

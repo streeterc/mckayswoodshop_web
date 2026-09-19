@@ -24,7 +24,7 @@ class OrderStatus(str, enum.Enum):
 
 class PaymentMethod(str, enum.Enum):
     stripe = "stripe"
-    coinbase = "coinbase"
+    btcpay = "btcpay"  # self-hosted BTCPay Server — BTC only, see app/btcpay.py
 
 
 class Product(Base):
@@ -96,7 +96,7 @@ class Order(Base):
     shipping_cents: Mapped[int] = mapped_column(Integer)
     subtotal_cents: Mapped[int] = mapped_column(Integer)
     # Computed via Stripe Tax (app/tax.py) from the shipping address —
-    # included in total_cents below for both Stripe and Coinbase checkout.
+    # included in total_cents below for both Stripe and BTCPay checkout.
     tax_cents: Mapped[int] = mapped_column(Integer, default=0)
     # The Stripe Tax Calculation backing tax_cents, recorded into a
     # Transaction once the order is paid (see webhooks.py) so it counts
@@ -106,7 +106,7 @@ class Order(Base):
     currency: Mapped[str] = mapped_column(String(10), default="usd")
 
     payment_method: Mapped[PaymentMethod | None] = mapped_column(Enum(PaymentMethod), nullable=True)
-    payment_reference: Mapped[str] = mapped_column(String(255), default="")  # Stripe session id / Coinbase charge id
+    payment_reference: Mapped[str] = mapped_column(String(255), default="")  # Stripe session id / BTCPay invoice id
 
     status: Mapped[OrderStatus] = mapped_column(Enum(OrderStatus), default=OrderStatus.pending)
     tracking_number: Mapped[str] = mapped_column(String(120), default="")

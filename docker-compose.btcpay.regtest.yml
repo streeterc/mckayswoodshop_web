@@ -1,0 +1,124 @@
+# Regtest BTCPay Server stack — for LOCAL, start-to-finish checkout testing
+# only. Regtest is a fully local, fake blockchain: no real BTC, no real
+# domain, no waiting on a real chain to sync (unlike docker-compose.btcpay.yml,
+# which is mainnet/production). BTCPay's regtest checkout page has built-in
+# "fake pay this invoice" / "mine a block" buttons, which is what actually
+# lets you walk a real order through checkout -> BTCPay invoice -> paid ->
+# webhook -> order marked paid end to end without spending anything real.
+#
+# Bring up alongside the plain dev stack only (never with docker-compose.prod.yml):
+#
+#   docker compose -f docker-compose.yml -f docker-compose.btcpay.regtest.yml up -d
+#
+# First-time setup (see README.md's "Testing BTC checkout end-to-end" section
+# for the full walkthrough): open http://localhost:49392, create an admin
+# account + store, create the store's on-chain wallet (Bitcoin -> Create a
+# new wallet -> Hot wallet — required before it can create invoices at
+# all), create a Greenfield API key and a webhook, then point .env.dev's
+# BTCPAY_* vars at this stack and set ENABLE_CRYPTO_CHECKOUT=true. There's
+# no Lightning node in this stack, so invoices only ever offer on-chain BTC
+# regardless of what app/btcpay.py requests — confirmed live, not assumed.
+#
+# Image names/tags and the cookie-based RPC auth (bitcoind writes a .cookie
+# file into bitcoin_datadir; nbxplorer reads it from the same shared volume
+# mounted read-only — no rpcuser/rpcpassword/rpcauth needed at all) are
+# copied from BTCPay's own official docker-compose-generator fragments
+# (btcpayserver-docker repo, docker-fragments/{bitcoincore,nbxplorer,
+# btcpayserver,postgres}.yml) rather than reconstructed from memory, since
+# getting the image names/connection strings wrong here means nothing starts.
+services:
+  postgres:
+    image: btcpayserver/postgres:18.6
+    restart: unless-stopped
+    shm_size: 256mb
+    command: ["-c", "random_page_cost=1.0", "-c", "shared_preload_libraries=pg_stat_statements"]
+    environment:
+      # No port published to the host and nothing else reaches this
+      # container except nbxplorer/btcpayserver over the internal Docker
+      # network, so trusting any connection (BTCPay's own official default)
+      # doesn't expose anything — same reasoning as this repo's main
+      # Postgres container never publishing its port in docker-compose.prod.yml.
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - btcregtest_postgres_data:/var/lib/postgresql
+
+  bitcoind:
+    image: btcpayserver/bitcoin:31.1-1
+    restart: unless-stopped
+    environment:
+      BITCOIN_NETWORK: regtest
+      # "false" (BTCPay's own official default) assumes something else —
+      # normally LND — creates and manages its own wallet against bitcoind.
+      # There's no Lightning node in this stack, and NBXplorer's regtest
+      # auto-warmup (generating an initial 100 blocks) needs bitcoind to
+      # have a wallet loaded to call generatetoaddress — confirmed by
+      # NBXplorer failing with "No wallet is loaded" until this is "true".
+      CREATE_WALLET: "true"
+      BITCOIN_WALLETDIR: /walletdata
+      BITCOIN_EXTRA_ARGS: |
+        rpcport=43782
+        rpcbind=0.0.0.0:43782
+        rpcallowip=0.0.0.0/0
+        port=39388
+        whitelist=0.0.0.0/0
+        maxmempool=500
+    volumes:
+      - btcregtest_bitcoin_data:/data
+      - btcregtest_bitcoin_wallet_data:/walletdata
+
+  nbxplorer:
+    image: nicolasdorier/nbxplorer:2.6.16
+    restart: unless-stopped
+    depends_on:
+      - bitcoind
+      - postgres
+    environment:
+      NBXPLORER_NETWORK: regtest
+      NBXPLORER_BIND: 0.0.0.0:32838
+      NBXPLORER_TRIMEVENTS: 10000
+      NBXPLORER_SIGNALFILESDIR: /datadir
+      NBXPLORER_CHAINS: btc
+      NBXPLORER_BTCRPCURL: http://bitcoind:43782/
+      NBXPLORER_BTCNODEENDPOINT: bitcoind:39388
+      NBXPLORER_POSTGRES: "User ID=postgres;Host=postgres;Port=5432;Application Name=nbxplorer;MaxPoolSize=20;Database=nbxplorerregtest"
+    volumes:
+      - nbxplorer_datadir:/datadir
+      # Read-only would be more correct but bitcoind's image expects to be
+      # the sole writer of its own datadir either way — mounted here so
+      # NBXplorer can read the cookie auth file bitcoind writes into it,
+      # same as BTCPay's own official fragment does.
+      - btcregtest_bitcoin_data:/root/.bitcoin
+
+  btcpayserver:
+    image: btcpayserver/btcpayserver:2.4.4
+    restart: unless-stopped
+    depends_on:
+      - nbxplorer
+      - postgres
+    environment:
+      BTCPAY_POSTGRES: "User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;Database=btcpayserverregtest"
+      BTCPAY_EXPLORERPOSTGRES: "User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;MaxPoolSize=80;Database=nbxplorerregtest"
+      BTCPAY_NETWORK: regtest
+      BTCPAY_BIND: 0.0.0.0:49392
+      BTCPAY_ROOTPATH: /
+      BTCPAY_CHAINS: btc
+      BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838/
+      BTCPAY_DOCKERDEPLOYMENT: "true"
+      BTCPAY_NODEFAULTCHAIN: "true"
+    volumes:
+      - btcregtest_btcpay_data:/datadir
+      - btcregtest_btcpay_plugins:/root/.btcpayserver/Plugins
+      - nbxplorer_datadir:/root/.nbxplorer
+    ports:
+      # Published directly to the host — this is dev-only regtest, reached
+      # straight from your own browser (or Playwright) at localhost:49392,
+      # not behind Nginx like the real BTCPAY_URL in prod.
+      - "49392:49392"
+
+volumes:
+  btcregtest_postgres_data:
+  btcregtest_bitcoin_data:
+  btcregtest_bitcoin_wallet_data:
+  nbxplorer_datadir:
+  btcregtest_btcpay_data:
+  btcregtest_btcpay_plugins:

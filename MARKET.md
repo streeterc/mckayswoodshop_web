@@ -1,7 +1,7 @@
 # Competitive Research Report: McKay's Woodshop (Barrie, Ontario)
 
 ## TL;DR
-- **The single biggest opportunity is a wide-open gap: not one custom woodworking or handmade-wood-goods maker in the Barrie/Simcoe County area sells finished products through true online checkout — they all use quote/contact forms.** McKay's working Stripe (and Coinbase) cart makes it the only local maker a customer can actually buy from online, which is a genuine, defensible positioning edge.
+- **The single biggest opportunity is a wide-open gap: not one custom woodworking or handmade-wood-goods maker in the Barrie/Simcoe County area sells finished products through true online checkout — they all use quote/contact forms.** McKay's working Stripe (and Bitcoin/BTCPay) cart makes it the only local maker a customer can actually buy from online, which is a genuine, defensible positioning edge.
 - The local market is barbell-shaped: commodity Etsy sellers and generic marketplaces at the bottom, and designer-gated luxury/B2B studios (Acht Studio/Pompous Fox, Bateman, Livingston) at the top. The underserved middle — accessibly-priced, transparently-priced, buy-it-now handmade goods with a visible personal maker story — is where McKay's should plant its flag.
 - McKay's real disadvantages (thin portfolio, no customer base) are best neutralized not by hiding them but by weaponizing transparency: document every build publicly, price openly, offer a founding-customer guarantee, show up weekly at the Barrie Farmers' Market, and lean on the ex-employer cabinetry reference. Crypto is a nice-to-have novelty, not a demand driver — keep it, don't market on it.
 
@@ -19,7 +19,7 @@
 
 **6. Consumer trends favour McKay's model.** 2025-2026 Canadian furniture/home-goods trends emphasize personalization, sustainability, durability/longevity ("buy it for life"), supporting local artisans, and process transparency. Reviews are decisive: per Northwestern University's Medill Spiegel Research Center (analyzing ~57,000 products), "having five reviews causes purchase likelihood to increase by a factor of nearly 4x," and displaying reviews raised conversion by 190% for lower-priced and 380% for higher-priced products. Crucially, the same research found purchase likelihood "typically peaks at ratings in the 4.0–4.7 range, and then begins to decrease as ratings approach 5.0" — products rated 4.7–5.0 are *less* likely to be purchased than those rated 4.2–4.7, because a perfect score reads as fabricated.
 
-**7. Crypto payments are a minor novelty, not a demand driver.** Canadian crypto commerce is growing but still a fraction of a percent of e-commerce transactions; crypto adds friction for everyday retail purchases and is best suited to tech-savvy/cross-border buyers. Keep Coinbase Commerce as a differentiating curiosity and a magnet for the crypto-enthusiast niche, but do not build the brand around it.
+**7. Crypto payments are a minor novelty, not a demand driver.** Canadian crypto commerce is growing but still a fraction of a percent of e-commerce transactions; crypto adds friction for everyday retail purchases and is best suited to tech-savvy/cross-border buyers. Keep the self-hosted Bitcoin (BTCPay) option as a differentiating curiosity and a magnet for the crypto-enthusiast niche, but do not build the brand around it.
 
 ## Details
 
@@ -75,7 +75,7 @@
 7. **Post build-process short video 2–3×/week** (Reels/TikTok/Shorts) plus one longer build per week; cross-post. Document, don't perform.
 8. **Launch a founding-customer program** (first ~25 customers get a discount for a photo review).
 9. **Optimize Google Business Profile** ("Custom furniture store" + "Home goods store"), load 100+ photos, and drive review velocity.
-10. **Keep Coinbase Commerce live but under-marketed** — mention it as "we also accept crypto" for the niche, don't headline it.
+10. **Keep the Bitcoin (BTCPay Server) option live but under-marketed** — mention it as "we also accept crypto" for the niche, don't headline it.
 
 **Benchmarks that change the strategy:**
 - If small-goods online conversion stays below ~1–1.5% after 500+ sessions, the bottleneck is photography/reviews, not traffic — fix those first.

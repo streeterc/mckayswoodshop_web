@@ -27,7 +27,6 @@ QUOTE_CATEGORIES = {
     "builtins": "Built-ins",
     "outdoor": "Outdoor",
     "restoration": "Restoration",
-    "other": "Not sure yet",
 }
 
 

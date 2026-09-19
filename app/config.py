@@ -35,8 +35,14 @@ class Settings(BaseSettings):
     stripe_publishable_key: str = ""
     stripe_webhook_secret: str = ""
 
-    coinbase_commerce_api_key: str = ""
-    coinbase_webhook_shared_secret: str = ""
+    # Self-hosted BTCPay Server (BTC only — on-chain + Lightning). In prod
+    # this is the docker-compose.btcpay.yml stack's `btcpayserver` container,
+    # reachable over the internal Docker network at e.g.
+    # http://btcpayserver:49392 — see app/btcpay.py and CLAUDE.md.
+    btcpay_url: str = ""
+    btcpay_api_key: str = ""
+    btcpay_store_id: str = ""
+    btcpay_webhook_secret: str = ""
     enable_crypto_checkout: bool = False
 
     email_provider: str = "console"
@@ -66,8 +72,10 @@ def get_settings() -> Settings:
             problems.append("STRIPE_SECRET_KEY is missing or still a test key")
         if not settings.stripe_webhook_secret:
             problems.append("STRIPE_WEBHOOK_SECRET is not set — Stripe webhooks cannot be verified")
-        if settings.enable_crypto_checkout and not settings.coinbase_webhook_shared_secret:
-            problems.append("Crypto checkout enabled but COINBASE_WEBHOOK_SHARED_SECRET is not set")
+        if settings.enable_crypto_checkout and not settings.btcpay_webhook_secret:
+            problems.append("Crypto checkout enabled but BTCPAY_WEBHOOK_SECRET is not set")
+        if settings.enable_crypto_checkout and not settings.btcpay_url:
+            problems.append("Crypto checkout enabled but BTCPAY_URL is not set")
         if problems:
             raise RuntimeError(
                 "Refusing to start in production with unsafe configuration:\n- "

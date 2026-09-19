@@ -5,8 +5,8 @@ Uses the Tax Calculation API (`stripe.tax.Calculation.create`) directly —
 the same jurisdiction/rate data that powers Checkout's `automatic_tax`,
 but callable on its own so a single calculation backs both payment paths:
 Stripe Checkout (added as an explicit line item, see routers/checkout.py)
-and Coinbase Commerce, which has no tax feature of its own and just gets
-the pre-computed amount folded into the charge total.
+and BTCPay Server, which has no tax feature of its own and just gets
+the pre-computed amount folded into the invoice total.
 
 Requires Stripe Tax to be activated for the account (Dashboard -> Settings
 -> Tax, with an origin address set) — a one-time manual setup step this

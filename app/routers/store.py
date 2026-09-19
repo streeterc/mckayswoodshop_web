@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, Response, Depends, HTTPException, Form
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
@@ -75,6 +76,28 @@ def cart_add(
         {"request": request, "rows": rows, "subtotal_cents": subtotal},
         headers=response.headers,
     )
+
+@router.post("/shop/buy-now")
+def buy_now(
+    request: Request,
+    response: Response,
+    variant_id: int = Form(...),
+    quantity: int = Form(1),
+    db: Session = Depends(get_db),
+):
+    variant = db.get(ProductVariant, variant_id)
+    if not variant or not variant.active:
+        raise HTTPException(status_code=404, detail="Variant not found")
+    if quantity < 1 or quantity > variant.stock_count:
+        raise HTTPException(status_code=400, detail="Requested quantity not available")
+
+    # Adds to whatever's already in the cart rather than replacing it —
+    # "Buy Now" is a shortcut past the cart page, not a separate express
+    # checkout that ignores it. Real (non-htmx) POST + redirect, since this
+    # needs a full navigation to /checkout, not a partial swap.
+    cart_module.add_item(request, response, variant_id, quantity)
+    return RedirectResponse("/checkout", status_code=303, headers=response.headers)
+
 
 @router.post("/shop/cart/update")
 def cart_update(

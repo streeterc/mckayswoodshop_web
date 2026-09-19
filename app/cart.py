@@ -32,10 +32,18 @@ def get_cart(request: Request) -> dict[int, int]:
         return {}
 
 
+CART_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 400
+# 400 days, not longer — Chrome (and browsers following its lead) silently
+# clamps any cookie's Max-Age/Expires to 400 days from when it's set,
+# regardless of what a larger value asks for. This is already the longest
+# a persistent cookie can actually last, not an arbitrary choice.
+
+
 def save_cart(response: Response, cart: dict[int, int]) -> None:
     token = _serializer.dumps({str(k): v for k, v in cart.items()})
     response.set_cookie(
-        CART_COOKIE_NAME, token, max_age=60 * 60 * 24 * 14, httponly=True, samesite="lax"
+        CART_COOKIE_NAME, token, max_age=CART_COOKIE_MAX_AGE_SECONDS,
+        httponly=True, samesite="lax",
     )
 
 

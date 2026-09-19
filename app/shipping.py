@@ -11,6 +11,7 @@ single parcel sized to the largest item in the cart — real box-packing
 logic is overkill for a catalog this small (<50 SKUs).
 """
 import re
+import time
 
 from shippo import Shippo
 from shippo.models import components
@@ -156,14 +157,59 @@ def _shop_origin() -> components.AddressCreateRequest:
     )
 
 
+# Shippo's synchronous shipment-create (async_=False) doesn't reliably wait
+# for every carrier account to respond — it can return zero rates even for a
+# perfectly valid, deliverable address, only to succeed a moment later on an
+# identical call (this is what re-entering the address was papering over).
+# So a single empty result isn't trusted as "no rates exist"; get_rates()
+# retries a few times first. 3 attempts, ~2s apart, caps the extra wait at
+# ~4s (no delay before the 1st attempt, none after the last) — long enough to
+# smooth over that gap, short enough that a genuinely unserviceable address
+# doesn't feel like a hang.
+RATE_RETRY_ATTEMPTS = 3
+RATE_RETRY_DELAY_SECONDS = 2
+
+
+def _customs_declaration(cart_rows: list[dict]):
+    items = []
+    for row in cart_rows:
+        v = row["variant"]
+        unit_cents = (
+            v.price_override_cents
+            if v.price_override_cents is not None
+            else v.product.base_price_cents
+        )
+        items.append(components.CustomsItemCreateRequest(
+            description=v.product.name[:100],
+            quantity=row["quantity"],
+            net_weight=str(v.weight_oz),
+            mass_unit=components.WeightUnitEnum.OZ,
+            value_amount=f"{unit_cents * row['quantity'] / 100:.2f}",
+            value_currency=settings.default_currency.upper(),
+            origin_country=settings.shop_address_country,
+        ))
+    return components.CustomsDeclarationCreateRequest(
+        certify=True,
+        certify_signer=settings.shop_address_name,
+        contents_type=components.CustomsDeclarationContentsTypeEnum.MERCHANDISE,
+        non_delivery_option=components.CustomsDeclarationNonDeliveryOptionEnum.RETURN,
+        items=items,
+    )
+
+
 def get_rates(address: dict, cart_rows: list[dict]) -> list:
     """address: the ShippingAddressIn-shaped dict collected on the checkout
     form. cart_rows: the {"variant": ProductVariant, "quantity": int, ...}
-    rows from cart.resolve_cart_rows(). Returns at most two Shippo Rate
-    objects per carrier — its cheapest service level and its fastest — so
-    the checkout picker doesn't drown customers in every service tier a
-    carrier offers, sorted overall by price. Raises
-    shippo.models.errors.SDKError on a Shippo API failure."""
+    rows from cart.resolve_cart_rows(). Returns every Shippo Rate for the
+    shipment (every service level from every configured carrier), sorted by
+    price — checkout.py shows only the globally cheapest and fastest of
+    these by default, with the rest hidden behind a toggle. Retries
+    internally (see RATE_RETRY_ATTEMPTS) on an empty result before
+    concluding no carrier services the address. Raises
+    shippo.models.errors.SDKError on a Shippo API failure — not retried
+    here, since that's a distinct failure mode from "Shippo answered but
+    had nothing yet" and checkout.py already gives it its own "temporarily
+    unavailable" message."""
     total_weight_oz = sum(
         row["variant"].weight_oz * row["quantity"] for row in cart_rows
     )
@@ -186,37 +232,31 @@ def get_rates(address: dict, cart_rows: list[dict]) -> list:
         distance_unit=components.DistanceUnitEnum.IN,
         weight=str(total_weight_oz), mass_unit=components.WeightUnitEnum.OZ,
     )
+    customs = None
+    if address["country"].upper() != settings.shop_address_country.upper():
+        # Cross-border shipments need a customs declaration or carriers
+        # return no rates at all.
+        customs = _customs_declaration(cart_rows)
     request = components.ShipmentCreateRequest(
         address_from=_shop_origin(),
         address_to=address_to,
         parcels=[parcel],
+        customs_declaration=customs,
         async_=False,
     )
-    shipment = _client().shipments.create(request)
-    rates = shipment.rates or []
-    rates = [r for r in rates if r.provider.strip().lower() in CARRIER_LOGOS]
 
-    by_carrier: dict[str, list] = {}
-    for r in rates:
-        by_carrier.setdefault(r.provider.strip().lower(), []).append(r)
+    client = _client()
+    rates: list = []
+    for attempt in range(RATE_RETRY_ATTEMPTS):
+        shipment = client.shipments.create(request)
+        rates = shipment.rates or []
+        rates = [r for r in rates if r.provider.strip().lower() in CARRIER_LOGOS]
 
-    selected = []
-    for carrier_rates in by_carrier.values():
-        cheapest = min(carrier_rates, key=lambda r: float(r.amount))
-        # Rates with no delivery estimate sort last so they never edge out
-        # an actual fastest option; if that's all a carrier has, fastest
-        # just collapses to the same rate as cheapest below. Price is the
-        # tiebreaker so that among rates tied on days, "fastest" never
-        # picks a pricier one that isn't actually any quicker.
-        fastest = min(
-            carrier_rates,
-            key=lambda r: (r.estimated_days is None, r.estimated_days or 0, float(r.amount)),
-        )
-        selected.append(cheapest)
-        if fastest.object_id != cheapest.object_id:
-            selected.append(fastest)
+        if rates or attempt == RATE_RETRY_ATTEMPTS - 1:
+            break
+        time.sleep(RATE_RETRY_DELAY_SECONDS)
 
-    return sorted(selected, key=lambda r: float(r.amount))
+    return sorted(rates, key=lambda r: float(r.amount))
 
 
 _US_ZIP_RE = re.compile(r"^\d{5}(-\d{4})?$")

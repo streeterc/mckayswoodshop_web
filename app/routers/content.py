@@ -56,6 +56,25 @@ def blog_post(request: Request, slug: str):
 
 MAX_QUOTE_PHOTOS = 3
 MAX_PHOTO_BYTES = 6 * 1024 * 1024  # 6MB/photo — keeps a 3-photo email under most providers' size caps
+# Matches _quote_form.html's `accept` attribute. All genuinely compressed
+# photo formats, unlike PNG/BMP/TIFF, which are wasteful for photos and
+# would eat into the 6MB/photo cap for no quality benefit. HEIC/HEIF is
+# included specifically because it's the default format iPhones save
+# camera roll photos in — excluding it would silently block most iPhone
+# users from picking straight from their photo app. Checked server-side
+# too since `accept` only guides the file picker UI, it doesn't stop a
+# direct/bypassed upload.
+ALLOWED_PHOTO_CONTENT_TYPES = {
+    "image/jpeg", "image/webp", "image/avif", "image/heic", "image/heif",
+}
+# Some mobile browsers (notably Android Chrome picking a HEIC file straight
+# from the photo app) send a generic/missing content_type instead of
+# "image/heic" — fall back to the filename extension in that case rather
+# than silently dropping the photo.
+_EXTENSION_CONTENT_TYPES = {
+    ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp",
+    ".avif": "image/avif", ".heic": "image/heic", ".heif": "image/heif",
+}
 
 
 @router.post("/quote")
@@ -84,8 +103,11 @@ async def quote_submit(
     attachments = []
     for photo in photos[:MAX_QUOTE_PHOTOS]:
         content_type = photo.content_type or ""
-        if not content_type.startswith("image/"):
-            continue
+        if content_type not in ALLOWED_PHOTO_CONTENT_TYPES:
+            ext = "." + photo.filename.rsplit(".", 1)[-1].lower() if "." in photo.filename else ""
+            content_type = _EXTENSION_CONTENT_TYPES.get(ext, "")
+            if content_type not in ALLOWED_PHOTO_CONTENT_TYPES:
+                continue
         raw = await photo.read()
         if not raw or len(raw) > MAX_PHOTO_BYTES:
             continue

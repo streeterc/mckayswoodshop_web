@@ -1,4 +1,4 @@
-.PHONY: up down logs migrate seed-admin shell db-shell prod-up prod-down prod-migrate
+.PHONY: up down logs migrate seed-admin shell db-shell prod-up prod-down prod-migrate prod-up-btcpay prod-down-btcpay prod-logs-btcpay
 
 # --- Local development ---
 up:
@@ -40,3 +40,14 @@ prod-migrate:
 
 prod-logs:
 	docker compose -f docker-compose.yml -f docker-compose.prod.yml logs -f web
+
+# --- Optional: self-hosted BTCPay Server (see docker-compose.btcpay.yml, README.md §6) ---
+prod-up-btcpay:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.btcpay.yml --env-file .env.prod up -d
+	@echo "BTCPay stack starting — bitcoind needs to fully sync before invoices work. Watch with: make prod-logs-btcpay"
+
+prod-down-btcpay:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.btcpay.yml down
+
+prod-logs-btcpay:
+	docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.btcpay.yml logs -f bitcoind nbxplorer btcpayserver

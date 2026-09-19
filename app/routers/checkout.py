@@ -1,4 +1,3 @@
-import httpx
 import stripe
 from fastapi import APIRouter, Request, Response, Depends, HTTPException, Form
 from fastapi.templating import Jinja2Templates
@@ -14,6 +13,7 @@ from app.schemas import ShippingAddressIn
 from app import cart as cart_module
 from app import shipping as shipping_api
 from app import tax as tax_module
+from app import btcpay as btcpay_module
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -178,11 +178,13 @@ def checkout_rates(
 
         try:
             fetched_rates = shipping_api.get_rates(address, rows)
-            # get_rates() already trims each carrier to (at most) its own
-            # cheapest + fastest. The badges here are a separate, global
-            # judgment across every carrier shown — "Cheapest" and
-            # "Fastest" each mark exactly one row (the same row, if a
-            # single option happens to be both), not one pair per carrier.
+            # get_rates() now returns every service level from every
+            # configured carrier, not just each carrier's cheapest + fastest.
+            # The template only shows the single globally cheapest and
+            # globally fastest rate by default (one row if the same rate is
+            # both) and keeps every other carrier/service tier hidden behind
+            # an expand/collapse toggle, so the customer isn't drowned in
+            # options up front but can still get to all of them.
             rates = [
                 {
                     "id": rate.object_id,
@@ -203,6 +205,9 @@ def checkout_rates(
                 for r in rates:
                     r["is_cheapest"] = r is cheapest
                     r["is_fastest"] = r is fastest
+                    # The default-visible set — everything else is hidden
+                    # behind the "show more options" toggle in the template.
+                    r["is_primary"] = r is cheapest or r is fastest
             if not rates:
                 error = "No shipping options were found for that address. Please double-check it and try again."
         except shipping_api.ShippoError:
@@ -233,7 +238,7 @@ def checkout_submit(
     state: str = Form(...),
     postal_code: str = Form(...),
     country: str = Form(...),
-    payment_method: str = Form(...),  # "stripe" | "coinbase"
+    payment_method: str = Form(...),  # "stripe" | "btcpay"
     shippo_rate_id: str = Form(""),
 ):
     cart = cart_module.get_cart(request)
@@ -249,9 +254,9 @@ def checkout_submit(
     except ValidationError as e:
         raise HTTPException(status_code=422, detail=str(e))
 
-    if payment_method not in ("stripe", "coinbase"):
+    if payment_method not in ("stripe", "btcpay"):
         raise HTTPException(status_code=400, detail="Invalid payment method")
-    if payment_method == "coinbase" and not settings.enable_crypto_checkout:
+    if payment_method == "btcpay" and not settings.enable_crypto_checkout:
         raise HTTPException(status_code=400, detail="Crypto checkout is not enabled")
 
     store_settings = _get_store_settings(db)
@@ -273,7 +278,11 @@ def checkout_submit(
     shipping_cents = round(float(verified_rate.amount) * 100)
 
     # Resolve cart -> order items, re-checking stock server-side (never trust
-    # client-held cart contents for pricing or availability).
+    # client-held cart contents for pricing or availability). Also
+    # re-checking `active` here, not just stock — the cart cookie now lives
+    # up to 400 days (cart.py), long enough that a product/variant sitting
+    # in someone's cart could easily be discontinued before they come back
+    # to check out.
     variants = {
         v.id: v
         for v in db.scalars(select(ProductVariant).where(ProductVariant.id.in_(cart.keys()))).all()
@@ -282,10 +291,10 @@ def checkout_submit(
     subtotal_cents = 0
     for variant_id, qty in cart.items():
         variant = variants.get(variant_id)
-        if not variant or variant.stock_count < qty:
+        if not variant or not variant.active or variant.stock_count < qty:
             raise HTTPException(
                 status_code=409,
-                detail=f"'{variant.label if variant else variant_id}' no longer has enough stock",
+                detail=f"'{variant.label if variant else variant_id}' is no longer available",
             )
         unit_price = variant.price_cents()
         subtotal_cents += unit_price * qty
@@ -354,8 +363,8 @@ def checkout_submit(
         redirect_url = _create_stripe_session(order, order_items, shipping_cents, tax_cents)
         order.payment_method = PaymentMethod.stripe
     else:
-        redirect_url = _create_coinbase_charge(order)
-        order.payment_method = PaymentMethod.coinbase
+        redirect_url = _create_btcpay_invoice(order)
+        order.payment_method = PaymentMethod.btcpay
     db.commit()
 
     cart_module.clear_cart(response)
@@ -416,32 +425,19 @@ def _create_stripe_session(order: Order, order_items, shipping_cents: int, tax_c
     return session.url
 
 
-def _create_coinbase_charge(order: Order) -> str:
-    resp = httpx.post(
-        "https://api.commerce.coinbase.com/charges",
-        headers={
-            "X-CC-Api-Key": settings.coinbase_commerce_api_key,
-            "X-CC-Version": "2018-03-22",
-            "Content-Type": "application/json",
-        },
-        json={
-            "name": f"Order {order.public_id[:8]}",
-            "description": f"{len(order.items)} item(s)",
-            "pricing_type": "fixed_price",
-            "local_price": {
-                "amount": f"{order.total_cents / 100:.2f}",
-                "currency": order.currency.upper(),
-            },
-            "metadata": {"order_public_id": order.public_id},
-            "redirect_url": f"{settings.base_url}/order/{order.public_id}?status=success",
-            "cancel_url": f"{settings.base_url}/checkout",
-        },
-        timeout=15,
-    )
-    resp.raise_for_status()
-    data = resp.json()["data"]
-    order.payment_reference = data["id"]
-    return data["hosted_url"]
+def _create_btcpay_invoice(order: Order) -> str:
+    # BTCPay's webhook payload only ever gives us back an invoiceId, not our
+    # own metadata — so the order is looked up by matching payment_reference
+    # against that invoiceId later (webhooks.py), rather than round-tripping
+    # back through BTCPay's API to read the metadata off the invoice.
+    try:
+        invoice = btcpay_module.create_invoice(
+            order, redirect_url=f"{settings.base_url}/order/{order.public_id}?status=success"
+        )
+    except btcpay_module.BTCPayError as e:
+        raise HTTPException(status_code=502, detail=f"Could not start the Bitcoin payment: {e}")
+    order.payment_reference = invoice["id"]
+    return invoice["checkoutLink"]
 
 
 @router.get("/order/{public_id}")

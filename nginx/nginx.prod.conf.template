@@ -67,3 +67,49 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+
+# --- Optional: self-hosted BTCPay Server (docker-compose.btcpay.yml) ---
+# Only needed if crypto checkout is enabled. Customers' browsers are
+# redirected here to view/pay their invoice (app/btcpay.py's checkoutLink);
+# this is separate from the main site above, which already reaches
+# BTCPay's Greenfield API directly over the internal Docker network without
+# going through Nginx at all.
+#
+# Requires the cert issued for BOTH ${DOMAIN} and ${BTCPAY_DOMAIN} together
+# (scripts/init_certbot.sh's optional 3rd argument does this) — Certbot
+# bundles every `-d` passed in one run into a single certificate, filed
+# under the FIRST domain's name, which is why this block reuses
+# /etc/letsencrypt/live/${DOMAIN}/ rather than its own directory.
+#
+# Uncomment once BTCPAY_DOMAIN's DNS record points at this droplet and the
+# cert above has been issued for it.
+#
+# server {
+#     listen 80;
+#     server_name ${BTCPAY_DOMAIN};
+#     location /.well-known/acme-challenge/ {
+#         root /var/www/certbot;
+#     }
+#     location / {
+#         return 301 https://$host$request_uri;
+#     }
+# }
+#
+# server {
+#     listen 443 ssl;
+#     http2 on;
+#     server_name ${BTCPAY_DOMAIN};
+#
+#     ssl_certificate     /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+#     ssl_protocols TLSv1.2 TLSv1.3;
+#     ssl_ciphers HIGH:!aNULL:!MD5;
+#
+#     location / {
+#         proxy_pass http://btcpayserver:49392;
+#         proxy_set_header Host $host;
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#         proxy_set_header X-Forwarded-Proto $scheme;
+#     }
+# }
